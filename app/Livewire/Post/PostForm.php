@@ -30,7 +30,6 @@ class PostForm extends Component
 
     public function store()
     {
-        sleep(5);
         if(empty($this->set_id))
         {
             $valid = $this->validate([
