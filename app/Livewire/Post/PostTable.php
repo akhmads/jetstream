@@ -45,25 +45,26 @@ class PostTable extends Component
 
     public function table()
     {
-        $this->th['title'] = 'Title';
-        $this->th['created_at'] = 'Created At';
+        $this->th['title'] = ['label'=>'Whatever'];
+        $this->th['created_at'] = ['label'=>'Created At'];
     }
 
     public function sortOrder($columnName="")
     {
-        $up = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-1"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg>';
-        $down = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-1"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>';
-
         $this->table();
         if($this->sortDir == 'asc'){
             $this->sortDir = 'desc';
-            $icon = $down;
         }else{
             $this->sortDir = 'asc';
-            $icon = $up;
         }
 
-        $this->th[Str::snake($columnName)] = Str::title($columnName) . $icon;
+        $columnName = Str::snake($columnName);
+        $this->th[$columnName] = [
+            'label' => Str::title(
+                $this->th[$columnName]['label'] ?? $columnName
+            ),
+            'sort' => $this->sortDir
+        ];
         $this->sortColumn = $columnName;
     }
 

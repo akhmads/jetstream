@@ -20,7 +20,7 @@
                 <option value="{{ $val }}" @if($val==$perPage) selected @endif>{{ $val }}</option>
                 @endforeach
             </select> --}}
-            <x-hyco.table-perpage wire:model.live="perPage" :data="[5,10,25,50,100]" :value="$perPage" />
+            <x-hyco.table-perpage wire:model.live="perPage" :data="[1,5,10,25,50,100]" :value="$perPage" />
             <input wire:model.live.debounce.200ms="searchKeyword" type="text" class="sm:w-[240px] border border-slate-300 focus:border-blue-400 focus:outline-none py-2 px-3 rounded-md shadow-sm scale-90">
         </x-slot>
 
@@ -32,14 +32,8 @@
 
         <x-slot name="header">
             <tr>
-                <th class="px-4 py-2 text-left cursor-pointer" wire:click="sortOrder('title')">
-                    <div class="flex items-center">{!! $th['title'] !!}</div>
-                </th>
-                <th class="px-4 py-2 text-left w-[180px] cursor-pointer " wire:click="sortOrder('created_at')">
-                    <div class="flex items-center">
-                        {!! $th['created_at'] !!}
-                    </div>
-                </th>
+                <x-hyco.table-th name="title" :data="$th" wire:click="sortOrder('title')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="created_at" :data="$th" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
                 </th>
