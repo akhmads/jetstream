@@ -33,3 +33,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/play',         [App\Http\Controllers\PlayController::class,'index'])->name('play');
     Route::get('/play/{page}',  [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
 });
+
+
+// Clear all cache
+// --------------------
+Route::get('/sys/clear', function () {
+    Artisan::call('view:clear');
+    dump(Artisan::output());
+    Artisan::call('cache:clear');
+    dump(Artisan::output());
+    Artisan::call('config:clear');
+    dump(Artisan::output());
+    Artisan::call('event:clear');
+    dump(Artisan::output());
+    Artisan::call('route:clear');
+    dump(Artisan::output());
+});

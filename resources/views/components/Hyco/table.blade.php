@@ -4,10 +4,10 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 text-sm">
 
         <div class="flex flex-row justify-between">
-            <div class="flex flex-row gap-2">
+            <div {{ $headingLeft->attributes->merge(['class' => 'flex flex-row gap-2' ]) }}>
                 {{ $headingLeft ?? '' }}
             </div>
-            <div class="flex flex-row justify-end">
+            <div {{ $headingLeft->attributes->merge(['class' => 'flex flex-row justify-end' ]) }}>
                 {{ $headingRight ?? '' }}
             </div>
         </div>
@@ -17,7 +17,7 @@
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-slate-800">
 
-                    {{ $header }}
+                    {{ $header ?? '' }}
 
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        {{ $data->links() }}
+        {{ $footer ?? '' }}
 
     </div>
 </div>

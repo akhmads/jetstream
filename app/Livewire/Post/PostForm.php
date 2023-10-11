@@ -30,6 +30,7 @@ class PostForm extends Component
 
     public function store()
     {
+        sleep(5);
         if(empty($this->set_id))
         {
             $valid = $this->validate([
@@ -63,6 +64,8 @@ class PostForm extends Component
             $code->update($valid);
         }
 
+        $this->resetErrorBag();
+        $this->dispatch('saved');
         session()->flash('success', __('Post saved'));
     }
 }
