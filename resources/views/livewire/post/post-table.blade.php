@@ -10,18 +10,10 @@
         <x-hyco.loading />
     </div>
 
-    {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-1"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-1"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg> --}}
-
     <x-hyco.table>
         <x-slot name="headingLeft">
-            {{-- <select wire:model.live="perPage" class="w-[75px] border border-slate-300 focus:border-blue-400 py-2 px-3 rounded-md shadow-sm text-sm scale-90">
-                @foreach([5,10,25,50,100] as $val)
-                <option value="{{ $val }}" @if($val==$perPage) selected @endif>{{ $val }}</option>
-                @endforeach
-            </select> --}}
-            <x-hyco.table-perpage wire:model.live="perPage" :data="[1,5,10,25,50,100]" :value="$perPage" />
-            <input wire:model.live.debounce.200ms="searchKeyword" type="text" class="sm:w-[240px] border border-slate-300 focus:border-blue-400 focus:outline-none py-2 px-3 rounded-md shadow-sm scale-90">
+            <x-hyco.table-perpage wire:model.live="perPage" :data="[5,10,25,50,100]" :value="$perPage" />
+            <x-hyco.table-search wire:model.live.debounce.200ms="searchKeyword" />
         </x-slot>
 
         <x-slot name="headingRight">
