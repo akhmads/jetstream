@@ -15,11 +15,12 @@
 
     <x-hyco.table>
         <x-slot name="headingLeft">
-            <select wire:model.live="perPage" class="w-[75px] border border-slate-300 focus:border-blue-400 py-2 px-3 rounded-md shadow-sm text-sm scale-90">
+            {{-- <select wire:model.live="perPage" class="w-[75px] border border-slate-300 focus:border-blue-400 py-2 px-3 rounded-md shadow-sm text-sm scale-90">
                 @foreach([5,10,25,50,100] as $val)
                 <option value="{{ $val }}" @if($val==$perPage) selected @endif>{{ $val }}</option>
                 @endforeach
-            </select>
+            </select> --}}
+            <x-hyco.table-perpage wire:model.live="perPage" :data="[5,10,25,50,100]" :value="$perPage" />
             <input wire:model.live.debounce.200ms="searchKeyword" type="text" class="sm:w-[240px] border border-slate-300 focus:border-blue-400 focus:outline-none py-2 px-3 rounded-md shadow-sm scale-90">
         </x-slot>
 
