@@ -15,16 +15,10 @@ class PostTable extends Component
     public $perPage = 5;
     public $sortColumn = "created_at";
     public $sortDir = "desc";
-    public $sortLink = '';
+    public $sortLink = [];
     public $searchKeyword = '';
-    public $th = [];
     public $confirmDeletion = false;
     public $set_id;
-
-    public function mount()
-    {
-        $this->table();
-    }
 
     public function render()
     {
@@ -43,29 +37,21 @@ class PostTable extends Component
         $this->resetPage();
     }
 
-    public function table()
-    {
-        $this->th['title'] = ['label'=>'Whatever'];
-        $this->th['created_at'] = ['label'=>'Created At'];
-    }
-
     public function sortOrder($columnName="")
     {
-        $this->table();
+        $this->sortLink = [];
+
         if($this->sortDir == 'asc'){
             $this->sortDir = 'desc';
         }else{
             $this->sortDir = 'asc';
         }
 
-        $columnName = Str::snake($columnName);
-        $this->th[$columnName] = [
-            'label' => Str::title(
-                $this->th[$columnName]['label'] ?? $columnName
-            ),
-            'sort' => $this->sortDir
-        ];
+        $columnName = Str::snake($columnName,'_');
+        $this->sortLink[$columnName] = $this->sortDir;
         $this->sortColumn = $columnName;
+
+        //$this->dispatch('sorted');
     }
 
     public function delete($id)

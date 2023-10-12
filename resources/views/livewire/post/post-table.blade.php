@@ -6,14 +6,14 @@
     </x-slot>
 
     <x-hyco.flash-alert />
-    <div wire:loading.delay class="fixed top-0">
+    <div wire:loading class="fixed top-0">
         <x-hyco.loading />
     </div>
 
     <x-hyco.table>
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[5,10,25,50,100]" :value="$perPage" />
-            <x-hyco.table-search wire:model.live.debounce.200ms="searchKeyword" />
+            <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
         </x-slot>
 
         <x-slot name="headingRight">
@@ -24,8 +24,8 @@
 
         <x-slot name="header">
             <tr>
-                <x-hyco.table-th name="title" :data="$th" wire:click="sortOrder('title')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="created_at" :data="$th" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
+                <x-hyco.table-th name="title" :sort="$sortLink" wire:click="sortOrder('title')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
                 </th>
