@@ -30,6 +30,8 @@ Route::middleware([
 Route::middleware('auth')->group(function () {
     Route::get('/post',         App\Livewire\Post\PostTable::class)->name('post');
     Route::get('/post/{id}',    App\Livewire\Post\PostForm::class)->name('post.form');
+    Route::get('/contact',      App\Livewire\Contact\ContactTable::class)->name('contact');
+    Route::get('/contact/{id}', App\Livewire\Contact\ContactForm::class)->name('contact.form');
     Route::get('/play',         [App\Http\Controllers\PlayController::class,'index'])->name('play');
     Route::get('/play/{page}',  [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
 });

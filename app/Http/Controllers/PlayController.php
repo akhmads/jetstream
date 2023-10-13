@@ -42,13 +42,6 @@ class PlayController extends Controller
             echo sprintf('Author : %s<br />', $post->user->name );
             echo sprintf('Created At : %s<br />', $post->created_at->diffForHumans() );
             echo '<hr style="border:1px solid #eee;" />';
-
-            // $blade .= <<<'blade'
-            //     <div style="border-bottom:1px solid #eee;">
-            //         <p>{{ $post->title }}</p>
-            //         <p>{{ $post->user->name }}</p>
-            //     </div>
-            // blade;
         }
     }
 }

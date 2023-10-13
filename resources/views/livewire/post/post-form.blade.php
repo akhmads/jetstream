@@ -23,19 +23,14 @@
                     <x-input-error class="mt-2" for="content" />
                 </div>
 
-                <div id="editor" style="height:100px;"></div>
+                {{-- <div id="editor" style="height:100px;"></div> --}}
 
                 <div class="flex justify-center gap-4">
                     <x-hyco.link href="{{ route('post') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
                     <x-hyco.button wire:loading.attr="disabled" icon="check">Save</x-hyco.button>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
-
-<script>
-function onEditorUpdate(body){
-    alert(body);
-}
-</script>
