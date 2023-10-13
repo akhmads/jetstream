@@ -34,11 +34,13 @@ class ContactForm extends Component
         {
             $valid = $this->validate([
                 'name' => 'required',
-                'email' => 'required',
+                'email' => 'required|email',
                 'mobile' => 'required',
             ]);
 
             $contact = Contact::create($valid);
+            session()->flash('success', __('Contact saved'));
+            return redirect()->route('contact.form',$contact->id);
         }
         else
         {
@@ -49,9 +51,7 @@ class ContactForm extends Component
             ]);
             $contact = Contact::find($this->set_id);
             $contact->update($valid);
+            session()->flash('success', __('Contact saved'));
         }
-
-        $this->dispatch('saved');
-        session()->flash('success', __('Contact saved'));
     }
 }

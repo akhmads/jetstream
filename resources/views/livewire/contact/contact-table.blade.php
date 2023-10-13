@@ -25,6 +25,8 @@
         <x-slot name="header">
             <tr>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="email" :sort="$sortLink" wire:click="sortOrder('email')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="mobile" :sort="$sortLink" wire:click="sortOrder('mobile')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
@@ -36,6 +38,12 @@
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
                 {{ $contact->name }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $contact->email }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $contact->mobile }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ ($contact->created_at)->format('d/m/Y, H:i') }}

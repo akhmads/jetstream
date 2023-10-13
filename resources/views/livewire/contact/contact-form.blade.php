@@ -23,7 +23,7 @@
                     <x-input-error class="mt-2" for="email" />
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-8">
                     <x-label for="mobile" :value="__('Mobile')" class="mb-1" />
                     <x-input id="mobile" wire:model="mobile" class="w-full" />
                     <x-input-error class="mt-2" for="mobile" />
