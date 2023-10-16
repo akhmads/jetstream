@@ -19,10 +19,14 @@ return new class extends Migration
         });
 
         DB::table('gender')->insert([
-            'gender' => 'male'
+            'gender' => 'male',
+            'created_at' => Illuminate\Support\Carbon::now(),
+            'updated_at' => Illuminate\Support\Carbon::now()
         ]);
         DB::table('gender')->insert([
-            'gender' => 'female'
+            'gender' => 'female',
+            'created_at' => Illuminate\Support\Carbon::now(),
+            'updated_at' => Illuminate\Support\Carbon::now()
         ]);
     }
 

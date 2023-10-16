@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('example', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('gender');
-            $table->string('birth_date');
-            $table->string('address');
+            $table->string('code',50);
+            $table->string('name',100);
+            $table->string('gender',20);
+            $table->date('birth_date');
+            $table->string('address',255);
+            $table->tinyInteger('active')->index()->default('0');
             $table->timestamps();
         });
     }
