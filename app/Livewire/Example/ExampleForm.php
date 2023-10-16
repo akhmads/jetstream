@@ -30,6 +30,9 @@ class ExampleForm extends Component
         {
             $valid = $this->validate([
                 'name' => 'required',
+                'gender' => 'required',
+                'birth_date' => 'required',
+                'address' => 'required',
             ]);
 
             $example = Example::create($valid);
@@ -40,6 +43,9 @@ class ExampleForm extends Component
         {
             $valid = $this->validate([
                 'name' => 'required',
+                'gender' => 'required',
+                'birth_date' => 'required',
+                'address' => 'required',
             ]);
             $example = Example::find($this->set_id);
             $example->update($valid);

@@ -36,6 +36,12 @@
                 {{ $example->name }}
             </td>
             <td class="px-4 py-3 text-gray-600">
+                {{ $example->gender }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ ($example->birth_date)->format('d/m/Y') }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
                 {{ ($example->created_at)->format('d/m/Y, H:i') }}
             </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3">

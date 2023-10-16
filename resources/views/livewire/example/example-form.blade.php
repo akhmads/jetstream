@@ -25,6 +25,12 @@
                         <x-input id="name" wire:model="name" class="w-full" autofocus />
                         <x-input-error class="mt-2" for="name" />
                     </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label :value="__('Gender')" class="mb-1" />
+                        <x-hyco.select wire:model="gender" class="w-full" />
+                        <x-input-error class="mt-2" for="gender" />
+                    </div>
                 </x-slot>
 
                 <x-slot name="actions">
