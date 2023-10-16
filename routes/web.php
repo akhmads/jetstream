@@ -28,6 +28,8 @@ Route::middleware([
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/example',      App\Livewire\Example\ExampleTable::class)->name('example');
+    Route::get('/example/{id}', App\Livewire\Example\ExampleForm::class)->name('example.form');
     Route::get('/post',         App\Livewire\Post\PostTable::class)->name('post');
     Route::get('/post/{id}',    App\Livewire\Post\PostForm::class)->name('post.form');
     Route::get('/contact',      App\Livewire\Contact\ContactTable::class)->name('contact');

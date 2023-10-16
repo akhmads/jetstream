@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Livewire\Item;
+namespace App\Livewire\Example;
 
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Item;
+use App\Models\Example;
 
-class ItemTable extends Component
+class ExampleTable extends Component
 {
     use WithPagination;
 
-    public $perPage = 5;
+    public $perPage = 10;
     public $sortColumn = "id";
     public $sortDir = "desc";
     public $sortLink = [];
@@ -21,13 +21,13 @@ class ItemTable extends Component
 
     public function render()
     {
-        $item = Item::orderby($this->sortColumn,$this->sortDir)->select('*');
+        $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
         if(!empty($this->searchKeyword)){
-            $item->orWhere('name','like',"%".$this->searchKeyword."%");
+            $example->orWhere('name','like',"%".$this->searchKeyword."%");
         }
-        $items = $item->paginate($this->perPage);
+        $examples = $example->paginate($this->perPage);
 
-        return view('livewire.item.item-table',['items' => $items]);
+        return view('livewire.example.example-table',['examples' => $examples]);
     }
 
     public function updated()
@@ -52,9 +52,9 @@ class ItemTable extends Component
     public function destroy()
     {
 
-        Item::destroy($this->set_id);
+        Example::destroy($this->set_id);
         $this->confirmDeletion = false;
-        session()->flash('success', __('Item has been deleted'));
-        return redirect()->route('item');
+        session()->flash('success', __('Example has been deleted'));
+        return redirect()->route('example');
     }
 }

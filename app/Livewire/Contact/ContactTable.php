@@ -38,11 +38,10 @@ class ContactTable extends Component
 
     public function sortOrder($columnName)
     {
+        $this->sortColumn = $columnName;
         $this->sortDir = ($this->sortDir == 'asc') ? 'desc' : 'asc';
-        $columnName = Str::snake($columnName,'_');
         $this->sortLink = [];
         $this->sortLink[$columnName] = $this->sortDir;
-        $this->sortColumn = $columnName;
     }
 
     public function delete($id)
