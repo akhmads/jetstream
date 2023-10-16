@@ -44,6 +44,9 @@
                                 <x-dropdown-link href="{{ route('contact') }}">
                                     {{ __('Contact') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('item') }}">
+                                    {{ __('Item') }}
+                                </x-dropdown-link>
                             </div>
                         </x-slot>
                     </x-dropdown>
@@ -221,6 +224,10 @@
                 <x-responsive-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact*')">
                     {{ __('Contact') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('item') }}" :active="request()->routeIs('item*')">
+                    {{ __('Item') }}
+                </x-responsive-nav-link>
+                <!-- End Master Data -->
 
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
