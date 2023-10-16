@@ -21,6 +21,11 @@
 
                 <x-slot name="form">
                     <div class="col-span-6 sm:col-span-4">
+                        <x-label for="code" :value="__('Code')" class="mb-1" />
+                        <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
+                        <x-input-error class="mt-2" for="code" />
+                    </div>
+                    <div class="col-span-6 sm:col-span-4">
                         <x-label for="name" :value="__('Name')" class="mb-1" />
                         <x-input id="name" wire:model="name" class="w-full" autofocus />
                         <x-input-error class="mt-2" for="name" />
@@ -42,6 +47,13 @@
                         <x-label for="address" :value="__('Address')" class="mb-1" />
                         <x-hyco.textarea id="address" wire:model="address" class="w-full h-[100px]"></x-hyco.textarea>
                         <x-input-error class="mt-2" for="address" />
+                    </div>
+
+                    @dump($active)
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label for="active" :value="__('Active')" class="mb-1" />
+                        <x-hyco.checkbox id="active" wire:model.live="active" value="1" :checked="$active" class="" />
+                        <x-input-error class="mt-2" for="active" />
                     </div>
                 </x-slot>
 

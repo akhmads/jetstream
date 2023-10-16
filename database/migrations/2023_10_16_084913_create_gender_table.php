@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 return new class extends Migration
 {
@@ -20,13 +21,13 @@ return new class extends Migration
 
         DB::table('gender')->insert([
             'gender' => 'male',
-            'created_at' => Illuminate\Support\Carbon::now(),
-            'updated_at' => Illuminate\Support\Carbon::now()
+            'created_at' => Carbon::now('UTC'),
+            'updated_at' => Carbon::now('UTC')
         ]);
         DB::table('gender')->insert([
             'gender' => 'female',
-            'created_at' => Illuminate\Support\Carbon::now(),
-            'updated_at' => Illuminate\Support\Carbon::now()
+            'created_at' => Carbon::now('UTC'),
+            'updated_at' => Carbon::now('UTC')
         ]);
     }
 

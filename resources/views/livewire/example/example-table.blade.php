@@ -24,6 +24,7 @@
 
         <x-slot name="header">
             <tr>
+                <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('code')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="gender" :sort="$sortLink" wire:click="sortOrder('gender')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="birth_date" :sort="$sortLink" wire:click="sortOrder('birth_date')" class="cursor-pointer"></x-hyco.table-th>
@@ -34,6 +35,9 @@
 
         @forelse ($examples as $example)
         <x-hyco.table-tr>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $example->code }}
+            </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ $example->name }}
             </td>

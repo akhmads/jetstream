@@ -5,15 +5,21 @@ namespace App\Livewire\Example;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Example;
+use App\Models\Code;
+
 
 class ExampleForm extends Component
 {
     public $set_id;
+    public $code;
     public $name;
     public $gender;
     public $birth_date;
     public $address;
+    public $active;
 
     public function render()
     {
@@ -24,10 +30,12 @@ class ExampleForm extends Component
     {
         $example = Example::Find($request->id);
         $this->set_id = $example->id ?? '';
+        $this->code = $example->code ?? '[auto]';
         $this->name = $example->name ?? '';
         $this->gender = $example->gender ?? '';
         $this->birth_date = isset($example->birth_date) ? ($example->birth_date)->format('Y-m-d') : '';
         $this->address = $example->address ?? '';
+        $this->active = $example->active ?? '';
     }
 
     public function store()
@@ -41,7 +49,9 @@ class ExampleForm extends Component
                 'address' => 'required',
             ]);
 
-            $example = Example::create($valid);
+            $extra['code'] = $this->autocode();
+            $extra['active'] = $this->active ? 1 : 0;
+            $example = Example::create($valid + $extra);
             session()->flash('success', __('Example saved'));
             return redirect()->route('example.form',$example->id);
         }
@@ -53,9 +63,21 @@ class ExampleForm extends Component
                 'birth_date' => 'required',
                 'address' => 'required',
             ]);
+            $extra['active'] = $this->active ? 1 : 0;
             $example = Example::find($this->set_id);
-            $example->update($valid);
+            $example->update($valid + $extra);
             session()->flash('success', __('Example saved'));
         }
+    }
+
+    protected function autocode(): string
+    {
+        $prefix = 'CNT/'.date('y').'/'.date('m').'/';
+        Code::updateOrCreate(
+            ['prefix' => $prefix],
+            ['num' => DB::raw('num+1')]
+        );
+        $code = Code::where('prefix', $prefix)->first();
+        return $code->prefix . Str::padLeft($code->num, 4, '0');
     }
 }
