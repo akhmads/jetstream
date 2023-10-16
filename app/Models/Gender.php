@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Example extends Model
+class Gender extends Model
 {
     use HasFactory;
 
-    protected $table = 'example';
+    protected $table = 'gender';
     protected $guarded = [];
-    protected $casts = [
-        'birth_date' => 'date'
-    ];
 }

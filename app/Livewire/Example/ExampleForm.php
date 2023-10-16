@@ -10,7 +10,10 @@ use App\Models\Example;
 class ExampleForm extends Component
 {
     public $set_id;
-    public $name = '';
+    public $name;
+    public $gender;
+    public $birth_date;
+    public $address;
 
     public function render()
     {
@@ -22,6 +25,9 @@ class ExampleForm extends Component
         $example = Example::Find($request->id);
         $this->set_id = $example->id ?? '';
         $this->name = $example->name ?? '';
+        $this->gender = $example->gender ?? '';
+        $this->birth_date = isset($example->birth_date) ? ($example->birth_date)->format('Y-m-d') : '';
+        $this->address = $example->address ?? '';
     }
 
     public function store()

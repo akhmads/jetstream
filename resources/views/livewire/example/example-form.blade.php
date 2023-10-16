@@ -28,8 +28,20 @@
 
                     <div class="col-span-6 sm:col-span-4">
                         <x-label :value="__('Gender')" class="mb-1" />
-                        <x-hyco.select wire:model="gender" class="w-full" />
+                        <x-hyco.select wire:model="gender" :options="\App\Models\Gender::pluck('gender','gender')" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="gender" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label for="birth_date" :value="__('Birth Date')" class="mb-1" />
+                        <x-input type="date" id="birth_date" wire:model="birth_date" class="w-full" />
+                        <x-input-error class="mt-2" for="birth_date" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label for="address" :value="__('Address')" class="mb-1" />
+                        <x-hyco.textarea id="address" wire:model="address" class="w-full h-[100px]"></x-hyco.textarea>
+                        <x-input-error class="mt-2" for="address" />
                     </div>
                 </x-slot>
 

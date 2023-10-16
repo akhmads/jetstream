@@ -25,6 +25,8 @@
         <x-slot name="header">
             <tr>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="gender" :sort="$sortLink" wire:click="sortOrder('gender')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="birth_date" :sort="$sortLink" wire:click="sortOrder('birth_date')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
@@ -36,7 +38,7 @@
                 {{ $example->name }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $example->gender }}
+                {{ ucwords($example->gender) }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ ($example->birth_date)->format('d/m/Y') }}
