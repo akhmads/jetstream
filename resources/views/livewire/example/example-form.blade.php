@@ -10,6 +10,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+            {{-- <x-banner style="danger" message="Testing" /> --}}
+
             <x-hyco.form-section submit="store">
                 <x-slot name="title">
                     {{ __('Example Information') }}
@@ -21,7 +23,7 @@
 
                 <x-slot name="form">
                     <div class="col-span-6 sm:col-span-4">
-                        <x-label for="code" :value="__('Code')" class="mb-1" />
+                        <x-hyco.label for="code" :value="__('Code')" />
                         <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
                         <x-input-error class="mt-2" for="code" />
                     </div>
@@ -49,7 +51,6 @@
                         <x-input-error class="mt-2" for="address" />
                     </div>
 
-                    @dump($active)
                     <div class="col-span-6 sm:col-span-4">
                         <x-label for="active" :value="__('Active')" class="mb-1" />
                         <x-hyco.checkbox id="active" wire:model.live="active" value="1" :checked="$active" class="" />
