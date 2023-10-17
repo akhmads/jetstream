@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('birth_date');
             $table->string('address',255);
             $table->tinyInteger('active')->index()->default('0');
+            $table->string('avatar',255)->default('');
             $table->timestamps();
         });
     }

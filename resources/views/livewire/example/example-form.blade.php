@@ -56,6 +56,12 @@
                         <x-hyco.checkbox id="active" wire:model.live="active" value="1" :checked="$active" class="" />
                         <x-input-error class="mt-2" for="active" />
                     </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label for="avatar" :value="__('Avatar')" class="mb-1" />
+                        <x-hyco.input-avatar id="avatar" wire:model.live="avatar" :show="$showAvatar" />
+                        <x-input-error class="mt-2" for="avatar" />
+                    </div>
                 </x-slot>
 
                 <x-slot name="actions">

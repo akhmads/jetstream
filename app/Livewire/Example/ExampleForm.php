@@ -4,6 +4,7 @@ namespace App\Livewire\Example;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use App\Models\Code;
 
 class ExampleForm extends Component
 {
+    use WithFileUploads;
+
     public $set_id;
     public $code;
     public $name;
@@ -20,6 +23,8 @@ class ExampleForm extends Component
     public $birth_date;
     public $address;
     public $active;
+    public $avatar;
+    public $showAvatar;
 
     public function render()
     {
@@ -36,6 +41,7 @@ class ExampleForm extends Component
         $this->birth_date = isset($example->birth_date) ? ($example->birth_date)->format('Y-m-d') : '';
         $this->address = $example->address ?? '';
         $this->active = $example->active ?? '';
+        $this->showAvatar = $example->avatar ?? '';
     }
 
     public function store()
@@ -47,10 +53,15 @@ class ExampleForm extends Component
                 'gender' => 'required',
                 'birth_date' => 'required',
                 'address' => 'required',
+                'avatar' => 'required|image|max:2048|mimes:jpg,jpeg,png,webp,svg',
             ]);
+
+            $avatar = $this->avatar->store('/', 'avatar_disk');
+            unset($valid['avatar']);
 
             $extra['code'] = $this->autocode();
             $extra['active'] = $this->active ? 1 : 0;
+            $extra['avatar'] = $avatar;
             $example = Example::create($valid + $extra);
             session()->flash('success', __('Example saved'));
             return redirect()->route('example.form',$example->id);
@@ -62,11 +73,20 @@ class ExampleForm extends Component
                 'gender' => 'required',
                 'birth_date' => 'required',
                 'address' => 'required',
+                'avatar' => 'nullable|image|max:2048|mimes:jpg,jpeg,png,webp,svg',
             ]);
             $extra['active'] = $this->active ? 1 : 0;
+
+            unset($valid['avatar']);
+            if( !empty($this->avatar) ){
+                $avatar = $this->avatar->store('/', 'avatar_disk');
+                $extra['avatar'] = $avatar;
+            }
+
             $example = Example::find($this->set_id);
             $example->update($valid + $extra);
             session()->flash('success', __('Example saved'));
+            return redirect()->route('example.form',$example->id);
         }
     }
 
