@@ -22,7 +22,7 @@
                 </x-slot>
 
                 <x-slot name="form">
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-6">
                         <x-hyco.label for="code" :value="__('Code')" />
                         <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
                         <x-input-error class="mt-2" for="code" />

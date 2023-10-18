@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('gender',20);
             $table->date('birth_date');
             $table->string('address',255);
+            $table->string('email',100);
             $table->tinyInteger('active')->index()->default('0');
             $table->string('avatar',255)->default('');
             $table->timestamps();
