@@ -27,13 +27,13 @@ class PostForm extends Component
         $this->title = $post->title ?? '';
         $this->type = $post->type ?? '';
         $this->content = $post->content ?? '';
-        $this->contentPreview = \Illuminate\Support\Str::markdown($post->content);
-    }
-
-    public function updatedContent()
-    {
         $this->contentPreview = \Illuminate\Support\Str::markdown($this->content);
     }
+
+    // public function updatedContent()
+    // {
+    //     $this->contentPreview = \Illuminate\Support\Str::markdown($this->content);
+    // }
 
     public function store()
     {
@@ -66,12 +66,13 @@ class PostForm extends Component
                 'title' => 'required|max:255',
                 'content' => 'required',
             ]);
-            $code = Post::find($this->set_id);
-            $code->update($valid);
+            $post = Post::find($this->set_id);
+            $post->update($valid);
         }
 
         #$this->resetErrorBag();
         #$this->dispatch('saved');
         session()->flash('success', __('Post saved'));
+        return redirect()->route('post.form', $post->id);
     }
 }

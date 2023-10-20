@@ -17,8 +17,8 @@
                     <x-input-error class="mt-2" for="title" />
                 </div>
 
-                <div class="md:grid md:grid-cols-12 md:gap-6 mb-8">
-                    <div class="md:col-span-6 mb-4" wire:ignore>
+                <div wire:ignore class="md:grid md:grid-cols-12 md:gap-8 mb-8">
+                    <div class="md:col-span-6 mb-4">
                         <x-label for="content" :value="__('Content')" class="mb-1" />
                         <x-hyco.textarea id="content" wire:model="content" class="w-full h-[400px]"></x-hyco.textarea>
                         <x-input-error class="mt-2" for="content" />
@@ -42,13 +42,35 @@
         </div>
     </div>
 </div>
-<script>
-document.addEventListener('livewire:initialized', () => {
-    var simplemde = new SimpleMDE({
-        element: document.getElementById("content")
+
+<script type="module">
+    import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/highlight.min.js';
+    document.addEventListener('DOMContentLoaded', function () {
+        hljs.highlightAll();
     });
-    simplemde.codemirror.on("change", function(){
-        @this.set('content',simplemde.value());
+
+    document.addEventListener('livewire:navigating', () => {
+        hljs.highlightAll();
     });
-});
+
+    document.addEventListener('livewire:initialized', () => {
+
+        hljs.highlightAll();
+
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("content"),
+            placeholder: "Let's write something cool's",
+            indentWithTabs: true,
+            spellChecker: false,
+            renderingConfig: {
+                singleLineBreaks: false,
+                codeSyntaxHighlighting: true,
+            }
+        });
+
+        simplemde.codemirror.on("change", function(){
+            @this.set('content',simplemde.value());
+            hljs.highlightAll();
+        });
+    });
 </script>
