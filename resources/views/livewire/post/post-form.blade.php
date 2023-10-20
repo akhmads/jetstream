@@ -8,7 +8,7 @@
     <x-hyco.flash-alert />
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <form wire:submit.prevent="store">
 
                 <div class="mb-4">
@@ -17,10 +17,18 @@
                     <x-input-error class="mt-2" for="title" />
                 </div>
 
-                <div class="mb-8">
-                    <x-label for="content" :value="__('Content')" class="mb-1" />
-                    <x-hyco.textarea id="content" wire:model="content" class="w-full h-[300px]"></x-hyco.textarea>
-                    <x-input-error class="mt-2" for="content" />
+                <div class="md:grid md:grid-cols-12 md:gap-6 mb-8">
+                    <div class="md:col-span-6 mb-4" wire:ignore>
+                        <x-label for="content" :value="__('Content')" class="mb-1" />
+                        <x-hyco.textarea id="content" wire:model="content" class="w-full h-[400px]"></x-hyco.textarea>
+                        <x-input-error class="mt-2" for="content" />
+                    </div>
+                    <div class="md:col-span-6 mb-4">
+                        <x-label :value="__('Preview')" class="mb-1" />
+                        <div class="prose prose-md">
+                            {!! $contentPreview ?? '' !!}
+                        </div>
+                    </div>
                 </div>
 
                 {{-- <div id="editor" style="height:100px;"></div> --}}
@@ -34,3 +42,13 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('livewire:initialized', () => {
+    var simplemde = new SimpleMDE({
+        element: document.getElementById("content")
+    });
+    simplemde.codemirror.on("change", function(){
+        @this.set('content',simplemde.value());
+    });
+});
+</script>

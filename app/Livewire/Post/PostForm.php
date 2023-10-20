@@ -13,6 +13,7 @@ class PostForm extends Component
     public $title = '';
     public $content = '';
     public $type = '';
+    public $contentPreview = '';
 
     public function render()
     {
@@ -26,6 +27,12 @@ class PostForm extends Component
         $this->title = $post->title ?? '';
         $this->type = $post->type ?? '';
         $this->content = $post->content ?? '';
+        $this->contentPreview = \Illuminate\Support\Str::markdown($post->content);
+    }
+
+    public function updatedContent()
+    {
+        $this->contentPreview = \Illuminate\Support\Str::markdown($this->content);
     }
 
     public function store()
@@ -63,8 +70,8 @@ class PostForm extends Component
             $code->update($valid);
         }
 
-        $this->resetErrorBag();
-        $this->dispatch('saved');
+        #$this->resetErrorBag();
+        #$this->dispatch('saved');
         session()->flash('success', __('Post saved'));
     }
 }
