@@ -17,7 +17,7 @@
         </x-slot>
 
         <x-slot name="headingRight">
-            <x-hyco.link wire:navigate href="{{ route('post.form',0) }}" icon="plus" class="scale-90">
+            <x-hyco.link href="{{ route('post.form',0) }}" icon="plus" class="scale-90">
                 Create
             </x-hyco.link>
         </x-slot>
@@ -41,7 +41,7 @@
                 {{ ($post->created_at)->format('d/m/Y, H:i') }}
             </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
-                <a href="{{ route('post.form',$post->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
+                <a href="{{ route('post.form',$post->id) }}" class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $post->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
             </td>
         </tr>

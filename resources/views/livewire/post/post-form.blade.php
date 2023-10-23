@@ -46,16 +46,10 @@
 <script type="module">
     import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/highlight.min.js';
     document.addEventListener('DOMContentLoaded', function () {
-        hljs.highlightAll();
-    });
 
-    document.addEventListener('livewire:navigating', () => {
-        hljs.highlightAll();
     });
 
     document.addEventListener('livewire:initialized', () => {
-
-        hljs.highlightAll();
 
         var simplemde = new SimpleMDE({
             element: document.getElementById("content"),
@@ -68,9 +62,12 @@
             }
         });
 
+        hljs.highlightAll();
+
         simplemde.codemirror.on("change", function(){
             @this.set('content',simplemde.value());
             hljs.highlightAll();
         });
     });
+
 </script>
