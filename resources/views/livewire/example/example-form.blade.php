@@ -58,6 +58,12 @@
                     </div>
 
                     <div class="col-span-6 sm:col-span-4">
+                        <x-label for="email" :value="__('Email')" class="mb-1" />
+                        <x-input id="email" wire:model="email" class="w-full" />
+                        <x-input-error class="mt-2" for="email" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
                         <x-label for="avatar" :value="__('Avatar')" class="mb-1" />
                         <x-hyco.input-avatar id="avatar" wire:model.live="avatar" :show="$showAvatar" />
                         <x-input-error class="mt-2" for="avatar" />

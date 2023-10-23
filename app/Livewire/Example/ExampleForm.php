@@ -23,6 +23,7 @@ class ExampleForm extends Component
     public $birth_date;
     public $address;
     public $active;
+    public $email;
     public $avatar;
     public $showAvatar;
 
@@ -41,6 +42,7 @@ class ExampleForm extends Component
         $this->birth_date = isset($example->birth_date) ? ($example->birth_date)->format('Y-m-d') : '';
         $this->address = $example->address ?? '';
         $this->active = $example->active ?? '';
+        $this->email = $example->email ?? '';
         $this->showAvatar = $example->avatar ?? '';
     }
 
@@ -53,6 +55,7 @@ class ExampleForm extends Component
                 'gender' => 'required',
                 'birth_date' => 'required',
                 'address' => 'required',
+                'email' => 'required|email|unique:example,email',
                 'avatar' => 'required|image|max:2048|mimes:jpg,jpeg,png,webp,svg',
             ]);
 
@@ -73,6 +76,7 @@ class ExampleForm extends Component
                 'gender' => 'required',
                 'birth_date' => 'required',
                 'address' => 'required',
+                'email' => 'required|email|unique:example,email,'.$this->set_id,
                 'avatar' => 'nullable|image|max:2048|mimes:jpg,jpeg,png,webp,svg',
             ]);
             $extra['active'] = $this->active ? 1 : 0;
