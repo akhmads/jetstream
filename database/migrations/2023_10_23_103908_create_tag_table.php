@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('address', function (Blueprint $table) {
+        Schema::create('tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('example_id')->index();
-            $table->string('address',200);
-            $table->string('city',100);
-            $table->string('province',100);
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('address');
+        Schema::dropIfExists('tag');
     }
 };

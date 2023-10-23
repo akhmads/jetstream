@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Example;
 use App\Models\Code;
+use App\Models\Address;
 
 
 class ExampleForm extends Component
@@ -26,6 +27,9 @@ class ExampleForm extends Component
     public $email;
     public $avatar;
     public $showAvatar;
+
+    public $addressModal = false;
+    public $addresses = [];
 
     public function render()
     {
@@ -44,6 +48,15 @@ class ExampleForm extends Component
         $this->active = $example->active ?? '';
         $this->email = $example->email ?? '';
         $this->showAvatar = $example->avatar ?? '';
+
+        $addresses = Address::where('example_id',$this->set_id)->orderBy('id')->get();
+        foreach($addresses as $address){
+            $this->addresses[] = [
+                'address' => $address->address,
+                'city' => $address->city,
+                'province' => $address->province
+            ];
+        }
     }
 
     public function store()
@@ -103,5 +116,19 @@ class ExampleForm extends Component
         );
         $code = Code::where('prefix', $prefix)->first();
         return $code->prefix . Str::padLeft($code->num, 4, '0');
+    }
+
+    public function addAddress(): Void
+    {
+        $this->addresses[] = [
+            'address' => '',
+            'city' => '',
+            'province' => '0',
+        ];
+    }
+
+    public function removeAddress($index): Void
+    {
+        unset($this->addresses[$index]);
     }
 }

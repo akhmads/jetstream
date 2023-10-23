@@ -12,7 +12,7 @@
 
             {{-- <x-banner style="danger" message="Testing" /> --}}
 
-            <x-hyco.form-section submit="store">
+            <x-hyco.form-section submit="store" class="mb-8">
                 <x-slot name="title">
                     {{ __('Example Information') }}
                 </x-slot>
@@ -76,6 +76,9 @@
                 </x-slot>
             </x-form-section>
 
+            <livewire:example.address-form :example_id="$set_id" wire:key="example_address_{{ $set_id }}" />
+
         </div>
     </div>
+
 </div>
