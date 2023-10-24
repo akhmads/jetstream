@@ -85,6 +85,7 @@ class AddressForm extends Component
     public function delete()
     {
         Address::destroy($this->set_id);
+        $this->confirmDeletion = false;
         $this->addressModal = false;
     }
 }

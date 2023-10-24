@@ -1,8 +1,14 @@
 <div>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Example Manager') }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Example Manager') }}
+            </h2>
+            <div class="flex justify-end gap-8">
+                {{-- <a href="#" class="hover:text-sky-500 {{ routeIs('') }}">General</a>
+                <a href="#" class="hover:text-sky-500">Address</a> --}}
+            </div>
+        </div>
     </x-slot>
 
     <x-hyco.flash-alert />
@@ -12,7 +18,7 @@
 
             {{-- <x-banner style="danger" message="Testing" /> --}}
 
-            <x-hyco.form-section submit="store" class="mb-8">
+            <x-hyco.form-section submit="store">
                 <x-slot name="title">
                     {{ __('Example Information') }}
                 </x-slot>
@@ -77,7 +83,13 @@
                     <x-hyco.link href="{{ route('example') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
                     <x-hyco.button wire:loading.attr="disabled" icon="check">Save</x-hyco.button>
                 </x-slot>
-            </x-form-section>
+            </x-hyco.form-section>
+
+            <div class="hidden sm:block">
+                <div class="py-8">
+                    <div class="border-t border-gray-200"></div>
+                </div>
+            </div>
 
             @if (!empty($set_id))
             <livewire:example.address-form :example_id="$set_id" wire:key="example_address_{{ $set_id }}" />

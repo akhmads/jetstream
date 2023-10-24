@@ -1,11 +1,11 @@
 <div>
     <x-hyco.form-section submit="" class="mb-8">
         <x-slot name="title">
-            {{ __('Example Information') }}
+            {{ __('Address\'s') }}
         </x-slot>
 
         <x-slot name="description">
-            {{ __('Update your example information.') }}
+            {{ __('Update your available address.') }}
         </x-slot>
 
         <x-slot name="form">
@@ -56,7 +56,7 @@
 
     <x-hyco.modal wire:model.live="addressModal">
         <x-slot name="title">
-            {{ __('Address') }}
+            {{ empty($set_id) ? __('New Address') : __('Edit Address') }}
         </x-slot>
 
         <x-slot name="content">
@@ -64,39 +64,41 @@
 
                 <div class="mb-4">
                     <x-label for="address" :value="__('Address')" class="mb-1" />
-                    <x-hyco.textarea id="address" wire:model="address" class="w-full h-[100px]" autofocus></x-hyco.textarea>
-                    <x-input-error class="mt-1" for="address" />
+                    <x-hyco.textarea id="address" wire:model="address" class="w-full h-[60px]" autofocus></x-hyco.textarea>
+                    <x-input-error for="address" />
                 </div>
 
                 <div class="mb-4">
                     <x-label for="city" :value="__('City')" class="mb-1" />
                     <x-input id="city" wire:model="city" class="w-full" />
-                    <x-input-error class="mt-1" for="city" />
+                    <x-input-error for="city" />
                 </div>
 
                 <div class="mb-4">
                     <x-label for="province" :value="__('Province')" class="mb-1" />
                     <x-input id="province" wire:model="province" class="w-full" />
-                    <x-input-error class="mt-1" for="province" />
+                    <x-input-error for="province" />
                 </div>
 
             </form>
         </x-slot>
 
         <x-slot name="footer">
-            @if (!empty($set_id))
-            <x-hyco.button wire:click="$set('confirmDeletion',true)" wire:loading.attr="disabled" icon="x-mark" class="bg-red-500 hover:bg-red-400">
-                {{ __('Delete') }}
-            </x-hyco.button>
-            @endif
+            <div class="flex justify-end gap-4 scale-90">
+                @if (!empty($set_id))
+                <x-hyco.button wire:click="$set('confirmDeletion',true)" wire:loading.attr="disabled" icon="x-mark" class="bg-red-500 hover:bg-red-400">
+                    {{ __('Delete') }}
+                </x-hyco.button>
+                @endif
 
-            <x-secondary-button wire:click="$toggle('addressModal')" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
-            </x-secondary-button>
+                <x-hyco.button wire:click="$toggle('addressModal')" wire:loading.attr="disabled" icon="arrow-left" class="bg-yellow-500 hover:bg-yellow-400">
+                    {{ __('Cancel') }}
+                </x-hyco.button>
 
-            <x-hyco.button wire:click="store" wire:loading.attr="disabled" icon="check">
-                {{ __('Save') }}
-            </x-hyco.button>
+                <x-hyco.button wire:click="store" wire:loading.attr="disabled" icon="check">
+                    {{ __('Save') }}
+                </x-hyco.button>
+            </div>
         </x-slot>
     </x-hyco.modal>
 
