@@ -22,27 +22,40 @@
                 </x-slot>
 
                 <x-slot name="form">
-                    <div class="col-span-6 sm:col-span-6">
-                        <x-hyco.label for="code" :value="__('Code')" />
-                        <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
-                        <x-input-error class="mt-2" for="code" />
-                    </div>
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label for="name" :value="__('Name')" class="mb-1" />
                         <x-input id="name" wire:model="name" class="w-full" autofocus />
                         <x-input-error class="mt-2" for="name" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
+                        <x-hyco.label for="code" :value="__('Code')" />
+                        <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
+                        <x-input-error class="mt-2" for="code" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label :value="__('Gender')" class="mb-1" />
                         <x-hyco.select wire:model="gender" :options="\App\Models\Gender::pluck('gender','gender')" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="gender" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label for="birth_date" :value="__('Birth Date')" class="mb-1" />
                         <x-input type="date" id="birth_date" wire:model="birth_date" class="w-full" />
                         <x-input-error class="mt-2" for="birth_date" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
+                        <x-label for="email" :value="__('Email')" class="mb-1" />
+                        <x-input id="email" wire:model="email" class="w-full" />
+                        <x-input-error class="mt-2" for="email" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-2">
+                        <x-label for="active" :value="__('Active')" class="mb-1" />
+                        <x-hyco.checkbox id="active" wire:model.live="active" value="1" :checked="$active" class="" />
+                        <x-input-error class="mt-2" for="active" />
                     </div>
 
                     <div class="col-span-6 sm:col-span-4">
@@ -51,23 +64,13 @@
                         <x-input-error class="mt-2" for="address" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-label for="active" :value="__('Active')" class="mb-1" />
-                        <x-hyco.checkbox id="active" wire:model.live="active" value="1" :checked="$active" class="" />
-                        <x-input-error class="mt-2" for="active" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-label for="email" :value="__('Email')" class="mb-1" />
-                        <x-input id="email" wire:model="email" class="w-full" />
-                        <x-input-error class="mt-2" for="email" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label for="avatar" :value="__('Avatar')" class="mb-1" />
                         <x-hyco.input-avatar id="avatar" wire:model.live="avatar" :show="$showAvatar" />
                         <x-input-error class="mt-2" for="avatar" />
                     </div>
+
+
                 </x-slot>
 
                 <x-slot name="actions">
@@ -76,8 +79,9 @@
                 </x-slot>
             </x-form-section>
 
+            @if (!empty($set_id))
             <livewire:example.address-form :example_id="$set_id" wire:key="example_address_{{ $set_id }}" />
-
+            @endif
         </div>
     </div>
 
