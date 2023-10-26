@@ -16,9 +16,9 @@
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-6">
+            <div class="col-span-6 sm:col-span-6 space-y-4">
                 @forelse ($addresses as $address)
-                <div class="text-sm rounded-lg cursor-pointer hover:bg-slate-100 py-3 px-4" wire:click="edit({{ $address->id }})">
+                <div class="text-sm border border-gray-200 rounded-lg cursor-pointer hover:bg-slate-100 py-3 px-4" wire:click="edit({{ $address->id }})">
                     <table class="w-full">
                     <tbody>
                     <tr>
