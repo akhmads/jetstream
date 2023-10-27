@@ -28,6 +28,8 @@ Route::middleware([
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/user',         App\Livewire\User\UserTable::class)->name('user');
+    Route::get('/user/{id}',    App\Livewire\User\UserForm::class)->name('user.form');
     Route::get('/example',      App\Livewire\Example\ExampleTable::class)->name('example');
     Route::get('/example/{id}', App\Livewire\Example\ExampleForm::class)->name('example.form');
     Route::get('/post',         App\Livewire\Post\PostTable::class)->name('post');
@@ -42,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
 
 // Clear all cache
-// --------------------
+// ------------------------------------
 Route::get('/sys/clear', function () {
     Artisan::call('view:clear');
     dump(Artisan::output());
