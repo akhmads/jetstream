@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email',100);
             $table->tinyInteger('active')->index()->default('0');
             $table->string('avatar',255)->default('');
+            $table->foreignId('contact_id')->index()->default('0');
             $table->timestamps();
         });
     }

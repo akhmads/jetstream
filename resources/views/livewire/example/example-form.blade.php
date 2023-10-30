@@ -12,11 +12,10 @@
     </x-slot>
 
     <x-hyco.flash-alert />
+    {{-- <x-banner style="danger" message="Testing" /> --}}
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- <x-banner style="danger" message="Testing" /> --}}
 
             <x-hyco.form-section submit="store">
                 <x-slot name="title">
@@ -74,6 +73,13 @@
                         <x-label for="avatar" :value="__('Avatar')" class="mb-1" />
                         <x-hyco.input-avatar id="avatar" wire:model.live="avatar" :show="$showAvatar" />
                         <x-input-error class="mt-2" for="avatar" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
+                        <x-label for="contact_id" :value="__('Contact')" class="mb-1" />
+                        {{-- <x-input id="contact" wire:model="contact" class="w-full" /> --}}
+                        <livewire:example.contact-picker id="contact_id" wire:model="contact_id" :value="$contact_id" />
+                        <x-input-error class="mt-2" for="contact_id" />
                     </div>
 
 
