@@ -78,7 +78,7 @@
                     <div class="col-span-6 sm:col-span-3">
                         <x-label for="contact_id" :value="__('Contact')" class="mb-1" />
                         {{-- <x-input id="contact" wire:model="contact" class="w-full" /> --}}
-                        <livewire:example.contact-picker id="contact_id" wire:model="contact_id" :value="$contact_id" />
+                        <livewire:example.contact-picker id="contact_id" wire:model="contact_id" :setvalue="$contact_id" />
                         <x-input-error class="mt-2" for="contact_id" />
                     </div>
 

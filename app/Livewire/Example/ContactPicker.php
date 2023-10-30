@@ -11,27 +11,39 @@ class ContactPicker extends Component
 {
     #[Modelable]
     public $value = '';
-    public $label = '-- Choose --';
 
+    public $label = '-- Choose --';
+    public $setvalue = '';
+    public $searchKeyword;
     public $modal = false;
 
     public function render()
     {
-        $contacts = Contact::orderBy('id')->get();
+        $contact = Contact::orderBy('id');
+        if(!empty($this->searchKeyword)){
+            $contact->orWhere('name','like',"%".$this->searchKeyword."%");
+        }
+        $contacts = $contact->paginate(10);
         return view('livewire.example.contact-picker',['contacts' => $contacts]);
     }
 
-    public function mount($value = '')
+    public function mount($setvalue = '')
     {
-        $this->value = $value;
+        if( !empty($setvalue) ){
+            $contact = Contact::where('id',$setvalue)->get()->first();
+        }
+        $this->value = $contact->id ?? '';
+        $this->label = $contact->name ?? '';
+        $this->setvalue = $this->value;
+        $this->searchKeyword = $this->label;
     }
 
-    public function pick($id)
+    public function pick($id,$label)
     {
-        $contact = Contact::find($id)->get()->first();
-
         $this->value = $id;
-        $this->label = $contact->name ?? '';
+        $this->label = $label;
+        $this->setvalue = $this->value;
+        $this->searchKeyword = $this->label;
         $this->modal = false;
     }
 }
