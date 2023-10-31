@@ -18,19 +18,21 @@
 
         <x-slot name="content">
             <input type="text" wire:model.live.debounce.300ms="searchKeyword" placeholder="Search" class="w-full border border-slate-300 focus:border-blue-400 focus:outline-none py-1 px-2 mb-4 rounded-md shadow-sm">
-            @forelse ( $contacts as $contact )
-            @if ($contact->id == $setvalue)
-            <div class="cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
-                {{ $contact->name }}
-            </div>
-            @else
-            <div class="cursor-pointer hover:bg-sky-100 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
-                {{ $contact->name }}
-            </div>
-            @endif
-            @empty
-            <div>No data found.</div>
-            @endforelse
+            <div class="max-h-80 overflow-y-auto">
+                @forelse ( $contacts as $contact )
+                @if ($contact->id == $value)
+                <div class="cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
+                    {{ $contact->name }}
+                </div>
+                @else
+                <div class="cursor-pointer hover:bg-sky-100 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
+                    {{ $contact->name }}
+                </div>
+                @endif
+                @empty
+                <div>No data found.</div>
+                @endforelse
+                </div>
         </x-slot>
 
         <x-slot name="footer">

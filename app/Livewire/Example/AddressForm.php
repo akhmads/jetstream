@@ -37,7 +37,8 @@ class AddressForm extends Component
                 'province' => 'required',
             ]);
 
-            Address::create($valid + ['example_id' => $this->example_id]);
+            $valid['example_id'] = $this->example_id;
+            Address::create($valid);
             session()->flash('success', __('Address saved'));
 
         }
@@ -85,7 +86,7 @@ class AddressForm extends Component
     public function delete()
     {
         Address::destroy($this->set_id);
-        $this->addressModal = false;
         $this->confirmDeletion = false;
+        $this->addressModal = false;
     }
 }

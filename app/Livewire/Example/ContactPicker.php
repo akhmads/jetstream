@@ -12,14 +12,13 @@ class ContactPicker extends Component
     // #[Modelable]
     public $value = '';
 
-    public $label = '-- Choose --';
-    public $setvalue = '';
+    public $label;
     public $searchKeyword;
     public $modal = false;
 
     public function render()
     {
-        $contact = Contact::orderBy('id');
+        $contact = Contact::orderBy('name');
         if(!empty($this->searchKeyword)){
             $contact->orWhere('name','like',"%".$this->searchKeyword."%");
         }
@@ -34,16 +33,14 @@ class ContactPicker extends Component
         }
         $this->value = $contact->id ?? '';
         $this->label = $contact->name ?? '';
-        $this->setvalue = $this->value;
-        $this->searchKeyword = $this->label;
+        //$this->searchKeyword = $this->label;
     }
 
     public function pick($id,$label)
     {
         $this->value = $id;
         $this->label = $label;
-        $this->setvalue = $this->value;
-        $this->searchKeyword = $this->label;
+        //$this->searchKeyword = $this->label;
         $this->modal = false;
         $this->dispatch('set-contact', id: $id);
     }
