@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('coa', function (Blueprint $table) {
             $table->id();
+            $table->string('code',20)->unique();
+            $table->string('name',100);
+            $table->string('normal_balance',20);
+            $table->string('report_type',20);
             $table->timestamps();
         });
     }
