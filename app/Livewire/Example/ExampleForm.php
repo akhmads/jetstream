@@ -3,6 +3,7 @@
 namespace App\Livewire\Example;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
@@ -64,12 +65,12 @@ class ExampleForm extends Component
             ]);
 
             $avatar = $this->avatar->store('/', 'avatar_disk');
-            unset($valid['avatar']);
 
-            $extra['code'] = $this->autocode();
-            $extra['active'] = $this->active ? 1 : 0;
-            $extra['avatar'] = $avatar;
-            $example = Example::create($valid + $extra);
+            $valid['code'] = $this->autocode();
+            $valid['active'] = $this->active ? 1 : 0;
+            $valid['avatar'] = $avatar;
+            $example = Example::create($valid);
+
             session()->flash('success', __('Example saved'));
             return redirect()->route('example.form',$example->id);
         }
@@ -84,18 +85,18 @@ class ExampleForm extends Component
                 'email' => 'required|email|unique:example,email,'.$this->set_id,
                 'avatar' => 'nullable|image|max:2048|mimes:jpg,jpeg,png,webp,svg',
             ]);
-            $extra['active'] = $this->active ? 1 : 0;
+            $valid['active'] = $this->active ? 1 : 0;
 
             unset($valid['avatar']);
             if( !empty($this->avatar) ){
                 $avatar = $this->avatar->store('/', 'avatar_disk');
-                $extra['avatar'] = $avatar;
+                $valid['avatar'] = $avatar;
             }
 
             $example = Example::find($this->set_id);
-            $example->update($valid + $extra);
+            $example->update($valid);
             session()->flash('success', __('Example saved'));
-            return redirect()->route('example.form',$example->id);
+            redirect()->route('example.form',$example->id);
         }
     }
 
@@ -108,5 +109,11 @@ class ExampleForm extends Component
         );
         $code = Code::where('prefix', $prefix)->first();
         return $code->prefix . Str::padLeft($code->num, 4, '0');
+    }
+
+    #[On('set-contact')]
+    public function setContactId( $id )
+    {
+        $this->contact_id = $id;
     }
 }

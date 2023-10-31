@@ -9,7 +9,7 @@ use App\Models\Contact;
 
 class ContactPicker extends Component
 {
-    #[Modelable]
+    // #[Modelable]
     public $value = '';
 
     public $label = '-- Choose --';
@@ -23,14 +23,14 @@ class ContactPicker extends Component
         if(!empty($this->searchKeyword)){
             $contact->orWhere('name','like',"%".$this->searchKeyword."%");
         }
-        $contacts = $contact->paginate(10);
+        $contacts = $contact->limit(20)->get();
         return view('livewire.example.contact-picker',['contacts' => $contacts]);
     }
 
-    public function mount($setvalue = '')
+    public function mount($value = '')
     {
-        if( !empty($setvalue) ){
-            $contact = Contact::where('id',$setvalue)->get()->first();
+        if( !empty($value) ){
+            $contact = Contact::where('id',$value)->get()->first();
         }
         $this->value = $contact->id ?? '';
         $this->label = $contact->name ?? '';
@@ -45,5 +45,6 @@ class ContactPicker extends Component
         $this->setvalue = $this->value;
         $this->searchKeyword = $this->label;
         $this->modal = false;
+        $this->dispatch('set-contact', id: $id);
     }
 }

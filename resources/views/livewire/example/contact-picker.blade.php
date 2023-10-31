@@ -1,8 +1,14 @@
 <div>
-    {{-- @dump($value)
-    @dump($label) --}}
-    <div wire:click="$toggle('modal')" class="w-full cursor-pointer border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-        {{ $label }}
+
+    <div wire:loading class="fixed top-0 z-[999]">
+        <x-hyco.loading />
+    </div>
+
+    <div class="relative">
+        <div wire:click="$toggle('modal')" class="w-full px-3 py-2 cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+            {{ empty($label) ? '-- Choose --' : $label }}
+        </div>
+        {{-- <p wire:click="$parent.set('name','Tesss')">Tezzz</p> --}}
     </div>
 
     <x-hyco.modal wire:model.live="modal">
@@ -22,12 +28,9 @@
                 {{ $contact->name }}
             </div>
             @endif
-
             @empty
             <div>No data found.</div>
             @endforelse
-
-            {{ $contacts->links() }}
         </x-slot>
 
         <x-slot name="footer">
