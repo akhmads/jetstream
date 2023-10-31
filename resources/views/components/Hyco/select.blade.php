@@ -12,7 +12,8 @@
 
     @foreach ($options as $option_value => $option_label)
     <option value="{{ $option_value }}" {{ ($option_value==$value) ? 'selected' : '' }}>
-        {{ Illuminate\Support\Str::title($option_label) }}
+        {{-- {{ Illuminate\Support\Str::title($option_label) }} --}}
+        {{ $option_label }}
     </option>
     @endforeach
 

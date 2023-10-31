@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/item/{id}',    App\Livewire\Item\ItemForm::class)->name('item.form');
     Route::get('/play',         [App\Http\Controllers\PlayController::class,'index'])->name('play');
     Route::get('/play/{page}',  [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
+    Route::get('/coa',          App\Livewire\Coa\CoaTable::class)->name('coa');
+    Route::get('/coa/{id}',     App\Livewire\Coa\CoaForm::class)->name('coa.form');
 });
 
 

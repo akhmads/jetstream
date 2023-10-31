@@ -53,6 +53,9 @@
                                 <x-dropdown-link href="{{ route('item') }}">
                                     {{ __('Item') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('coa') }}">
+                                    {{ __('Coa') }}
+                                </x-dropdown-link>
                             </div>
                         </x-slot>
                     </x-dropdown>
@@ -238,6 +241,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('item') }}" :active="request()->routeIs('item*')">
                     {{ __('Item') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('coa') }}" :active="request()->routeIs('coa*')">
+                    {{ __('Coa') }}
                 </x-responsive-nav-link>
                 <!-- End Master Data -->
 
