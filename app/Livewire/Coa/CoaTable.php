@@ -56,6 +56,5 @@ class CoaTable extends Component
         Coa::destroy($this->set_id);
         $this->confirmDeletion = false;
         session()->flash('success', __('Coa has been deleted'));
-        //return redirect()->to('/coa');
     }
 }
