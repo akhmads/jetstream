@@ -13,4 +13,7 @@ class GLhd extends Model
 
     protected $table = 'glhd';
     protected $guarded = [];
+    protected $casts = [
+        'date' => 'date',
+    ];
 }

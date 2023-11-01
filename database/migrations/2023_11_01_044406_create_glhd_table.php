@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('code',20)->unique();
             $table->date('date')->index();
-            $table->string('description');
+            $table->string('note');
+            $table->decimal('debit_total', 12, 2)->default(0);
+            $table->decimal('credit_total', 12, 2)->default(0);
             $table->timestamps();
         });
     }

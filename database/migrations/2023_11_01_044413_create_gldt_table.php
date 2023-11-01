@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('gldt', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('code')->index();
-            $table->foreignId('coa_code')->index();
-            $table->string('description');
+            $table->string('code',20)->index();
+            $table->string('coa_code',20)->index();
+            $table->string('description',200)->nullable();
             $table->string('dc',20);
+            $table->decimal('debit', 12, 2);
+            $table->decimal('credit', 12, 2);
             $table->decimal('amount', 12, 2);
             $table->timestamps();
         });
