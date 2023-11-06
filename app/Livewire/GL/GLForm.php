@@ -32,6 +32,8 @@ class GLForm extends Component
         $this->code = $gl->code ?? '';
         $this->date = isset($gl->date) ? ($gl->date)->format('Y-m-d') : '';
         $this->note = $gl->note ?? '';
+        $this->debit_total = $gl->debit_total ?? '0';
+        $this->credit_total = $gl->credit_total ?? '0';
 
         $GLdt = GLdt::where('code',$this->code)->orderBy('id')->get();
         foreach($GLdt as $dt){
@@ -41,6 +43,7 @@ class GLForm extends Component
                 'dc' => $dt->dc,
                 'debit' => $dt->debit,
                 'credit' => $dt->credit,
+                'amount' => $dt->amount,
             ];
         }
     }
@@ -64,6 +67,8 @@ class GLForm extends Component
                 'code' => $code,
                 'date' => $this->date,
                 'note' => $this->note,
+                'debit_total' => $this->debit_total,
+                'credit_total' => $this->credit_total,
             ]);
 
             if( count($this->tmp) > 0 ) {
@@ -88,6 +93,7 @@ class GLForm extends Component
             $valid = $this->validate([
                 'date' => 'required',
                 'note' => 'required',
+                'credit_total' => 'same:debit_total',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
@@ -98,6 +104,8 @@ class GLForm extends Component
             $glhd->update([
                 'date' => $this->date,
                 'note' => $this->note,
+                'debit_total' => $this->debit_total,
+                'credit_total' => $this->credit_total,
             ]);
 
             $detail = GLdt::where('code',$this->code);

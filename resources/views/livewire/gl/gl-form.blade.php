@@ -52,6 +52,11 @@
                         <div class="text-sm text-red-500">{{ $message }}</div>
                     </div>
                     @enderror
+                    @error('credit_total')
+                    <div class="col-span-6 flex flex-row justify-center">
+                        <div class="text-sm text-red-500">{{ $message }}</div>
+                    </div>
+                    @enderror
 
                     <table class="col-span-6 w-full text-sm">
                     <thead>
@@ -77,10 +82,10 @@
                             <x-hyco.select wire:model.live="tmp.{{$index}}.dc" :options="['D'=>'D','C'=>'C']" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
                         </td>
                         <td>
-                            <x-input wire:model.live.debounce.500ms="tmp.{{$index}}.debit" wire:loading.attr="disabled" class="w-full text-end" />
+                            <x-input wire:model.live.debounce.2000ms="tmp.{{$index}}.debit" wire:loading.attr="disabled" class="w-full text-end" />
                         </td>
                         <td>
-                            <x-input wire:model.live.debounce.500ms="tmp.{{$index}}.credit" wire:loading.attr="disabled" class="w-full text-end" />
+                            <x-input wire:model.live.debounce.2000ms="tmp.{{$index}}.credit" wire:loading.attr="disabled" class="w-full text-end" />
                         </td>
                         <td class="text-center">
                             <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">del</x-hyco.button>

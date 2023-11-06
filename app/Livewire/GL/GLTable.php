@@ -22,7 +22,9 @@ class GLTable extends Component
 
     public function render()
     {
-        $GL = GLhd::orderby($this->sortColumn,$this->sortDir)->select('*');
+        $GL = GLhd::orderby($this->sortColumn,$this->sortDir)
+                ->select(['glhd.*','gldt.debit','gldt.credit'])
+                ->leftJoin('gldt', 'gldt.code', '=', 'glhd.code');
         if(!empty($this->searchKeyword)){
             $GL->orWhere('code','like',"%".$this->searchKeyword."%");
         }
@@ -52,8 +54,10 @@ class GLTable extends Component
 
     public function destroy()
     {
+        $hd = GLhd::where('id',$this->set_id)->orderBy('id')->first();
+        GLdt::where('code',$hd->code);
+        $hd->delete();
 
-        Coa::destroy($this->set_id);
         $this->confirmDeletion = false;
         session()->flash('success', __('GL has been deleted'));
     }

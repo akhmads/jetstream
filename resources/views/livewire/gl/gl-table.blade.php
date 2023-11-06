@@ -27,6 +27,8 @@
                 <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('code')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('note')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="debit_total"></x-hyco.table-th>
+                <x-hyco.table-th name="credit_total"></x-hyco.table-th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
@@ -44,6 +46,12 @@
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ $gl->note }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ number_format($gl->debit,2) }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ number_format($gl->credit,2) }}
             </td>
             {{-- <td class="px-4 py-3 text-gray-600">
                 {{ ($coa->created_at)->format('d/m/Y, H:i') }}
