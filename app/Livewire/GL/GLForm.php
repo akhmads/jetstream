@@ -41,8 +41,6 @@ class GLForm extends Component
                 'coa_code' => $dt->coa_code,
                 'description' => $dt->description,
                 'dc' => $dt->dc,
-                'debit' => $dt->debit,
-                'credit' => $dt->credit,
                 'amount' => $dt->amount,
             ];
         }
@@ -59,19 +57,12 @@ class GLForm extends Component
                 'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
-                'tmp.*.debit' => '',
-                'tmp.*.credit' => '',
+                'tmp.*.amount' => 'required',
             ]);
 
             $code = $this->autocode();
-            $glhd = GLhd::create([
-                'code' => $code,
-                'date' => $this->date,
-                'note' => $this->note,
-                'debit_total' => $this->debit_total,
-                'credit_total' => $this->credit_total,
-            ]);
 
+            $debit_total = $credit_total = 0;
             if( count($this->tmp) > 0 ) {
                 foreach($this->tmp as $tm)
                 {
@@ -80,12 +71,22 @@ class GLForm extends Component
                         'description' => $tm['description'],
                         'coa_code' => $tm['coa_code'],
                         'dc' => $tm['dc'],
-                        'debit' => $tm['debit'],
-                        'credit' => $tm['credit'],
+                        'debit' => $tm['dc']=='D' ? $tm['amount'] : 0,
+                        'credit' => $tm['dc']=='C' ? $tm['amount'] : 0,
                         'amount' => $tm['amount'],
                     ]);
+                    if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
+                    if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
                 }
             }
+
+            $glhd = GLhd::create([
+                'code' => $code,
+                'date' => $this->date,
+                'note' => $this->note,
+                'debit_total' => $debit_total,
+                'credit_total' => $credit_total,
+            ]);
 
             session()->flash('success', __('Saved'));
             return redirect()->route('gl.form',$glhd->id);
@@ -100,19 +101,12 @@ class GLForm extends Component
                 'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
-                'tmp.*.debit' => '',
-                'tmp.*.credit' => '',
-            ]);
-            $glhd = GLhd::find($this->set_id);
-            $glhd->update([
-                'date' => $this->date,
-                'note' => $this->note,
-                'debit_total' => $this->debit_total,
-                'credit_total' => $this->credit_total,
+                'tmp.*.amount' => 'required',
             ]);
 
             $detail = GLdt::where('code',$this->code);
             $detail->delete();
+            $debit_total = $credit_total = 0;
             if( count($this->tmp) > 0 ) {
                 foreach($this->tmp as $tm)
                 {
@@ -121,12 +115,23 @@ class GLForm extends Component
                         'description' => $tm['description'],
                         'coa_code' => $tm['coa_code'],
                         'dc' => $tm['dc'],
-                        'debit' => $tm['debit'],
-                        'credit' => $tm['credit'],
+                        'debit' => $tm['dc']=='D' ? $tm['amount'] : 0,
+                        'credit' => $tm['dc']=='C' ? $tm['amount'] : 0,
                         'amount' => $tm['amount'],
                     ]);
+
+                    if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
+                    if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
                 }
             }
+
+            $glhd = GLhd::find($this->set_id);
+            $glhd->update([
+                'date' => $this->date,
+                'note' => $this->note,
+                'debit_total' => $debit_total,
+                'credit_total' => $credit_total,
+            ]);
 
             session()->flash('success', __('Saved'));
         }
@@ -154,13 +159,12 @@ class GLForm extends Component
             'credit' => '0',
             'amount' => '0',
         ];
-        $this->dispatch('detail-change');
+        //$this->dispatch('detail-change');
     }
 
     public function removeDetail($index): Void
     {
         unset($this->tmp[$index]);
-        $this->dispatch('detail-change');
     }
 
     public function updatedTmp($value,$key): Void

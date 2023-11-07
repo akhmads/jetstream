@@ -58,8 +58,7 @@
                 <th class="w-[30%]">Coa Code</th>
                 <th>Description</th>
                 <th class="w-[80px]">D/C</th>
-                <th class="w-[140px]">Debit</th>
-                <th class="w-[140px]">Credit</th>
+                <th class="w-[150px]">Amount</th>
                 <th class="w-[100px]">Action</th>
             </tr>
             </thead>
@@ -77,14 +76,10 @@
                     <x-input wire:model="tmp.{{$index}}.description" wire:loading.attr="disabled" class="w-full" />
                 </td>
                 <td>
-                    <x-hyco.select wire:model.live="tmp.{{$index}}.dc" :options="['D'=>'D','C'=>'C']" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
+                    <x-hyco.select wire:model.live="tmp.{{$index}}.dc" :options="['D'=>'D','C'=>'C']" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
                 </td>
                 <td>
-                    <x-input wire:model.live.debounce.2000ms="tmp.{{$index}}.debit" wire:loading.attr="disabled" class="w-full text-end" />
-                </td>
-                <td>
-                    {{-- @if ($tmp[$index]['dc']=='C') --}}
-                    <x-input wire:model.live.debounce.2000ms="tmp.{{$index}}.credit" wire:loading.attr="disabled" class="w-full text-end" />
+                    <x-input wire:model.live.debounce.1500ms="tmp.{{$index}}.amount" wire:loading.attr="disabled" class="w-full text-end" />
                 </td>
                 <td class="text-center">
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">del</x-hyco.button>
@@ -96,9 +91,13 @@
             </tr>
             @endforelse
             <tr>
-                <td colspan="3" class="text-end">Total :</td>
-                <td><x-input wire:model.live="debit_total" class="w-full text-end" readonly /></td>
-                <td><x-input wire:model.live="credit_total" class="w-full text-end" readonly /></td>
+                <td colspan="3" class="text-end px-2">Total Debt:</td>
+                <td class=""><x-input wire:model.live="debit_total" class="w-full text-end" readonly /></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-end px-2">Total Credit:</td>
+                <td class=""><x-input wire:model.live="credit_total" class="w-full text-end" readonly /></td>
                 <td>&nbsp;</td>
             </tr>
             </tbody>
