@@ -1,7 +1,14 @@
-@props(['disabled' => false])
+@props([])
 
-{{-- <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) !!}> --}}
+@php $rounded = isset($actions) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md'; @endphp
 
-<div {{ $attributes->merge(['class' => 'px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md']) }}>
-    {{ $slot }}
+<div>
+    <div {{ $attributes->merge(['class' => 'px-4 py-5 bg-white sm:p-6 shadow space-y-6 ' . $rounded]) }}>
+        {{ $slot }}
+    </div>
+    @if (isset($actions))
+        <div class="flex items-center justify-end gap-4 px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+            {{ $actions }}
+        </div>
+    @endif
 </div>

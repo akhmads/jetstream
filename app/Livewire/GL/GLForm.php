@@ -56,6 +56,7 @@ class GLForm extends Component
                 'date' => 'required',
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
+                'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
                 'tmp.*.debit' => '',
@@ -76,6 +77,7 @@ class GLForm extends Component
                 {
                     GLdt::create([
                         'code' => $code,
+                        'description' => $tm['description'],
                         'coa_code' => $tm['coa_code'],
                         'dc' => $tm['dc'],
                         'debit' => $tm['debit'],
@@ -95,6 +97,7 @@ class GLForm extends Component
                 'note' => 'required',
                 'credit_total' => 'same:debit_total',
                 'tmp' => 'required|array|min:1',
+                'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
                 'tmp.*.debit' => '',
@@ -115,6 +118,7 @@ class GLForm extends Component
                 {
                     $detail->create([
                         'code' => $this->code,
+                        'description' => $tm['description'],
                         'coa_code' => $tm['coa_code'],
                         'dc' => $tm['dc'],
                         'debit' => $tm['debit'],
@@ -170,15 +174,15 @@ class GLForm extends Component
     {
         if( $index == "" ) return;
 
-        $dc = $this->tmp[$index]['dc'];
-        $debit = $this->tmp[$index]['debit'];
-        $credit = $this->tmp[$index]['credit'];
-        if( $dc == 'D' ){
-            $this->tmp[$index]['amount'] = $debit * -1;
-        }
-        if( $dc == 'C' ){
-            $this->tmp[$index]['amount'] = $credit * -1;
-        }
+        // $dc = $this->tmp[$index]['dc'];
+        // $debit = $this->tmp[$index]['debit'];
+        // $credit = $this->tmp[$index]['credit'];
+        // if( $dc == 'D' ){
+        //     $this->tmp[$index]['amount'] = $debit * -1;
+        // }
+        // if( $dc == 'C' ){
+        //     $this->tmp[$index]['amount'] = $credit * -1;
+        // }
 
         $debit_total = $credit_total = 0;
         foreach($this->tmp as $tmp)

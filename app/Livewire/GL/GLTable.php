@@ -13,7 +13,7 @@ class GLTable extends Component
     use WithPagination;
 
     public $perPage = 10;
-    public $sortColumn = "date";
+    public $sortColumn = "id";
     public $sortDir = "desc";
     public $sortLink = [];
     public $searchKeyword = '';
@@ -23,10 +23,11 @@ class GLTable extends Component
     public function render()
     {
         $GL = GLhd::orderby($this->sortColumn,$this->sortDir)
-                ->select(['glhd.*','gldt.debit','gldt.credit'])
-                ->leftJoin('gldt', 'gldt.code', '=', 'glhd.code');
+                ->select(['glhd.*','gldt.debit','gldt.credit','gldt.coa_code','coa.name as coa_name'])
+                ->leftJoin('gldt', 'gldt.code', '=', 'glhd.code')
+                ->leftJoin('coa', 'coa.code', '=', 'gldt.coa_code');
         if(!empty($this->searchKeyword)){
-            $GL->orWhere('code','like',"%".$this->searchKeyword."%");
+            $GL->orWhere('glhd.code','like',"%".$this->searchKeyword."%");
         }
         $GL = $GL->paginate($this->perPage);
 
