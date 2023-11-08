@@ -1,28 +1,33 @@
 <?php
 
-namespace App\Livewire\GL;
+namespace App\Livewire\Journal;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Code;
 use App\Models\GLhd;
 use App\Models\GLdt;
+use Closure;
 
-class GLForm extends Component
+class Form extends Component
 {
     public $set_id;
     public $code = '';
     public $date = '';
     public $note = '';
+    public $contact_id = '';
     public $debit_total = 0;
     public $credit_total = 0;
+    public $ref_name = '';
+    public $ref_id = '';
     public $tmp = [];
 
     public function render()
     {
-        return view('livewire.gl.gl-form');
+        return view('livewire.journal.form');
     }
 
     public function mount(Request $request)
@@ -34,6 +39,9 @@ class GLForm extends Component
         $this->note = $gl->note ?? '';
         $this->debit_total = $gl->debit_total ?? '0';
         $this->credit_total = $gl->credit_total ?? '0';
+        $this->contact_id = $gl->contact_id ?? '0';
+        $this->ref_name = $gl->ref_name ?? '';
+        $this->ref_id = $gl->ref_id ?? '';
 
         $GLdt = GLdt::where('code',$this->code)->orderBy('id')->get();
         foreach($GLdt as $dt){
@@ -42,6 +50,8 @@ class GLForm extends Component
                 'description' => $dt->description,
                 'dc' => $dt->dc,
                 'amount' => $dt->amount,
+                'debit' => $dt->debit,
+                'credit' => $dt->credit,
             ];
         }
     }
@@ -57,7 +67,7 @@ class GLForm extends Component
                 'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
-                'tmp.*.amount' => 'required',
+                'tmp.*.amount' => 'required|min:1|gt:1',
             ]);
 
             $code = $this->autocode();
@@ -86,22 +96,29 @@ class GLForm extends Component
                 'note' => $this->note,
                 'debit_total' => $debit_total,
                 'credit_total' => $credit_total,
+                'contact_id' => $this->contact_id,
+                'ref_name' => 'journal',
+                'ref_id' => $code,
             ]);
 
             session()->flash('success', __('Saved'));
-            return redirect()->route('gl.form',$glhd->id);
+            return redirect()->route('finance.journal.form',$glhd->id);
         }
         else
         {
             $valid = $this->validate([
                 'date' => 'required',
                 'note' => 'required',
-                'credit_total' => 'same:debit_total',
+                'credit_total' => function (string $attribute, mixed $value, Closure $fail) {
+                    if (floatval($this->debit_total) != floatval($this->credit_total)) {
+                        $fail(_("Total debt and credit must be the same"));
+                    }
+                },
                 'tmp' => 'required|array|min:1',
                 'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.dc' => 'required',
-                'tmp.*.amount' => 'required',
+                'tmp.*.amount' => 'required|min:1|gt:0',
             ]);
 
             $detail = GLdt::where('code',$this->code);
@@ -131,6 +148,7 @@ class GLForm extends Component
                 'note' => $this->note,
                 'debit_total' => $debit_total,
                 'credit_total' => $credit_total,
+                'contact_id' => $this->contact_id,
             ]);
 
             session()->flash('success', __('Saved'));
@@ -147,6 +165,12 @@ class GLForm extends Component
         );
         $code = Code::where('prefix', $prefix)->first();
         return $code->prefix . Str::padLeft($code->num, 4, '0');
+    }
+
+    #[On('set-contact')]
+    public function setContactId( $id )
+    {
+        $this->contact_id = $id;
     }
 
     public function addDetail(): Void
@@ -176,23 +200,18 @@ class GLForm extends Component
 
     public function sum($index): Void
     {
-        if( $index == "" ) return;
-
-        // $dc = $this->tmp[$index]['dc'];
-        // $debit = $this->tmp[$index]['debit'];
-        // $credit = $this->tmp[$index]['credit'];
-        // if( $dc == 'D' ){
-        //     $this->tmp[$index]['amount'] = $debit * -1;
-        // }
-        // if( $dc == 'C' ){
-        //     $this->tmp[$index]['amount'] = $credit * -1;
-        // }
+        if($this->tmp[$index]['dc']=='D'){
+            $this->tmp[$index]['debit'] = $this->tmp[$index]['amount'];
+        }
+        if($this->tmp[$index]['dc']=='C'){
+            $this->tmp[$index]['credit'] = $this->tmp[$index]['amount'];
+        }
 
         $debit_total = $credit_total = 0;
         foreach($this->tmp as $tmp)
         {
-            $debit_total = $debit_total + $tmp['debit'];
-            $credit_total = $credit_total + $tmp['credit'];
+            $debit_total = $debit_total + floatval($tmp['debit']);
+            $credit_total = $credit_total + floatval($tmp['credit']);
         }
 
         $this->debit_total = $debit_total;
