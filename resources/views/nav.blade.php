@@ -26,7 +26,7 @@
             {{ __('User') }}
         </x-hyco.nav-item>
         <x-hyco.nav-dropdown :title="_('Finance')" :active="request()->routeIs('finance*')">
-            <x-hyco.nav-dropdown-item href="{{ route('gl') }}">
+            <x-hyco.nav-dropdown-item href="{{ route('finance.gl') }}">
                 {{ __('General Ledger') }}
             </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>

@@ -42,8 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/play/{page}',  [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
     Route::get('/coa',          App\Livewire\Coa\CoaTable::class)->name('coa');
     Route::get('/coa/{id}',     App\Livewire\Coa\CoaForm::class)->name('coa.form');
-    Route::get('/gl',           App\Livewire\GL\GLTable::class)->name('gl');
-    Route::get('/gl/{id}',      App\Livewire\GL\GLForm::class)->name('gl.form');
+    Route::get('/gl',           App\Livewire\GL\GLTable::class)->name('finance.gl');
+    Route::get('/gl/{id}',      App\Livewire\GL\GLForm::class)->name('finance.gl.form');
 });
 
 
