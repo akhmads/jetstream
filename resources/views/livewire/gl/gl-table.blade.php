@@ -12,9 +12,8 @@
 
     <x-hyco.table>
         <x-slot name="headingLeft">
-            @dump($coa_code)
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
-            <livewire:coa.coa-picker wire:model.live="coa_code" class="w-full md:w-[400px]" />
+            <livewire:coa.coa-picker wire:model="coa_code" class="w-full md:w-[400px] scale-90" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
         </x-slot>
 
@@ -26,13 +25,14 @@
 
         <x-slot name="header">
             <tr>
-                <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('glhd.code')" class="w-[140px] cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="w-[100px] cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('note')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="coa_code" :sort="$sortLink" wire:click="sortOrder('coa_code')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="coa_name" :sort="$sortLink" wire:click="sortOrder('coa.name')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="debit_total"></x-hyco.table-th>
-                <x-hyco.table-th name="credit_total"></x-hyco.table-th>
+                <x-hyco.table-th name="code"></x-hyco.table-th>
+                <x-hyco.table-th name="date"></x-hyco.table-th>
+                <x-hyco.table-th name="note"></x-hyco.table-th>
+                <x-hyco.table-th name="coa_code"></x-hyco.table-th>
+                <x-hyco.table-th name="coa_name"></x-hyco.table-th>
+                <x-hyco.table-th name="debit"></x-hyco.table-th>
+                <x-hyco.table-th name="credit"></x-hyco.table-th>
+                <x-hyco.table-th name="balance"></x-hyco.table-th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
                 {{-- <th class="px-4 py-2 text-left w-[150px]">
                     Action
@@ -41,6 +41,10 @@
         </x-slot>
 
         @forelse ($GL as $gl)
+        @php
+        if(!isset($balance)) $balance = 0;
+        $balance = $balance + $gl->debit - $gl->credit;
+        @endphp
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
                 {{ $gl->code }}
@@ -62,6 +66,9 @@
             </td>
             <td class="px-4 py-3 text-gray-600 text-end">
                 {{ number_format($gl->credit,2) }}
+            </td>
+            <td class="px-4 py-3 text-gray-600 text-end">
+                {{ number_format($balance,2) }}
             </td>
             {{-- <td class="px-4 py-3 text-gray-600">
                 {{ ($coa->created_at)->format('d/m/Y, H:i') }}

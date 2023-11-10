@@ -45,6 +45,6 @@ class CoaPicker extends Component
         $this->label = $label;
         //$this->searchKeyword = $this->label;
         $this->modal = false;
-        // $this->dispatch('set-coa', id: $id);
+        $this->dispatch('set-coa', id: $id);
     }
 }

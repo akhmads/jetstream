@@ -4,10 +4,8 @@
         <x-hyco.loading />
     </div>
 
-    <div class="relative {{ $class ?? '' }}">
-        <div wire:click="$toggle('modal')" class="w-full px-3 py-2 bg-white cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-            {{ empty($label) ? __('-- Choose --') : $label }}
-        </div>
+    <div wire:click="$toggle('modal')" class="w-full h-full px-3 py-2 bg-white cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm {{ $class ?? '' }}">
+        {{ empty($label) ? __('-- Choose --') : $label }}
     </div>
 
     <x-hyco.modal wire:model.live="modal">
@@ -16,7 +14,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <input type="text" wire:model.live.debounce.500ms="searchKeyword" placeholder="Search" class="w-full border border-slate-300 focus:border-blue-400 focus:outline-none py-1 px-2 mb-4 rounded-md shadow-sm">
+            <input type="text" wire:model.live.debounce.500ms="searchKeyword" autofocus placeholder="Search" class="w-full border border-slate-300 focus:border-blue-400 focus:outline-none py-1 px-2 mb-4 rounded-md shadow-sm">
             <div class="max-h-80 overflow-y-auto">
                 @forelse ( $coas as $coa )
                 @if ($coa->code == $value)

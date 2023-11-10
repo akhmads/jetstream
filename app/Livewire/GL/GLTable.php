@@ -5,6 +5,7 @@ namespace App\Livewire\GL;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use App\Models\GLhd;
 use App\Models\GLdt;
 
@@ -14,7 +15,7 @@ class GLTable extends Component
 
     public $perPage = 10;
     public $sortColumn = "id";
-    public $sortDir = "desc";
+    public $sortDir = "asc";
     public $sortLink = [];
     public $searchKeyword = '';
     public $coa_code = '';
@@ -32,9 +33,7 @@ class GLTable extends Component
             $GL->orWhere('gldt.coa_code','like',$this->searchKeyword."%");
             $GL->orWhere('coa.name','like',"%".$this->searchKeyword."%");
         }
-        if(!empty($this->coa_code)){
-            $GL->orWhere('gldt.coa_code','=',$this->coa_code);
-        }
+        $GL->orWhere('gldt.coa_code','=',$this->coa_code);
         $GL = $GL->paginate($this->perPage);
 
         return view('livewire.gl.gl-table',['GL' => $GL]);
@@ -67,5 +66,12 @@ class GLTable extends Component
 
         $this->confirmDeletion = false;
         session()->flash('success', __('GL has been deleted'));
+    }
+
+    #[On('set-coa')]
+    public function setCoa( $id )
+    {
+        //$this->coa_code = $id;
+        $this->resetPage();
     }
 }
