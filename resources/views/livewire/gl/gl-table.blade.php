@@ -12,15 +12,17 @@
 
     <x-hyco.table>
         <x-slot name="headingLeft">
+            @dump($coa_code)
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
+            <livewire:coa.coa-picker wire:model.live="coa_code" class="w-full md:w-[400px]" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
         </x-slot>
 
-        <x-slot name="headingRight">
+        {{-- <x-slot name="headingRight">
             <x-hyco.link wire:navigate href="{{ route('finance.gl.form',0) }}" icon="plus" class="scale-90">
                 Create
             </x-hyco.link>
-        </x-slot>
+        </x-slot> --}}
 
         <x-slot name="header">
             <tr>
@@ -32,9 +34,9 @@
                 <x-hyco.table-th name="debit_total"></x-hyco.table-th>
                 <x-hyco.table-th name="credit_total"></x-hyco.table-th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
-                <th class="px-4 py-2 text-left w-[150px]">
+                {{-- <th class="px-4 py-2 text-left w-[150px]">
                     Action
-                </th>
+                </th> --}}
             </tr>
         </x-slot>
 
@@ -64,10 +66,10 @@
             {{-- <td class="px-4 py-3 text-gray-600">
                 {{ ($coa->created_at)->format('d/m/Y, H:i') }}
             </td> --}}
-            <td class="h-px w-px whitespace-nowrap px-4 py-3">
+            {{-- <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('finance.gl.form',$gl->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $gl->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
-            </td>
+            </td> --}}
         </x-hyco.table-tr>
         @empty
         <tr>

@@ -17,6 +17,7 @@ class GLTable extends Component
     public $sortDir = "desc";
     public $sortLink = [];
     public $searchKeyword = '';
+    public $coa_code = '';
     public $confirmDeletion = false;
     public $set_id;
 
@@ -27,7 +28,12 @@ class GLTable extends Component
                 ->leftJoin('gldt', 'gldt.code', '=', 'glhd.code')
                 ->leftJoin('coa', 'coa.code', '=', 'gldt.coa_code');
         if(!empty($this->searchKeyword)){
-            $GL->orWhere('glhd.code','like',"%".$this->searchKeyword."%");
+            $GL->orWhere('glhd.code','like',$this->searchKeyword."%");
+            $GL->orWhere('gldt.coa_code','like',$this->searchKeyword."%");
+            $GL->orWhere('coa.name','like',"%".$this->searchKeyword."%");
+        }
+        if(!empty($this->coa_code)){
+            $GL->orWhere('gldt.coa_code','=',$this->coa_code);
         }
         $GL = $GL->paginate($this->perPage);
 

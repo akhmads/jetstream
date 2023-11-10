@@ -25,7 +25,7 @@
                     <x-input type="date" id="date" wire:model="date" class="w-full" />
                     <x-input-error class="mt-2" for="date" />
                 </div>
-                <div class="col-span-12 sm:col-span-3">
+                <div class="col-span-12 md:col-span-3">
                     <x-label for="contact_id" :value="__('Contact')" class="mb-1" />
                     <livewire:example.contact-picker id="contact_id" :value="$contact_id" />
                     <x-input-error class="mt-2" for="contact_id" />
@@ -40,6 +40,7 @@
                     <x-input id="note" wire:model="note" class="w-full" />
                     <x-input-error class="mt-2" for="note" />
                 </div>
+                <div class="hidden md:block col-span-12 md:col-span-3">&nbsp;</div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="ref_id" :value="__('Ref ID')" class="mb-1" />
                     <x-input id="ref_id" :value="$ref_id" class="w-full bg-slate-100" readonly />
