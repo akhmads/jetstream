@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('code',20)->unique();
             $table->string('name',100);
             $table->string('normal_balance',20);
-            $table->string('report_type',20);
+            $table->string('report_type',20)->index();
+            $table->string('report_operator',20)->nullable();
+            $table->integer('coa_group',20)->index();
             $table->timestamps();
         });
     }

@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/journal',      App\Livewire\Journal\Table::class)->name('finance.journal');
     Route::get('/journal/{id}', App\Livewire\Journal\Form::class)->name('finance.journal.form');
     Route::get('/gl',           App\Livewire\GL\GLTable::class)->name('finance.gl');
-    Route::get('/gl/{id}',      App\Livewire\GL\GLForm::class)->name('finance.gl.form');
+    Route::get('/trial-balance',    App\Livewire\TrialBalance\Table::class)->name('finance.trial-balance');
 });
 
 
