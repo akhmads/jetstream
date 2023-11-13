@@ -18,7 +18,7 @@
             <div class="max-h-80 overflow-y-auto">
                 @forelse ( $coas as $coa )
                 @if ($coa->code == $value)
-                <div class="flex flex-row cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $coa->code }}','{{ $coa->name }}')">
+                <div class="flex flex-row cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
                     <div class="w-[150px]">
                         {{ $coa->code }}
                     </div>

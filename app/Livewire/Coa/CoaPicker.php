@@ -38,7 +38,9 @@ class CoaPicker extends Component
         }
         $this->index = $index;
         $this->value = $coa->code ?? '';
-        $this->label = $coa->name ?? '';
+        $code = $coa->code ?? '';
+        $name = $coa->name ?? '';
+        $this->label = empty($code) ? '' : $code . ' - ' . $name;
     }
 
     public function pick($id,$label,$index='')
