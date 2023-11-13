@@ -43,6 +43,12 @@
                         <x-hyco.select wire:model="report_type" :options="['BS'=>'BS','PL'=>'PL']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="report_type" />
                     </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label :value="__('Report Operator')" class="mb-1" />
+                        <x-hyco.select wire:model="report_operator" :options="['PLUS'=>'PLUS','MINUS'=>'MINUS','RATE'=>'RATE']" class="w-full"></x-hyco.select>
+                        <x-input-error class="mt-2" for="report_operator" />
+                    </div>
                 </x-slot>
 
                 <x-slot name="actions">
