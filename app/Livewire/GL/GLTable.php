@@ -71,7 +71,7 @@ class GLTable extends Component
     #[On('set-coa')]
     public function setCoa( $id )
     {
-        //$this->coa_code = $id;
+        $this->coa_code = $id;
         $this->resetPage();
     }
 }

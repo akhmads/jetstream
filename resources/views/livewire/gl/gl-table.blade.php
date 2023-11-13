@@ -13,7 +13,7 @@
     <x-hyco.table>
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
-            <livewire:coa.coa-picker wire:model="coa_code" class="w-full md:w-[400px] scale-90" />
+            <livewire:coa.coa-picker class="w-full md:w-[400px] scale-90" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
         </x-slot>
 
