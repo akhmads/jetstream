@@ -58,11 +58,25 @@ class Form extends Component
 
     public function store()
     {
+        // $debit_total = $credit_total = 0;
+        // foreach($this->tmp as $tmp)
+        // {
+        //     if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
+        //     if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
+        // }
+
+        $this->sum();
+
         if(empty($this->set_id))
         {
             $valid = $this->validate([
                 'date' => 'required',
                 'note' => 'required',
+                'credit_total' => function (string $attribute, mixed $value, Closure $fail) {
+                    if (floatval($this->debit_total) != floatval($this->credit_total)) {
+                        $fail(_("Total debt and credit must be the same"));
+                    }
+                },
                 'tmp' => 'required|array|min:1',
                 'tmp.*.description' => 'required',
                 'tmp.*.coa_code' => 'required|distinct',
@@ -152,6 +166,7 @@ class Form extends Component
             ]);
 
             session()->flash('success', __('Saved'));
+            return redirect()->route('finance.journal.form',$this->set_id);
         }
     }
 
@@ -183,7 +198,6 @@ class Form extends Component
             'credit' => '0',
             'amount' => '0',
         ];
-        //$this->dispatch('detail-change');
     }
 
     public function removeDetail($index): Void
@@ -193,28 +207,30 @@ class Form extends Component
 
     public function updatedTmp($value,$key): Void
     {
-        $parts = explode('.',$key);
-        $index = $parts[0] ?? '';
-        $this->sum($index);
+        // $parts = explode('.',$key);
+        // $index = $parts[0] ?? '';
+        // $this->sum($index);
     }
 
-    public function sum($index): Void
+    public function sum(): Void
     {
-        if($this->tmp[$index]['dc']=='D'){
-            $this->tmp[$index]['debit'] = $this->tmp[$index]['amount'];
-        }
-        if($this->tmp[$index]['dc']=='C'){
-            $this->tmp[$index]['credit'] = $this->tmp[$index]['amount'];
-        }
-
         $debit_total = $credit_total = 0;
-        foreach($this->tmp as $tmp)
+        foreach($this->tmp as $tm)
         {
-            $debit_total = $debit_total + floatval($tmp['debit']);
-            $credit_total = $credit_total + floatval($tmp['credit']);
+            if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
+            if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
         }
 
         $this->debit_total = $debit_total;
         $this->credit_total = $credit_total;
+    }
+
+    #[On('set-coa')]
+    public function setCoa( $id, $index )
+    {
+        if(isset($this->tmp[$index]))
+        {
+            $this->tmp[$index]['coa_code'] = $id;
+        }
     }
 }

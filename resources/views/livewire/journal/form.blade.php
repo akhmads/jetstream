@@ -86,7 +86,7 @@
             @forelse ( $tmp as $index => $tm )
             <tr>
                 <td>
-                    <x-hyco.select wire:model="tmp.{{$index}}.coa_code" :options="\App\Models\Coa::select('name','code')->orderBy('code')->get()->pluck('name','code')" class="w-full"></x-hyco.select>
+                    <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa_code_{{ $index }}" class="w-full text-base" />
                 </td>
                 <td>
                     <x-input wire:model="tmp.{{$index}}.description" wire:loading.attr="disabled" class="w-full" />
@@ -108,12 +108,12 @@
             @endforelse
             <tr>
                 <td colspan="3" class="text-end px-2">Total Debt:</td>
-                <td class=""><x-input wire:model.live="debit_total" class="w-full text-end" readonly /></td>
+                <td class=""><x-input wire:model="debit_total" class="w-full text-end" readonly /></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="3" class="text-end px-2">Total Credit:</td>
-                <td class=""><x-input wire:model.live="credit_total" class="w-full text-end" readonly /></td>
+                <td class=""><x-input wire:model="credit_total" class="w-full text-end" readonly /></td>
                 <td>&nbsp;</td>
             </tr>
             </tbody>

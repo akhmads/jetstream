@@ -11,8 +11,9 @@ class CoaPicker extends Component
 {
     use WithPagination;
 
-    #[Modelable]
+    //#[Modelable]
     public $value = '';
+    public $index = '';
 
     public $label;
     public $searchKeyword;
@@ -26,25 +27,25 @@ class CoaPicker extends Component
             $coa->orWhere('code','like',$this->searchKeyword."%");
             $coa->orWhere('name','like',"%".$this->searchKeyword."%");
         }
-        $coas = $coa->paginate(20);
+        $coas = $coa->simplePaginate(20);
         return view('livewire.coa.coa-picker',['coas' => $coas]);
     }
 
-    public function mount($value = '')
+    public function mount($index = '', $value = '')
     {
         if( !empty($value) ){
             $coa = Coa::where('code',$value)->get()->first();
         }
+        $this->index = $index;
         $this->value = $coa->code ?? '';
         $this->label = $coa->name ?? '';
     }
 
-    public function pick($id,$label)
+    public function pick($id,$label,$index='')
     {
         $this->value = $id;
         $this->label = $label;
-        //$this->searchKeyword = $this->label;
         $this->modal = false;
-        $this->dispatch('set-coa', id: $id);
+        $this->dispatch('set-coa', id: $id, index: $this->index);
     }
 }

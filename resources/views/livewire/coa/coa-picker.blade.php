@@ -41,7 +41,7 @@
                 @endforelse
             </div>
             <div class="pt-4">
-                {{ $coas->links('vendor.livewire.custom-tailwind') }}
+                {{ $coas->links() }}
             </div>
         </x-slot>
 
