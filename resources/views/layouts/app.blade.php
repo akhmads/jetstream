@@ -33,7 +33,8 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white shadow">
+                <header class="bg-gradient-to-r from-cyan-400 to-blue-400 shadow">
+                    {{-- bg-[url('https://images.unsplash.com/photo-1589271755419-b813a577ad42?auto=format&fit=crop&q=80&w=2048&h=300')] bg-no-repeat --}}
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
