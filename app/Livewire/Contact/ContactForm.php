@@ -11,8 +11,15 @@ class ContactForm extends Component
 {
     public $set_id;
     public $name = '';
-    public $email = '';
-    public $mobile = '';
+    public $type = '';
+    public $address = '';
+	public $pic = '';
+	public $mobile = '';
+	public $mobile2 = '';
+	public $email = '';
+	public $nonpwp = '';
+	public $npwpnm = '';
+	public $status = '';
 
     public function render()
     {
@@ -24,8 +31,15 @@ class ContactForm extends Component
         $contact = Contact::Find($request->id);
         $this->set_id = $contact->id ?? '';
         $this->name = $contact->name ?? '';
-        $this->email = $contact->email ?? '';
-        $this->mobile = $contact->mobile ?? '';
+        $this->type = $contact->type ?? '';
+        $this->address = $contact->address ?? '';
+		$this->pic = $contact->pic ?? '';
+		$this->mobile = $contact->mobile ?? '';
+		$this->mobile2 = $contact->mobile2 ?? '';
+		$this->email = $contact->email ?? '';
+		$this->nonpwp = $contact->nonpwp ?? '';
+		$this->npwpnm = $contact->npwpnm ?? '';
+		$this->status = $contact->status ?? '';
     }
 
     public function store()
@@ -38,7 +52,19 @@ class ContactForm extends Component
                 'mobile' => 'required',
             ]);
 
-            $contact = Contact::create($valid);
+            $contact = Contact::create([
+			'name' => $this->name,
+			'type' => $this->type,
+			'address' => $this->address,
+			'pic' => $this->pic,
+			'mobile' => $this->mobile,
+			'mobile2' => $this->mobile2,
+			'email' => $this->email,
+			'nonpwp' => $this->nonpwp,
+			'npwpnm' => $this->npwpnm,
+			'status' => $this->status,
+			
+			]);
             session()->flash('success', __('Contact saved'));
             return redirect()->route('contact.form',$contact->id);
         }
