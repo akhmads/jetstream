@@ -8,7 +8,44 @@ use App\Models\GLdt;
 
 class Acc {
 
+    protected static $beginning = [];
     protected static $sum = [];
+
+    public static function beginning( $year, $code = '', $dc = '')
+    {
+        if( count(self::$beginning) == 0 )
+        {
+            $bb = DB::table('beginning_balance')
+                ->get();
+
+            $beginning = [];
+            $debit = $credit = 0;
+            foreach( $bb as $row )
+            {
+                $beginning[$row->coa_code]['D'] = $row->debit;
+                $beginning[$row->coa_code]['C'] = $row->credit;
+                $debit = $debit + $row->debit;
+                $credit = $credit + $row->credit;
+            }
+            $beginning['D'] = $debit;
+            $beginning['C'] = $credit;
+
+            self::$beginning = $beginning;
+        }
+
+        if( $code )
+        {
+            return isset(self::$beginning[$code][$dc]) ? self::$beginning[$code][$dc] : 0;
+        }
+        else if( $dc )
+        {
+            return isset(self::$beginning[$dc]) ? self::$beginning[$dc] : 0;
+        }
+        else
+        {
+            return self::$beginning;
+        }
+    }
 
     public static function sum( $code = '', $dc = '' )
     {

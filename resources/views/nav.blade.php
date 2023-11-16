@@ -35,6 +35,9 @@
             <x-hyco.nav-dropdown-item href="{{ route('finance.trial-balance') }}">
                 {{ __('Trial Balance') }}
             </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('finance.beginning-balance') }}">
+                {{ __('Beginning Balance') }}
+            </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="_('Master Data')" :active="request()->routeIs('master*')">
             <x-hyco.nav-dropdown-item href="{{ route('contact') }}">

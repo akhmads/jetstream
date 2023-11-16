@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('coa_code',20)->index();
             $table->decimal('debit', 12, 2);
             $table->decimal('credit', 12, 2);
+            $table->decimal('amount', 12, 2);
             $table->timestamps();
         });
     }
