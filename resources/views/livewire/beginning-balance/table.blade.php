@@ -42,10 +42,10 @@
                 {{ $coa->name }}
             </td>
             <td class="px-4 py-3 text-gray-600 text-end">
-                {{ number_format(App\Hyco\Acc::beginning($coa->code,'D'),2) }}
+                {{ number_format(App\Hyco\Acc::beginning($year,$coa->code,'D'),2) }}
             </td>
             <td class="px-4 py-3 text-gray-600 text-end">
-                {{ number_format(App\Hyco\Acc::beginning($coa->code,'C'),2) }}
+                {{ number_format(App\Hyco\Acc::beginning($year,$coa->code,'C'),2) }}
             </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3 text-center">
                 <a href="javascript:void(0)" wire:click="edit('{{ $year }}','{{ $coa->code }}','{{ $coa->name }}')" class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
@@ -62,10 +62,10 @@
                 {{ __('Balance') }}
             </td>
             <td class="px-4 py-3 text-gray-600 text-right font-bold text-base">
-                {{ number_format(App\Hyco\Acc::beginning(false,'D'),2) }}
+                {{ number_format(App\Hyco\Acc::beginning($year,false,'D'),2) }}
             </td>
             <td class="px-4 py-3 text-gray-600 text-right font-bold text-base">
-                {{ number_format(App\Hyco\Acc::beginning(false,'C'),2) }}
+                {{ number_format(App\Hyco\Acc::beginning($year,false,'C'),2) }}
             </td>
             <td></td>
         </tr>
@@ -97,16 +97,24 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <x-label for="debit" :value="__('Debit')" class="mb-1" />
-                    <x-input id="debit" wire:model="debit" class="w-full" autofocus />
-                    <x-input-error for="debit" />
-                </div>
+                <div class="grid grid-cols-4 gap-5">
+                    <div class="mb-4">
+                        <x-label for="year" :value="__('Year')" class="mb-1" />
+                        <x-input id="year" wire:model="year" class="w-full bg-slate-50" readonly />
+                        <x-input-error for="year" />
+                    </div>
 
-                <div class="mb-4">
-                    <x-label for="credit" :value="__('Credit')" class="mb-1" />
-                    <x-input id="credit" wire:model="credit" class="w-full" />
-                    <x-input-error for="credit" />
+                    <div class="mb-4">
+                        <x-label for="dc" :value="__('D/C')" class="mb-1" />
+                        <x-hyco.select wire:model="dc" :options="['D'=>'D','C'=>'C']" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
+                        <x-input-error for="dc" />
+                    </div>
+
+                    <div class="col-span-2 mb-4">
+                        <x-label for="amount" :value="__('Amount')" class="mb-1" />
+                        <x-input id="amount" wire:model="amount" class="w-full" autofocus />
+                        <x-input-error for="amount" />
+                    </div>
                 </div>
 
             </form>
