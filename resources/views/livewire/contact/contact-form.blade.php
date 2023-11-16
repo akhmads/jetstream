@@ -19,7 +19,18 @@
                     {{ __('Update your contact information and email address.') }}
                 </x-slot>
 
+                
+
                 <x-slot name="form">
+                    
+                    
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-hyco.label for="cust_code" :value="__('Customer Code')" />
+                        <x-input id="cust_code" wire:model="cust_code" class="w-full bg-slate-100" readonly="" />
+                        <x-input-error class="mt-2" for="cust_code" />
+                    </div>
+
+
                     <div class="col-span-6 sm:col-span-4">
                         <x-label for="name" :value="__('Name')" class="mb-1" />
                         <x-input id="name" wire:model="name" class="w-full" autofocus />
@@ -27,8 +38,8 @@
                     </div>
 
                     <div class="col-span-6 sm:col-span-4">
-                        <x-label for="type" :value="__('Type')" class="mb-1" />
-                        <x-input id="type" wire:model="type" class="w-full" />
+                        <x-label :value="__('type')" class="mb-1" />
+                        <x-hyco.select wire:model="type" :options="['PT'=>'PT','CV'=>'CV','Persero'=>'Perseorangan']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="type" />
                     </div>
 					
@@ -67,9 +78,9 @@
                         <x-input id="npwpnm" wire:model="npwpnm" class="w-full" />
                         <x-input-error class="mt-2" for="npwpnm" />
                     </div>
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-label for="status" :value="__('Status')" class="mb-1" />
-                        <x-input id="status" wire:model="status" class="w-full" />
+					<div class="col-span-6 sm:col-span-4">
+                        <x-label :value="__('Status')" class="mb-1" />
+                        <x-hyco.select wire:model="status" :options="['0'=>'Aktif','1'=>'Not Active']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="status" />
                     </div>
                 </x-slot>

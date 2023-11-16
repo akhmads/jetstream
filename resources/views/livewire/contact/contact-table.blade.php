@@ -24,11 +24,14 @@
 
         <x-slot name="header">
             <tr>
+                <x-hyco.table-th name="cust_code" :sort="$sortLink" wire:click="sortOrder('cust_code')" class="cursor-pointer"></x-hyco.table-th>
+				<x-hyco.table-th name="type" :sort="$sortLink" wire:click="sortOrder('type')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
 				<x-hyco.table-th name="email" :sort="$sortLink" wire:click="sortOrder('email')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="No npwp" :sort="$sortLink" wire:click="sortOrder('nonpwp')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="mobile" :sort="$sortLink" wire:click="sortOrder('mobile')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
+				<x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
                 </th>
@@ -38,6 +41,12 @@
         @forelse ($contacts as $contact)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
+                {{ $contact->cust_code }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $contact->type }}
+            </td>
+			<td class="px-4 py-3 text-gray-600">
                 {{ $contact->name }}
             </td>
 			 <td class="px-4 py-3 text-gray-600">
@@ -52,6 +61,14 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ ($contact->created_at)->format('d/m/Y, H:i') }}
             </td>
+			
+			@if($contact->status =='0')         
+			<td class="px-4 py-3 text-green-600"><b>Active</b><a></td>         
+			@else
+			<td class="px-4 py-3 text-red-600"><b>Inactive</b></td>        
+			@endif
+			
+
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('contact.form',$contact->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $contact->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
