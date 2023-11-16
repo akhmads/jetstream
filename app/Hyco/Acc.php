@@ -16,6 +16,7 @@ class Acc {
         if( count(self::$beginning) == 0 )
         {
             $bb = DB::table('beginning_balance')
+                ->where('year', $year)
                 ->get();
 
             $beginning = [];

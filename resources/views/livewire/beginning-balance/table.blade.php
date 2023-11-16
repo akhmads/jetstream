@@ -13,6 +13,7 @@
     <x-hyco.table>
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
+            <x-hyco.table-search wire:model.live.debounce.300ms="year" class="md:w-[100px]" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" class="md:w-[300px]" />
         </x-slot>
 
@@ -28,10 +29,7 @@
                 <x-hyco.table-th name="coa_name"></x-hyco.table-th>
                 <x-hyco.table-th name="debit"></x-hyco.table-th>
                 <x-hyco.table-th name="credit"></x-hyco.table-th>
-                {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
-                {{-- <th class="px-4 py-2 text-left w-[150px]">
-                    Action
-                </th> --}}
+                <th class="px-4 py-2 text-center w-[150px]">Action</th>
             </tr>
         </x-slot>
 
@@ -49,13 +47,9 @@
             <td class="px-4 py-3 text-gray-600 text-end">
                 {{ number_format(App\Hyco\Acc::beginning($coa->code,'C'),2) }}
             </td>
-            {{-- <td class="px-4 py-3 text-gray-600">
-                {{ ($coa->created_at)->format('d/m/Y, H:i') }}
-            </td> --}}
-            {{-- <td class="h-px w-px whitespace-nowrap px-4 py-3">
-                <a href="{{ route('finance.gl.form',$gl->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
-                <a href="javascript:void(0)" wire:click="delete({{ $gl->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
-            </td> --}}
+            <td class="h-px w-px whitespace-nowrap px-4 py-3 text-center">
+                <a href="javascript:void(0)" wire:click="edit('{{ $year }}','{{ $coa->code }}','{{ $coa->name }}')" class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
+            </td>
         </x-hyco.table-tr>
         @empty
         <tr>
@@ -73,6 +67,7 @@
             <td class="px-4 py-3 text-gray-600 text-right font-bold text-base">
                 {{ number_format(App\Hyco\Acc::beginning(false,'C'),2) }}
             </td>
+            <td></td>
         </tr>
 
         <x-slot name="footer">
@@ -80,4 +75,53 @@
         </x-slot>
     </x-hyco.table>
 
+    <x-hyco.modal wire:model.live="updateModal">
+        <x-slot name="title">
+            {{ __('Update').' '.__('Beginning Balance') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <form wire:submit="store">
+
+                <div class="grid grid-cols-4 gap-5">
+                    <div class="mb-4">
+                        <x-label for="coa_code" :value="__('COA Code')" class="mb-1" />
+                        <x-input id="coa_code" wire:model="coa_code" class="w-full bg-slate-50" readonly />
+                        <x-input-error for="coa_code" />
+                    </div>
+
+                    <div class="col-span-3 mb-4">
+                        <x-label for="coa_name" :value="__('COA Name')" class="mb-1" />
+                        <x-input id="coa_name" wire:model="coa_name" class="w-full bg-slate-50" readonly />
+                        <x-input-error for="coa_name" />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <x-label for="debit" :value="__('Debit')" class="mb-1" />
+                    <x-input id="debit" wire:model="debit" class="w-full" autofocus />
+                    <x-input-error for="debit" />
+                </div>
+
+                <div class="mb-4">
+                    <x-label for="credit" :value="__('Credit')" class="mb-1" />
+                    <x-input id="credit" wire:model="credit" class="w-full" />
+                    <x-input-error for="credit" />
+                </div>
+
+            </form>
+        </x-slot>
+
+        <x-slot name="footer">
+            <div class="flex justify-end gap-4 scale-90">
+                <x-hyco.button wire:click="$toggle('updateModal')" wire:loading.attr="disabled" icon="arrow-left" class="bg-yellow-500 hover:bg-yellow-400">
+                    {{ __('Cancel') }}
+                </x-hyco.button>
+
+                <x-hyco.button wire:click="store" wire:loading.attr="disabled" icon="check">
+                    {{ __('Save') }}
+                </x-hyco.button>
+            </div>
+        </x-slot>
+    </x-hyco.modal>
 </div>
