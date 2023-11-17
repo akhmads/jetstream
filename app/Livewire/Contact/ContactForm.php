@@ -6,10 +6,14 @@ use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\Code;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ContactForm extends Component
 {
     public $set_id;
+    public $cust_code = '';
     public $name = '';
     public $type = '';
     public $address = '';
@@ -30,6 +34,7 @@ class ContactForm extends Component
     {
         $contact = Contact::Find($request->id);
         $this->set_id = $contact->id ?? '';
+        $this->cust_code = $contact->cust_code ?? '[auto]';
         $this->name = $contact->name ?? '';
         $this->type = $contact->type ?? '';
         $this->address = $contact->address ?? '';
@@ -52,7 +57,10 @@ class ContactForm extends Component
                 'mobile' => 'required',
             ]);
 
+        
+
             $contact = Contact::create([
+            'cust_code' => $this->autocode(),
 			'name' => $this->name,
 			'type' => $this->type,
 			'address' => $this->address,
@@ -76,8 +84,33 @@ class ContactForm extends Component
                 'mobile' => 'required',
             ]);
             $contact = Contact::find($this->set_id);
-            $contact->update($valid);
+            $contact->update([
+			'cust_code' => $this->cust_code,
+            'name' => $this->name,
+			'type' => $this->type,
+			'address' => $this->address,
+			'pic' => $this->pic,
+			'mobile' => $this->mobile,
+			'mobile2' => $this->mobile2,
+			'email' => $this->email,
+			'nonpwp' => $this->nonpwp,
+			'npwpnm' => $this->npwpnm,
+			'status' => $this->status,
+			
+			]);
             session()->flash('success', __('Contact saved'));
         }
+    }
+
+    protected function autocode(): string
+    
+    {
+        $prefix = 'C'.date('y').'/'.date('m').'/';
+        Code::updateOrCreate(
+            ['prefix' => $prefix],
+            ['num' => DB::raw('num+1')]
+        );
+        $cust_code = Code::where('prefix', $prefix)->first();
+        return $cust_code->prefix . Str::padLeft($cust_code->num, 4, '0');
     }
 }
