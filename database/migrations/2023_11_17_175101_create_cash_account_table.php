@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cash', function (Blueprint $table) {
+        Schema::create('cash_account', function (Blueprint $table) {
             $table->id();
             $table->string('code',50)->index();
             $table->string('name',50)->index();
             $table->string('currency',20);
             $table->string('coa_code',20);
+            $table->enum('status', ['active','inactive']);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cash');
+        Schema::dropIfExists('cash_account');
     }
 };
