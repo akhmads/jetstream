@@ -4,7 +4,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-sm">
 
         <div class="flex flex-row justify-between">
-            <div {{ $headingLeft->attributes->merge(['class' => 'flex flex-row gap-2' ]) }}>
+            <div {{ $headingLeft->attributes->merge(['class' => 'w-full grid grid-cols-1 lg:grid-cols-12 gap-2' ]) }}>
                 {{ $headingLeft ?? '' }}
             </div>
             <div {{ $headingLeft->attributes->merge(['class' => 'flex flex-row justify-end' ]) }}>

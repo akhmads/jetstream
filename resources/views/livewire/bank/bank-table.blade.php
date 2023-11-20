@@ -14,10 +14,11 @@
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
+            {{-- <x-hyco.select :options="[''=>'All','active'=>'Active','inactive'=>'Inactive']" class="col-span-2" /> --}}
         </x-slot>
 
         <x-slot name="headingRight">
-            <x-hyco.link wire:navigate href="{{ route('master.bank.form',0) }}" icon="plus" class="scale-90">
+            <x-hyco.link wire:navigate href="{{ route('master.bank.form',0) }}" icon="plus" class="">
                 Create
             </x-hyco.link>
         </x-slot>
