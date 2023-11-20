@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('cash_account', function (Blueprint $table) {
             $table->id();
-            $table->string('code',50)->index();
             $table->string('name',50)->index();
             $table->string('currency',20);
             $table->string('coa_code',20);

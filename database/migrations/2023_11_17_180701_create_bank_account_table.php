@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('bank_account', function (Blueprint $table) {
             $table->id();
-            $table->string('code',50)->index();
-            $table->string('name',50)->index();
+            $table->string('number',50)->index();
+            $table->foreignId('bank_id')->index();
             $table->string('currency',20);
             $table->string('coa_code',20);
             $table->enum('status', ['active','inactive']);
