@@ -13,7 +13,7 @@
     <x-hyco.table>
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
-            <x-hyco.table-search wire:model.live.debounce.300ms="year" class="md:w-[100px]" />
+            <x-input wire:model.live.debounce.300ms="year" class="col-span-12 lg:col-span-2" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" class="md:w-[300px]" />
         </x-slot>
 

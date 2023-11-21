@@ -17,8 +17,8 @@
         </x-slot>
 
         <x-slot name="headingRight">
-            <x-hyco.link wire:navigate href="{{ route('finance.journal.form',0) }}" icon="plus" class="scale-90">
-                Create Journal
+            <x-hyco.link wire:navigate href="{{ route('finance.journal.form',0) }}" icon="plus" class="">
+                Create
             </x-hyco.link>
         </x-slot>
 
