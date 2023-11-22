@@ -11,7 +11,7 @@ class CoaTable extends Component
 {
     use WithPagination;
 
-    public $perPage = 10;
+    public $perPage = '';
     public $sortColumn = "code";
     public $sortDir = "asc";
     public $sortLink = [];
@@ -19,8 +19,21 @@ class CoaTable extends Component
     public $confirmDeletion = false;
     public $set_id;
 
+    public function mount()
+    {
+        if(!session(get_class($this).'perPage')){
+            session([ get_class($this).'perPage' => 10 ]);
+        }
+        $this->perPage = $this->perPage ? $this->perPage : session(get_class($this).'perPage');
+        $this->searchKeyword = $this->searchKeyword ? $this->searchKeyword : session(get_class($this).'searchKeyword');
+    }
+
     public function render()
     {
+        //dd(session()->all());
+        session([ get_class($this).'perPage' => $this->perPage ]);
+        session([ get_class($this).'searchKeyword' => $this->searchKeyword ]);
+
         $coa = Coa::orderby($this->sortColumn,$this->sortDir)->select('*');
         if(!empty($this->searchKeyword)){
             $coa->orWhere('code','like',"%".$this->searchKeyword."%");

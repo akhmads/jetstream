@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('report_type',20)->index();
             $table->string('report_operator',20)->nullable();
             $table->integer('coa_group_id')->index()->default(0);
+            $table->enum('status', ['active','inactive'])->index()->default('active');
             $table->timestamps();
         });
     }

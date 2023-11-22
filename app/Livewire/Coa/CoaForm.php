@@ -15,6 +15,7 @@ class CoaForm extends Component
     public $normal_balance = '';
     public $report_type = '';
     public $report_operator = '';
+    public $status = '';
 
     public function render()
     {
@@ -30,6 +31,7 @@ class CoaForm extends Component
         $this->normal_balance = $coa->normal_balance ?? '';
         $this->report_type = $coa->report_type ?? '';
         $this->report_operator = $coa->report_operator ?? '';
+        $this->status = $coa->status ?? '';
     }
 
     public function store()
@@ -42,6 +44,7 @@ class CoaForm extends Component
                 'normal_balance' => 'required',
                 'report_type' => 'required',
                 'report_operator' => 'required',
+                'status' => 'required',
             ]);
 
             $coa = Coa::create($valid);
@@ -56,6 +59,7 @@ class CoaForm extends Component
                 'normal_balance' => 'required',
                 'report_type' => 'required',
                 'report_operator' => 'required',
+                'status' => 'required',
             ]);
             $coa = Coa::find($this->set_id);
             $coa->update($valid);

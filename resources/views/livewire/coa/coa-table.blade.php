@@ -29,6 +29,7 @@
                 <x-hyco.table-th name="normal_balance" :sort="$sortLink" wire:click="sortOrder('normal_balance')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="report_type" :sort="$sortLink" wire:click="sortOrder('report_type')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="report_operator" :sort="$sortLink" wire:click="sortOrder('report_operator')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer"></x-hyco.table-th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
@@ -52,6 +53,13 @@
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ $coa->report_operator }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                @if($coa->status=='active')
+                <span class="bg-green-100 text-green-700 px-2 rounded">{{ $coa->status }}</span>
+                @else
+                <span class="bg-red-100 text-red-700 px-2 rounded">{{ $coa->status }}</span>
+                @endif
             </td>
             {{-- <td class="px-4 py-3 text-gray-600">
                 {{ ($coa->created_at)->format('d/m/Y, H:i') }}

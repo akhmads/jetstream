@@ -28,7 +28,7 @@
 
                     <div class="col-span-6 sm:col-span-4">
                         <x-label :value="__('Bank')" class="mb-1" />
-                        <x-hyco.select wire:model="bank_id" :options="\App\Models\Bank::pluck('name','id')" class="w-full"></x-hyco.select>
+                        <x-hyco.select wire:model="bank_id" :options="\App\Models\Bank::active()->pluck('name','id')" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="bank_id" />
                     </div>
 
@@ -37,7 +37,7 @@
                         @php
                         $options = App\Models\Coa::select(
                             Illuminate\Support\Facades\DB::raw("CONCAT(code,' : ',name) as code_name,code")
-                        )->orderBy('code','asc')->pluck('code_name','code');
+                        )->orderBy('code','asc')->active()->pluck('code_name','code');
                         @endphp
                         <x-hyco.select wire:model="coa_code" :options="$options" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="bank_id" />
