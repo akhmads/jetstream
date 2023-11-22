@@ -55,6 +55,9 @@
             <x-hyco.nav-dropdown-item href="{{ route('master.bank-account') }}">
                 {{ __('Bank Account') }}
             </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('master.currency') }}">
+                {{ __('Currency') }}
+            </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="auth()->user()->name">
             <x-hyco.nav-dropdown-item class="cursor-pointer">

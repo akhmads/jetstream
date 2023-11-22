@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Livewire\BankAccount;
+namespace App\Livewire\CashAccount;
 
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Bank;
-use App\Models\BankAccount;
+use App\Models\CashAccount;
 
-class BankAccountTable extends Component
+class CashAccountTable extends Component
 {
     use WithPagination;
 
@@ -22,13 +21,13 @@ class BankAccountTable extends Component
 
     public function render()
     {
-        $BankAccount = BankAccount::orderby($this->sortColumn,$this->sortDir)->select('*')->with('bank:id,name')->with('coa:code,name');
+        $CashAccount = CashAccount::orderby($this->sortColumn,$this->sortDir)->select('*')->with('coa:code,name');
         if(!empty($this->searchKeyword)){
-            $BankAccount->orWhere('name','like',"%".$this->searchKeyword."%");
+            $CashAccount->orWhere('name','like',"%".$this->searchKeyword."%");
         }
-        $BankAccount = $BankAccount->paginate($this->perPage);
+        $CashAccount = $CashAccount->paginate($this->perPage);
 
-        return view('livewire.bank-account.bank-account-table',['BankAccounts' => $BankAccount]);
+        return view('livewire.cash-account.cash-account-table',['CashAccounts' => $CashAccount]);
     }
 
     public function updated()
@@ -53,8 +52,8 @@ class BankAccountTable extends Component
     public function destroy()
     {
 
-        Bank::destroy($this->set_id);
+        Cash::destroy($this->set_id);
         $this->confirmDeletion = false;
-        session()->flash('success', __('Bank account has been deleted'));
+        session()->flash('success', __('Cash account has been deleted'));
     }
 }

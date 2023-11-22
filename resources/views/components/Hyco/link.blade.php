@@ -1,6 +1,6 @@
 @props(['icon' => ''])
 
-<a {{ $attributes->merge(['class' => 'inline-flex items-center bg-blue-500 hover:bg-blue-400 text-white disabled:opacity-75 disabled:cursor-wait delay-50 duration-300 ease-in-out rounded-md px-4 py-2 tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2']) }}>
+<a {{ $attributes->merge(['class' => 'inline-flex items-center bg-blue-500 hover:bg-blue-400 text-white disabled:opacity-75 disabled:cursor-wait delay-50 duration-300 ease-in-out rounded-md px-4 py-2 tracking-widest text-base focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2']) }}>
 
     @if($icon=='plus')
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 mr-2">

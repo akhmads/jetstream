@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bank/{id}',            App\Livewire\Bank\BankForm::class)->name('master.bank.form');
     Route::get('/bank-account',         App\Livewire\BankAccount\BankAccountTable::class)->name('master.bank-account');
     Route::get('/bank-account/{id}',    App\Livewire\BankAccount\BankAccountForm::class)->name('master.bank-account.form');
+    Route::get('/currency',             App\Livewire\Currency\CurrencyTable::class)->name('master.currency');
+    Route::get('/currency/{id}',        App\Livewire\Currency\CurrencyForm::class)->name('master.currency.form');
     Route::get('/journal',              App\Livewire\Journal\Table::class)->name('finance.journal');
     Route::get('/journal/{id}',         App\Livewire\Journal\Form::class)->name('finance.journal.form');
     Route::get('/gl',                   App\Livewire\GL\GLTable::class)->name('finance.gl');
