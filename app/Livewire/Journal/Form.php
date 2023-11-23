@@ -165,14 +165,7 @@ class Form extends Component
 
     protected function autocode(): string
     {
-        $time = strtotime($this->date);
-        $prefix = 'JV/'.date('y',$time).'/'.date('m',$time).'/';
-        Code::updateOrCreate(
-            ['prefix' => $prefix],
-            ['num' => DB::raw('num+1')]
-        );
-        $code = Code::where('prefix', $prefix)->first();
-        return $code->prefix . Str::padLeft($code->num, 4, '0');
+        return \App\Hyco\Code::auto( $this->date, 'Journal Voucher' );
     }
 
     #[On('set-contact')]
