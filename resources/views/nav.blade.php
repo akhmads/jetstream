@@ -2,7 +2,7 @@
 <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
   <div x-data="{ open: false }" class="flex flex-col max-w-screen-xl px-4 mx-auto lg:items-center lg:justify-between lg:flex-row">
     <div class="p-4 flex flex-row items-center justify-between">
-      <a href="{{ url('/') }}" class="text-2xl font-semibold text-gray-900 rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
+      <a href="{{ url('/dashboard') }}" class="text-2xl font-semibold text-gray-900 rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
         <x-hyco.logo class="h-[38px]" />
       </a>
       <button class="lg:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
@@ -13,18 +13,25 @@
       </button>
     </div>
     <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow pb-4 lg:pb-0 hidden lg:flex lg:justify-end lg:flex-row">
-        <x-hyco.nav-item href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard*')">
+        {{-- <x-hyco.nav-item href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard*')">
             {{ __('Dashboard') }}
-        </x-hyco.nav-item>
-        <x-hyco.nav-item href="{{ route('example') }}" :active="request()->routeIs('example*')">
-            {{ __('Example') }}
-        </x-hyco.nav-item>
-        <x-hyco.nav-item href="{{ route('post') }}" :active="request()->routeIs('post*')">
-            {{ __('Post') }}
-        </x-hyco.nav-item>
-        <x-hyco.nav-item href="{{ route('user') }}" :active="request()->routeIs('user*')">
-            {{ __('User') }}
-        </x-hyco.nav-item>
+        </x-hyco.nav-item> --}}
+        <x-hyco.nav-dropdown :title="_('Experiment')" :active="request()->routeIs('experiment*')">
+            <x-hyco.nav-dropdown-item href="{{ route('example') }}">
+                {{ __('Example') }}
+            </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('post') }}">
+                {{ __('Post') }}
+            </x-hyco.nav-dropdown-item>
+        </x-hyco.nav-dropdown>
+        <x-hyco.nav-dropdown :title="_('Cash & Bank')" :active="request()->routeIs(['cash*','bank*'])">
+            <x-hyco.nav-dropdown-item href="{{ route('dashboard') }}">
+                {{ __('Cash In') }}
+            </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('dashboard') }}">
+                {{ __('Cash Out') }}
+            </x-hyco.nav-dropdown-item>
+        </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="_('Finance')" :active="request()->routeIs('finance*')">
             <x-hyco.nav-dropdown-item href="{{ route('finance.journal') }}">
                 {{ __('Journal') }}
@@ -55,11 +62,17 @@
             <x-hyco.nav-dropdown-item href="{{ route('master.bank-account') }}">
                 {{ __('Bank Account') }}
             </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('master.cash-account') }}">
+                {{ __('Cash Account') }}
+            </x-hyco.nav-dropdown-item>
             <x-hyco.nav-dropdown-item href="{{ route('master.currency') }}">
                 {{ __('Currency') }}
             </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="auth()->user()->name">
+            <x-hyco.nav-dropdown-item href="{{ route('user') }}">
+                {{ __('User') }}
+            </x-hyco.nav-dropdown-item>
             <x-hyco.nav-dropdown-item class="cursor-pointer">
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf

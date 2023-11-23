@@ -26,8 +26,8 @@
             <tr>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="coa_code"></x-hyco.table-th>
-                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[150px]"></x-hyco.table-th>
+                <x-hyco.table-th name="updated_at" :sort="$sortLink" wire:click="sortOrder('updated_at')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -36,9 +36,6 @@
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
                 {{ $CashAccount->name }}
-            </td>
-            <td class="px-4 py-3 text-gray-600">
-                {{ $CashAccount->cash->name }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ $CashAccount->coa->code . ' : ' . $CashAccount->coa->name }}
@@ -51,7 +48,7 @@
                 @endif
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ ($CashAccount->created_at)->format('d/m/Y, H:i') }}
+                {{ ($CashAccount->updated_at)->format('d/m/Y, H:i') }}
             </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('master.cash-account.form',$CashAccount->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
