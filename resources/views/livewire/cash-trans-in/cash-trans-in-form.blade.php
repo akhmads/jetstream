@@ -81,7 +81,7 @@
                 <th class="w-[140px]">Amount</th>
                 <th class="w-[90px]">Curr</th>
                 <th class="w-[100px]">Rate</th>
-                <th class="w-[140px]">Total</th>
+                <th class="w-[150px]">Total</th>
                 <th class="w-[60px]">Action</th>
             </tr>
             </thead>
@@ -107,7 +107,7 @@
                     <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" class="w-full text-end" />
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" class="w-full text-end bg-slate-100" readonly />
                 </td>
                 <td class="text-center">
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">X</x-hyco.button>
@@ -120,7 +120,7 @@
             @endforelse
             <tr>
                 <td colspan="5" class="text-end px-2">Total :</td>
-                <td class=""><x-input wire:model="total" class="w-full text-end" readonly /></td>
+                <td class=""><x-input wire:model="total" class="w-full text-end bg-slate-100" readonly /></td>
                 <td>&nbsp;</td>
             </tr>
             </tbody>

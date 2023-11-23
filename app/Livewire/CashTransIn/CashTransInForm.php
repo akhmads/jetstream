@@ -24,6 +24,7 @@ class CashTransInForm extends Component
     public $note = '';
     public $type = '';
     public $status = '';
+    public $total = 0;
     public $tmp = [];
 
     public function render()
@@ -44,7 +45,7 @@ class CashTransInForm extends Component
         $this->note         = $CashTrans->note ?? '';
         $this->type         = $CashTrans->type ?? '';
         $this->status       = $CashTrans->status ?? '';
-        $this->total        = $CashTrans->total ?? 0;
+        $this->total        = $CashTrans->amount ?? 0;
         $CashTransDetail    = $CashTrans->detail ?? [];
 
         foreach($CashTransDetail as $dt){
@@ -72,11 +73,6 @@ class CashTransInForm extends Component
                 'contact_id' => 'required',
                 'cash_account_id' => 'required',
                 'note' => 'required',
-                // 'credit_total' => function (string $attribute, mixed $value, Closure $fail) {
-                //     if (floatval($this->debit_total) != floatval($this->credit_total)) {
-                //         $fail(_("Total debt and credit must be the same"));
-                //     }
-                // },
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
                 'tmp.*.amount' => 'required|min:1|gt:1',
@@ -158,7 +154,7 @@ class CashTransInForm extends Component
                 'ref_number' => $this->ref_number,
                 'contact_id' => $this->contact_id,
                 'cash_account_id' => $this->cash_account_id,
-                'amount' => App\Hyco\Cast::number($this->amount,2),
+                'amount' => $total,
                 'date' => $this->date,
                 'note' => $this->note,
             ]);
