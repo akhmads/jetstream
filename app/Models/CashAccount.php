@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Coa;
 
@@ -13,6 +14,11 @@ class CashAccount extends Model
 
     protected $table = 'cash_account';
     protected $guarded = [];
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('status', 'active');
+    }
 
     public function coa(): BelongsTo
     {

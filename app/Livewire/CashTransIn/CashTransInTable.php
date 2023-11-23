@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\Journal;
+namespace App\Livewire\CashTransIn;
 
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\GLhd;
-use App\Models\GLdt;
+use App\Models\CashTrans;
+use App\Models\CashTransDetail;
 
-class CashInTable extends Component
+class CashTransInTable extends Component
 {
     use WithPagination;
 
@@ -22,13 +22,13 @@ class CashInTable extends Component
 
     public function render()
     {
-        $GL = GLhd::orderby($this->sortColumn,$this->sortDir);
+        $CashTrans = CashTrans::orderby($this->sortColumn,$this->sortDir);
         if(!empty($this->searchKeyword)){
-            $GL->orWhere('glhd.code','like',"%".$this->searchKeyword."%");
+            $CashTrans->orWhere('glhd.code','like',"%".$this->searchKeyword."%");
         }
-        $data = $GL->paginate($this->perPage);
+        $data = $CashTrans->paginate($this->perPage);
 
-        return view('livewire.cash.table',['data' => $data]);
+        return view('livewire.cash-trans-in.cash-trans-in-table',['data' => $data]);
     }
 
     public function updated()
@@ -52,10 +52,10 @@ class CashInTable extends Component
 
     public function destroy()
     {
-        $hd = GLhd::where('id',$this->set_id)->orderBy('id')->first();
-        $dt = GLdt::where('code',$hd->code);
-        $dt->delete();
-        $hd->delete();
+        $CashTrans = CashTrans::where('id',$this->set_id)->orderBy('id')->first();
+        $CashTransDetail = CashTransDetail::where('code',$CashTrans->number);
+        $CashTransDetail->delete();
+        $CashTrans->delete();
 
         $this->confirmDeletion = false;
         session()->flash('success', __('Data has been deleted'));

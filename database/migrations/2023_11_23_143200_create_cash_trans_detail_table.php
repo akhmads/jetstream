@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('currency',20);
             $table->decimal('rate', 12, 2)->default(1);
             $table->decimal('hamount', 12, 2)->default(0);
-            $table->string('note',200);
+            $table->string('note',200)->nullable();
             $table->timestamps();
         });
     }

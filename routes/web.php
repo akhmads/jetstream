@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/gl',                   App\Livewire\GL\GLTable::class)->name('finance.gl');
     Route::get('/trial-balance',        App\Livewire\TrialBalance\Table::class)->name('finance.trial-balance');
     Route::get('/beginning-balance',    App\Livewire\BeginningBalance\Table::class)->name('finance.beginning-balance');
+    Route::get('/cash-in',              App\Livewire\CashTransIn\CashTransInTable::class)->name('cash_bank.cash-in');
+    Route::get('/cash-in/{id}',         App\Livewire\CashTransIn\CashTransInForm::class)->name('cash_bank.cash-in.form');
 });
 
 
