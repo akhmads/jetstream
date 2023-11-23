@@ -14,42 +14,33 @@
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
-            {{-- <x-hyco.select :options="[''=>'All','active'=>'Active','inactive'=>'Inactive']" class="col-span-2" /> --}}
         </x-slot>
 
-        <x-slot name="headingRight">
-            <x-hyco.link wire:navigate href="{{ route('master.rescode.form',0) }}" icon="plus" class="">
+        {{-- <x-slot name="headingRight">
+            <x-hyco.link wire:navigate href="{{ route('master.res-code.form',0) }}" icon="plus" class="">
                 Create
             </x-hyco.link>
-        </x-slot>
+        </x-slot> --}}
 
         <x-slot name="header">
             <tr>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
 
-        @forelse ($rescodes as $rescode)
+        @forelse ($data as $ResCode)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
-                {{ $rescode->name }}
+                {{ $ResCode->resource }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                @if($rescode->status=='active')
-                <span class="bg-green-100 text-green-700 px-2 rounded">{{ $rescode->status }}</span>
-                @else
-                <span class="bg-red-100 text-red-700 px-2 rounded">{{ $rescode->status }}</span>
-                @endif
-            </td>
-            <td class="px-4 py-3 text-gray-600">
-                {{ ($rescode->created_at)->format('d/m/Y, H:i') }}
+                {{ $ResCode->code }}
             </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
-                <a href="{{ route('master.rescode.form',$rescode->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
-                <a href="javascript:void(0)" wire:click="delete({{ $rescode->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
+                <a href="{{ route('master.res-code.form',$ResCode->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
+                {{-- <a href="javascript:void(0)" wire:click="delete({{ $ResCode->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a> --}}
             </td>
         </x-hyco.table-tr>
         @empty
@@ -59,17 +50,17 @@
         @endforelse
 
         <x-slot name="footer">
-            {{ $rescodes->links() }}
+            {{ $data->links() }}
         </x-slot>
     </x-hyco.table>
 
     <x-confirmation-modal wire:model.live="confirmDeletion">
         <x-slot name="title">
-            {{ __('Delete ResCode') }}
+            {{ __('Delete Resource Code') }}
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you would like to delete this rescode?') }}
+            {{ __('Are you sure you would like to delete this code?') }}
         </x-slot>
 
         <x-slot name="footer">

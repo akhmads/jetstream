@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/cash-account/{id}',    App\Livewire\CashAccount\CashAccountForm::class)->name('master.cash-account.form');
     Route::get('/currency',             App\Livewire\Currency\CurrencyTable::class)->name('master.currency');
     Route::get('/currency/{id}',        App\Livewire\Currency\CurrencyForm::class)->name('master.currency.form');
+    Route::get('/res-code',             App\Livewire\ResCode\ResCodeTable::class)->name('master.res-code');
+    Route::get('/res-code/{id}',        App\Livewire\ResCode\ResCodeForm::class)->name('master.res-code.form');
     Route::get('/journal',              App\Livewire\Journal\Table::class)->name('finance.journal');
     Route::get('/journal/{id}',         App\Livewire\Journal\Form::class)->name('finance.journal.form');
     Route::get('/gl',                   App\Livewire\GL\GLTable::class)->name('finance.gl');

@@ -12,8 +12,8 @@ class ResCodeTable extends Component
     use WithPagination;
 
     public $perPage = 10;
-    public $sortColumn = "id";
-    public $sortDir = "desc";
+    public $sortColumn = "resource";
+    public $sortDir = "asc";
     public $sortLink = [];
     public $searchKeyword = '';
     public $confirmDeletion = false;
@@ -21,13 +21,13 @@ class ResCodeTable extends Component
 
     public function render()
     {
-        $rescode = ResCode::orderby($this->sortColumn,$this->sortDir)->select('*');
+        $ResCode = ResCode::orderby($this->sortColumn,$this->sortDir)->select('*');
         if(!empty($this->searchKeyword)){
-            $rescode->orWhere('name','like',"%".$this->searchKeyword."%");
+            $ResCode->orWhere('name','like',"%".$this->searchKeyword."%");
         }
-        $rescodes = $rescode->paginate($this->perPage);
+        $ResCode = $ResCode->paginate($this->perPage);
 
-        return view('livewire.rescode.rescode-table',['rescodes' => $rescodes]);
+        return view('livewire.res-code.res-code-table',['data' => $ResCode]);
     }
 
     public function updated()
@@ -54,6 +54,6 @@ class ResCodeTable extends Component
 
         ResCode::destroy($this->set_id);
         $this->confirmDeletion = false;
-        session()->flash('success', __('ResCode has been deleted'));
+        session()->flash('success', __('Resource code has been deleted'));
     }
 }

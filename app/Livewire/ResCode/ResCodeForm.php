@@ -10,20 +10,20 @@ use App\Models\ResCode;
 class ResCodeForm extends Component
 {
     public $set_id;
-    public $name = '';
-    public $status = '';
+    public $resource = '';
+    public $code = '';
 
     public function render()
     {
-        return view('livewire.rescode.rescode-form');
+        return view('livewire.res-code.res-code-form');
     }
 
     public function mount(Request $request)
     {
-        $rescode = ResCode::Find($request->id);
-        $this->set_id = $rescode->id ?? '';
-        $this->name = $rescode->name ?? '';
-        $this->status = $rescode->status ?? '';
+        $ResCode = ResCode::Find($request->id);
+        $this->set_id = $ResCode->id ?? '';
+        $this->resource = $ResCode->resource ?? '';
+        $this->code = $ResCode->code ?? '';
     }
 
     public function store()
@@ -31,23 +31,27 @@ class ResCodeForm extends Component
         if(empty($this->set_id))
         {
             $valid = $this->validate([
-                'name' => 'required',
-                'status' => 'required',
+                'resource' => 'required',
+                'code' => 'required',
             ]);
 
-            $rescode = ResCode::create($valid);
-            session()->flash('success', __('ResCode saved'));
-            return redirect()->route('master.rescode.form',$rescode->id);
+            $ResCode = ResCode::create([
+                'code' => $this->code
+            ]);
+            session()->flash('success', __('Saved'));
+            return redirect()->route('master.res-code.form',$ResCode->id);
         }
         else
         {
             $valid = $this->validate([
-                'name' => 'required',
-                'status' => 'required',
+                'resource' => 'required',
+                'code' => 'required',
             ]);
-            $rescode = ResCode::find($this->set_id);
-            $rescode->update($valid);
-            session()->flash('success', __('ResCode saved'));
+            $ResCode = ResCode::find($this->set_id);
+            $ResCode->update([
+                'code' => $this->code
+            ]);
+            session()->flash('success', __('Saved'));
         }
     }
 }

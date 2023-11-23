@@ -58,13 +58,6 @@ class Form extends Component
 
     public function store()
     {
-        // $debit_total = $credit_total = 0;
-        // foreach($this->tmp as $tmp)
-        // {
-        //     if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
-        //     if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
-        // }
-
         $this->sum();
 
         if(empty($this->set_id))
