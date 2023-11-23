@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bank_account', function (Blueprint $table) {
+        Schema::create('cash_trans_detail', function (Blueprint $table) {
             $table->id();
             $table->string('number',50)->index();
-            $table->foreignId('bank_id')->index();
-            $table->string('currency',20);
             $table->string('coa_code',20)->index();
-            $table->enum('status', ['active','inactive']);
+            $table->decimal('amount', 12, 2)->default(0);
+            $table->string('currency',20);
+            $table->decimal('rate', 12, 2)->default(1);
+            $table->decimal('hamount', 12, 2)->default(0);
+            $table->string('note',200);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_account');
+        Schema::dropIfExists('cash_trans_detail');
     }
 };

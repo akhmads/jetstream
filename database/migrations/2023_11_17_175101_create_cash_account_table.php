@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',50)->index();
             $table->string('currency',20);
-            $table->string('coa_code',20);
+            $table->string('coa_code',20)->index();
             $table->enum('status', ['active','inactive']);
             $table->timestamps();
         });
