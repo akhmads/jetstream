@@ -39,7 +39,7 @@
 
                     <div class="col-span-6 sm:col-span-4">
                         <x-label :value="__('type')" class="mb-1" />
-                        <x-hyco.select wire:model="type" :options="['PT'=>'PT','CV'=>'CV','Persero'=>'Perseorangan']" class="w-full"></x-hyco.select>
+                        <x-hyco.select wire:model="type" :options="['PT'=>'PT','CV'=>'CV','Persero'=>'Perseorangan','PJT'=>'PJT']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="type" />
                     </div>
 					
