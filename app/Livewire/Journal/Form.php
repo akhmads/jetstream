@@ -7,6 +7,7 @@ use Livewire\Attributes\On;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Hyco\Cast;
 use App\Models\Code;
 use App\Models\GLhd;
 use App\Models\GLdt;
@@ -49,7 +50,7 @@ class Form extends Component
                 'coa_code' => $dt->coa_code,
                 'description' => $dt->description,
                 'dc' => $dt->dc,
-                'amount' => $dt->amount,
+                'amount' => Cast::currency(abs($dt->amount)),
                 'debit' => $dt->debit,
                 'credit' => $dt->credit,
             ];

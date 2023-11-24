@@ -14,12 +14,15 @@
         </x-slot>
 
         <x-slot name="content">
-            <input tabindex="0" type="text" wire:model.live.debounce.500ms="searchKeyword" autofocus placeholder="Search" class="w-full border border-slate-300 focus:border-blue-400 focus:outline-none py-1 px-2 mb-4 rounded-md shadow-sm">
+            <input tabindex="0" type="text" wire:model.live.debounce.500ms="searchKeyword" autofocus placeholder="Search" class="w-full border border-slate-300 focus:border-blue-400 focus:outline-none py-1 px-2 mb-2 rounded-md shadow-sm">
+            <div class="font-semibold text-gray-900 bg-sky-200 px-4 py-2 mb-2 rounded">
+                <span class="text-sky-700">Selected</span> : {{ $label }}
+            </div>
             <div class="max-h-80 overflow-y-auto">
                 @forelse ( $coas as $coa )
                 @if ($coa->code == $value)
-                <div tabindex="0" class="flex flex-row cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
-                    <div class="w-[150px]">
+                <div tabindex="0" class="flex flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
+                    <div class="w-[120px]">
                         {{ $coa->code }}
                     </div>
                     <div class="">
@@ -27,8 +30,8 @@
                     </div>
                 </div>
                 @else
-                <div tabindex="0" class="flex flex-row cursor-pointer hover:bg-sky-100 px-4 py-2 rounded" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
-                    <div class="w-[150px]">
+                <div tabindex="0" class="flex flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
+                    <div class="w-[120px]">
                         {{ $coa->code }}
                     </div>
                     <div class="">

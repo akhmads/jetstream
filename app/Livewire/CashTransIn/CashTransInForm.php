@@ -7,9 +7,13 @@ use Livewire\Attributes\On;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Hyco\AutoJournal;
+use App\Hyco\Cast;
 use App\Models\CashTrans;
 use App\Models\CashTransDetail;
 use App\Models\Code;
+use App\Models\GLhd;
+use App\Models\GLdt;
 use Closure;
 
 class CashTransInForm extends Component
@@ -159,6 +163,49 @@ class CashTransInForm extends Component
                 'note' => $this->note,
             ]);
 
+            // ---------------------------------------
+            // Start Auto Journal
+            // ---------------------------------------
+
+            AutoJournal::reset($this->number, 'Cash In');
+            $JournalCode = \App\Hyco\Code::auto($this->date,'Journal Voucher');
+            GLhd::create([
+                'code' => $JournalCode,
+                'date' => $this->date,
+                'note' => $this->note,
+                'debit_total' => $total,
+                'credit_total' => $total,
+                'contact_id' => $this->contact_id,
+                'ref_name' => 'Cash In',
+                'ref_id' => $this->number,
+            ]);
+            GLdt::create([
+                'code' => $JournalCode,
+                'description' => $this->note,
+                'coa_code' => $CashTrans->account->coa->code ?? '',
+                'dc' => 'D',
+                'debit' => $total,
+                'credit' => 0,
+                'amount' => $total,
+            ]);
+            if( count($this->tmp) > 0 ) {
+                foreach($this->tmp as $tm)
+                {
+                    GLdt::create([
+                        'code' => $JournalCode,
+                        'description' => $tm['note'],
+                        'coa_code' => $tm['coa_code'],
+                        'dc' => 'C',
+                        'debit' => 0,
+                        'credit' => $tm['hamount'],
+                        'amount' => $tm['hamount'] * -1,
+                    ]);
+                }
+            }
+            // ---------------------------------------
+            // End Auto Journal
+            // ---------------------------------------
+
             session()->flash('success', __('Saved'));
             return redirect()->route('cash_bank.cash-in.form',$this->set_id);
         }
@@ -186,10 +233,10 @@ class CashTransInForm extends Component
     {
         $this->tmp[] = [
             'coa_code' => '',
-            'amount' => '0',
+            'amount' => Cast::currency(0),
             'currency' => 'IDR',
-            'rate' => '1',
-            'hamount' => '0',
+            'rate' => Cast::currency(1),
+            'hamount' => Cast::currency(0),
             'note' => '',
         ];
     }
@@ -211,7 +258,7 @@ class CashTransInForm extends Component
         $total = 0;
         foreach($this->tmp as $index=>$tm)
         {
-            $tm['hamount'] = \App\Hyco\Cast::number($tm['rate']) * \App\Hyco\Cast::number($tm['amount']);
+            $tm['hamount'] = Cast::number($tm['rate']) * Cast::number($tm['amount']);
             $total = $total + $tm['hamount'];
             $this->tmp[$index]['hamount'] = $tm['hamount'];
         }
