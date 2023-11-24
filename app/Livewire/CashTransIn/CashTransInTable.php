@@ -13,7 +13,7 @@ class CashTransInTable extends Component
     use WithPagination;
 
     public $perPage = 10;
-    public $sortColumn = "id";
+    public $sortColumn = "cash_account.id";
     public $sortDir = "desc";
     public $sortLink = [];
     public $searchKeyword = '';
@@ -22,9 +22,17 @@ class CashTransInTable extends Component
 
     public function render()
     {
-        $CashTrans = CashTrans::orderby($this->sortColumn,$this->sortDir);
+        $CashTrans = CashTrans::orderby($this->sortColumn,$this->sortDir)
+            ->leftJoin('cash_account','cash_account.id','=','cash_trans.cash_account_id')
+            ->with('contact:id,name')
+            ->with('account:id,name');
         if(!empty($this->searchKeyword)){
-            $CashTrans->orWhere('glhd.code','like',"%".$this->searchKeyword."%");
+            $CashTrans->where('number','like',"%".$this->searchKeyword."%");
+            $CashTrans->orWhere('cash_account.name','like',"%".$this->searchKeyword."%");
+            // $searchKeyword = $this->searchKeyword;
+            // $CashTrans = $CashTrans->whereHas('contact', function ($query) use ($searchKeyword) {
+            //     $query->where('name', 'like', '%'.$searchKeyword.'%');
+            // });
         }
         $data = $CashTrans->paginate($this->perPage);
 
