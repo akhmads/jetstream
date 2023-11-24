@@ -24,8 +24,15 @@
 
         <x-slot name="header">
             <tr>
+                <x-hyco.table-th name="item_code" :sort="$sortLink" wire:click="sortOrder('code')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="type" :sort="$sortLink" wire:click="sortOrder('type')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th>
+                <x-hyco.table-th name="item_group" :sort="$sortLink" wire:click="sortOrder('item_group')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="coa_selling" :sort="$sortLink" wire:click="sortOrder('coa_selling')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="coa_buying" :sort="$sortLink" wire:click="sortOrder('coa_buying')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="coa_cogs" :sort="$sortLink" wire:click="sortOrder('coa_cogs')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer"></x-hyco.table-th>
+                
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -33,11 +40,38 @@
         @forelse ($items as $item)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
+                {{ $item->item_code }}
+            </td>
+
+            @if($item->type =='0')         
+			<td class="px-4 py-3 ">Service</td>   
+			@elseif($item->type =='1')
+			<td class="px-4 py-3 ">Non Inventory</td>
+            @else
+            <td class="px-4 py-3 ">Invenotry</td>    
+			@endif
+
+            
+            <td class="px-4 py-3 text-gray-600">
                 {{ $item->name }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ ($item->created_at)->format('d/m/Y, H:i') }}
+                {{ $item->item_group }}
             </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $item->coaselling->code ?? '' }}  {{  $item->coaselling->name ?? ''}}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $item->coabuying->code ?? '' }}  {{  $item->coabuying->name ?? ''}}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $item->coacogs->code ?? '' }}  {{ $item->coacogs->name ?? '' }}
+            </td>
+            @if($item->status =='0')         
+			<td class="px-4 py-3 text-green-600"><b>Active</b><a></td>         
+			@else
+			<td class="px-4 py-3 text-red-600"><b>Inactive</b></td>        
+			@endif
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('item.form',$item->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $item->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
