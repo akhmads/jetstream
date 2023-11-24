@@ -11,7 +11,7 @@ class ItemTable extends Component
 {
     use WithPagination;
 
-    public $perPage = 5;
+    public $perPage = 10;
     public $sortColumn = "id";
     public $sortDir = "desc";
     public $sortLink = [];
