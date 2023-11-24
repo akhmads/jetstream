@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('item', function (Blueprint $table) {
             $table->id();
             $table->string('item_code');
-			$table->string('type');
+			$table->enum('type', ['0','1','2']);
 			$table->string('name');
 			$table->string('item_group');
 			$table->string('coa_selling');

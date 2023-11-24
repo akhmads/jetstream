@@ -42,6 +42,7 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ $item->item_code }}
             </td>
+            
 
             @if($item->type =='0')         
 			<td class="px-4 py-3 ">Service</td>   
