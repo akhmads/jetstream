@@ -13,4 +13,20 @@ class Item extends Model
 
     protected $table = 'item';
     protected $guarded = [];
+
+    public function coaselling(): BelongsTo
+    {
+        return $this->belongsTo(Coa::class,'coa_selling','code');
+    }
+
+    public function coabuying(): BelongsTo
+    {
+        return $this->belongsTo(Coa::class,'coa_buying','code');
+    }
+
+    public function coacogs(): BelongsTo
+    {
+        return $this->belongsTo(Coa::class,'coa_cogs','code');
+    }
 }
+
