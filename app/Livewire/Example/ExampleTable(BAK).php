@@ -19,12 +19,6 @@ class ExampleTable extends Component
     public $confirmDeletion = false;
     public $set_id;
 
-    public $readyToLoad = false;
-    public function loadTable()
-    {
-        $this->readyToLoad = true;
-    }
-
     public function render()
     {
         $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
@@ -33,10 +27,7 @@ class ExampleTable extends Component
         }
         $examples = $example->paginate($this->perPage);
 
-        return view('livewire.example.example-table',[
-            'ready' => $this->readyToLoad,
-            'examples' => $this->readyToLoad ? $examples : '',
-        ]);
+        return view('livewire.example.example-table',['examples' => $examples]);
     }
 
     public function updated()

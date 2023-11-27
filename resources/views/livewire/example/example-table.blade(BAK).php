@@ -33,8 +33,6 @@
             </tr>
         </x-slot>
 
-        <div wire:init="loadTable">
-        @if($ready)
         @forelse ($examples as $example)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
@@ -66,13 +64,6 @@
         <x-slot name="footer">
             {{ $examples->links() }}
         </x-slot>
-        </div>
-        @endif
-        @if(!$ready)
-        <tr>
-            <td colspan="100" class="text-center py-4">Loading...</td>
-        </tr>
-        @endif
     </x-hyco.table>
 
     {{-- <x-hyco.container>
