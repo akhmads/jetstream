@@ -28,4 +28,9 @@ class CashTrans extends Model
     {
         return $this->hasMany(CashTransDetail::class, 'number', 'number');
     }
+
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(contact::class,'contact_id','id');
+    }
 }
