@@ -19,27 +19,15 @@ class ExampleTable extends Component
     public $confirmDeletion = false;
     public $set_id;
 
-    public $readyToLoad = false;
-    public function loadTable()
-    {
-        $this->readyToLoad = true;
-    }
-
     public function render()
     {
-        $examples = '';
-        if( $this->readyToLoad ){
-            $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
-            if(!empty($this->searchKeyword)){
-                $example->orWhere('name','like',"%".$this->searchKeyword."%");
-            }
-            $examples = $example->paginate($this->perPage);
+        $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
+        if(!empty($this->searchKeyword)){
+            $example->orWhere('name','like',"%".$this->searchKeyword."%");
         }
+        $examples = $example->paginate($this->perPage);
 
-        return view('livewire.example.example-table',[
-            'ready' => $this->readyToLoad,
-            'examples' => $examples,
-        ]);
+        return view('livewire.example.example-table',['examples' => $examples]);
     }
 
     public function updated()

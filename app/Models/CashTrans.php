@@ -34,6 +34,4 @@ class CashTrans extends Model
     {
         return $this->hasMany(CashTransDetail::class, 'number', 'number');
     }
-
-
 }
