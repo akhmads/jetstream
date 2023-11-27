@@ -24,8 +24,9 @@
 
         <x-slot name="header">
             <tr>
-                <x-hyco.table-th name="cust_code" :sort="$sortLink" wire:click="sortOrder('cust_code')" class="cursor-pointer"></x-hyco.table-th>
-				<x-hyco.table-th name="type" :sort="$sortLink" wire:click="sortOrder('type')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="contact_code" :sort="$sortLink" wire:click="sortOrder('contact_code')" class="cursor-pointer"></x-hyco.table-th>
+				<x-hyco.table-th name="contact_type" :sort="$sortLink" wire:click="sortOrder('contact_type')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="type" :sort="$sortLink" wire:click="sortOrder('type')" class="cursor-pointer"></x-hyco.table-th>                
                 <x-hyco.table-th name="name" :sort="$sortLink" wire:click="sortOrder('name')" class="cursor-pointer"></x-hyco.table-th>
 				<x-hyco.table-th name="email" :sort="$sortLink" wire:click="sortOrder('email')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="No npwp" :sort="$sortLink" wire:click="sortOrder('nonpwp')" class="cursor-pointer"></x-hyco.table-th>
@@ -41,7 +42,10 @@
         @forelse ($contacts as $contact)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
-                {{ $contact->cust_code }}
+                {{ $contact->contact_code }}
+            </td>
+            <td class="px-4 py-3 text-gray-600">
+                {{ $contact->contact_type }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ $contact->type }}

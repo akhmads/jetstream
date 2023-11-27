@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
 class ContactForm extends Component
 {
     public $set_id;
-    public $cust_code = '';
+    public $contact_code = '';
+    public $contact_type = '';
     public $name = '';
     public $type = '';
     public $address = '';
@@ -34,7 +35,8 @@ class ContactForm extends Component
     {
         $contact = Contact::Find($request->id);
         $this->set_id = $contact->id ?? '';
-        $this->cust_code = $contact->cust_code ?? '[auto]';
+        $this->contact_code = $contact->contact_code ?? '[auto]';
+        $this->contact_type = $contact->contact_type ?? '';
         $this->name = $contact->name ?? '';
         $this->type = $contact->type ?? '';
         $this->address = $contact->address ?? '';
@@ -60,8 +62,9 @@ class ContactForm extends Component
         
 
             $contact = Contact::create([
-            'cust_code' => $this->autocode(),
+            'contact_code' => $this->autocode(),
 			'name' => $this->name,
+            'contact_type' => $this->contact_type,
 			'type' => $this->type,
 			'address' => $this->address,
 			'pic' => $this->pic,
@@ -85,8 +88,9 @@ class ContactForm extends Component
             ]);
             $contact = Contact::find($this->set_id);
             $contact->update([
-			'cust_code' => $this->cust_code,
+			'contact_code' => $this->contact_code,
             'name' => $this->name,
+            'contact_type' => $this->contact_type,
 			'type' => $this->type,
 			'address' => $this->address,
 			'pic' => $this->pic,
@@ -105,12 +109,12 @@ class ContactForm extends Component
     protected function autocode(): string
     
     {
-        $prefix = 'C'.date('y').'/'.date('m').'/';
+        $prefix = date('y');
         Code::updateOrCreate(
             ['prefix' => $prefix],
             ['num' => DB::raw('num+1')]
         );
-        $cust_code = Code::where('prefix', $prefix)->first();
-        return $cust_code->prefix . Str::padLeft($cust_code->num, 4, '0');
+        $contact_code = Code::where('prefix', $prefix)->first();
+        return $contact_code->prefix . Str::padLeft($contact_code->num, 4, '0');
     }
 }

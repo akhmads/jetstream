@@ -25,6 +25,8 @@ class ContactTable extends Component
         if(!empty($this->searchKeyword)){
             $contact->orWhere('name','like',"%".$this->searchKeyword."%");
             $contact->orWhere('email','like',"%".$this->searchKeyword."%");
+            $contact->orWhere('contact_type','like',"%".$this->searchKeyword."%");
+            $contact->orWhere('contact_code','like',"%".$this->searchKeyword."%");
         }
         $contacts = $contact->paginate($this->perPage);
 

@@ -25,16 +25,15 @@
                     
                     
                     <div class="col-span-6 sm:col-span-4">
-                        <x-hyco.label for="cust_code" :value="__('Customer Code')" />
-                        <x-input id="cust_code" wire:model="cust_code" class="w-full bg-slate-100" readonly="" />
-                        <x-input-error class="mt-2" for="cust_code" />
+                        <x-hyco.label for="contact_code" :value="__('Customer Code')" />
+                        <x-input id="contact_code" wire:model="contact_code" class="w-full bg-slate-100" readonly="" />
+                        <x-input-error class="mt-2" for="contact_code" />
                     </div>
 
-
                     <div class="col-span-6 sm:col-span-4">
-                        <x-label for="name" :value="__('Name')" class="mb-1" />
-                        <x-input id="name" wire:model="name" class="w-full" autofocus />
-                        <x-input-error class="mt-2" for="name" />
+                        <x-label :value="__('Contact Type')" class="mb-1" />
+                        <x-hyco.select wire:model="contact_type" :options="['Supplier'=>'Supplier','Customer'=>'Customer','Agent'=>'Agent']" class="w-full"></x-hyco.select>
+                        <x-input-error class="mt-2" for="contact_type" />
                     </div>
 
                     <div class="col-span-6 sm:col-span-4">
@@ -42,7 +41,13 @@
                         <x-hyco.select wire:model="type" :options="['PT'=>'PT','CV'=>'CV','Persero'=>'Perseorangan','PJT'=>'PJT']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="type" />
                     </div>
-					
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <x-label for="name" :value="__('Name')" class="mb-1" />
+                        <x-input id="name" wire:model="name" class="w-full" autofocus />
+                        <x-input-error class="mt-2" for="name" />
+                    </div>
+
 					<div class="col-span-6 sm:col-span-4">
                         <x-label for="address" :value="__('Address')" class="mb-1" />
                         <x-input id="address" wire:model="address" class="w-full" />

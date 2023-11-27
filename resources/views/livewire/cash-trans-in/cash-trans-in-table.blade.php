@@ -24,13 +24,14 @@
 
         <x-slot name="header">
             <tr>
-                <x-hyco.table-th name="number" :sort="$sortLink" wire:click="sortOrder('number')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="contact" :sort="$sortLink" wire:click="sortOrder('contact')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="account" :sort="$sortLink" wire:click="sortOrder('account')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="amount" :sort="$sortLink" wire:click="sortOrder('hamount')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[150px]"></x-hyco.table-th>
-                {{-- <x-hyco.table-th name="updated_at" :sort="$sortLink" wire:click="sortOrder('updated_at')" class="cursor-pointer w-[200px]"></x-hyco.table-th> --}}
+                <x-hyco.table-th name="number" :sort="$sortLink" wire:click="sortOrder('number')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('Date')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                <x-hyco.table-th name="account" :sort="$sortLink" wire:click="sortOrder('Cash Account')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="contact" :sort="$sortLink" wire:click="sortOrder('contact')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('Keterangan')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="amount" :sort="$sortLink" wire:click="sortOrder('Amount')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -41,16 +42,20 @@
                 {{ $CashTrans->number }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ ($CashTrans->date)->format('d/m/Y') }}
+                {{ ($CashTrans->created_at)->format('d/m/Y') }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $CashTrans->contact->name ?? '' }}
+                {{ $CashTrans->account->name }}
+            </td>
+            
+            <td class="px-4 py-3 text-gray-600">
+                {{ $CashTrans->contact->name }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $CashTrans->account->name ?? '' }}
+                {{ $CashTrans->note }}
             </td>
-            <td class="px-4 py-3 text-gray-600 text-right">
-                {{ \App\Hyco\Cast::currency($CashTrans->amount) }}
+            <td class="px-4 py-3 text-gray-600">
+                {{ $CashTrans->amount }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 @if($CashTrans->status=='unapproved')
@@ -61,13 +66,15 @@
                 <span class="bg-red-100 text-red-700 px-2 rounded">{{ $CashTrans->status }}</span>
                 @endif
             </td>
-            {{-- <td class="px-4 py-3 text-gray-600">
-                {{ ($CashTrans->updated_at)->format('d/m/Y, H:i') }}
-            </td> --}}
+            <td class="px-4 py-3 text-gray-600">
+                {{ ($CashTrans->created_at)->format('d/m/Y H:i') }}
+            </td>
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('cash_bank.cash-in.form',$CashTrans->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $CashTrans->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
             </td>
+
+            
         </x-hyco.table-tr>
         @empty
         <tr>

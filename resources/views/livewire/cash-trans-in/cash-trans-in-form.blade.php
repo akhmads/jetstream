@@ -20,6 +20,7 @@
                     <x-input id="number" wire:model="number" class="w-full bg-slate-100" readonly="" />
                     <x-input-error class="mt-2" for="number" />
                 </div>
+                
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="date" :value="__('Date')" class="mb-1" />
                     <x-input type="date" id="date" wire:model="date" class="w-full" />
