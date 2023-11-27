@@ -27,15 +27,18 @@ class ExampleTable extends Component
 
     public function render()
     {
-        $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
-        if(!empty($this->searchKeyword)){
-            $example->orWhere('name','like',"%".$this->searchKeyword."%");
+        $examples = '';
+        if( $this->readyToLoad ){
+            $example = Example::orderby($this->sortColumn,$this->sortDir)->select('*');
+            if(!empty($this->searchKeyword)){
+                $example->orWhere('name','like',"%".$this->searchKeyword."%");
+            }
+            $examples = $example->paginate($this->perPage);
         }
-        $examples = $example->paginate($this->perPage);
 
         return view('livewire.example.example-table',[
             'ready' => $this->readyToLoad,
-            'examples' => $this->readyToLoad ? $examples : '',
+            'examples' => $examples,
         ]);
     }
 
