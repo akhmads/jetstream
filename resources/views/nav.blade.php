@@ -50,6 +50,9 @@
             <x-hyco.nav-dropdown-item href="{{ route('contact') }}">
                 {{ __('Contact') }}
             </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('salesman') }}">
+                {{ __('Salesman') }}
+            </x-hyco.nav-dropdown-item>
             <x-hyco.nav-dropdown-item href="{{ route('item') }}">
                 {{ __('Item') }}
             </x-hyco.nav-dropdown-item>
