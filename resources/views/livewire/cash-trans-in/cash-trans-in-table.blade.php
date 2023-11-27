@@ -32,7 +32,6 @@
                 <x-hyco.table-th name="amount" :sort="$sortLink" wire:click="sortOrder('Amount')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
-               
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -70,8 +69,6 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ ($CashTrans->created_at)->format('d/m/Y H:i') }}
             </td>
-            
-
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('cash_bank.cash-in.form',$CashTrans->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $CashTrans->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
