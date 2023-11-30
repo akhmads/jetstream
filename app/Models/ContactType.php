@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Contact extends Model
+class ContactType extends Model
 {
     use HasFactory;
 
-    protected $table = 'contact';
+    protected $table = 'contact_type';
     protected $guarded = [];
 }
