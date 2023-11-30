@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -13,9 +14,21 @@ return new class extends Migration
     {
         Schema::create('contact_type', function (Blueprint $table) {
             $table->id();
-            $table->name('string');
+            $table->string('name', 50);
             $table->timestamps();
         });
+
+        DB::table('contact_type')->insert([
+            [
+                'name' => 'PT',
+            ],
+            [
+                'name' => 'CV',
+            ],
+            [
+                'name' => 'Perseorangan',
+            ],
+        ]);
     }
 
     /**

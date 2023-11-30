@@ -19,11 +19,11 @@
                     {{ __('Update your contact information and email address.') }}
                 </x-slot>
 
-                
+
 
                 <x-slot name="form">
-                    
-                    
+
+
                     <div class="col-span-6 sm:col-span-4">
                         <x-hyco.label for="contact_code" :value="__('Customer Code')" />
                         <x-input id="contact_code" wire:model="contact_code" class="w-full bg-slate-100" readonly="" />
@@ -38,7 +38,7 @@
 
                     <div class="col-span-6 sm:col-span-4">
                         <x-label :value="__('type')" class="mb-1" />
-                        <x-hyco.select wire:model="type" :options="['PT'=>'PT','CV'=>'CV','Persero'=>'Perseorangan','PJT'=>'PJT']" class="w-full"></x-hyco.select>
+                        <x-hyco.select wire:model="type" :options="\App\Models\ContactType::get()->pluck('name','id')" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="type" />
                     </div>
 
@@ -108,7 +108,7 @@
                         <x-input id="type" wire:model="type" class="w-full" />
                         <x-input-error class="mt-2" for="type" />
                     </div>
-					
+
 					<div class="mb-4">
                         <x-label for="address" :value="__('Address')" class="mb-1" />
                         <x-input id="address" wire:model="address" class="w-full" />
