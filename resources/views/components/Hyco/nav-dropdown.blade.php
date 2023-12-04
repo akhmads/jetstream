@@ -1,6 +1,6 @@
 @props(['title','icon' => true,'active' => false])
 
-<div @click.away="open = false" class="relative" x-data="{ open: false }">
+<div @click.away="open = false" class="relative z-40" x-data="{ open: false }">
 
     @if( $active )
     <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-medium text-gray-500 text-left bg-gray-200 rounded-lg dark-mode:bg-gray-200 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline delay-50 duration-300 ease-in-out">

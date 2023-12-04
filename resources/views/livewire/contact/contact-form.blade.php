@@ -19,11 +19,7 @@
                     {{ __('Update your contact information and email address.') }}
                 </x-slot>
 
-
-
                 <x-slot name="form">
-
-
                     <div class="col-span-6 sm:col-span-4">
                         <x-hyco.label for="contact_code" :value="__('Customer Code')" />
                         <x-input id="contact_code" wire:model="contact_code" class="w-full bg-slate-100" readonly="" />

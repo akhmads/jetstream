@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('contact_type')->insert([
+        DB::table('users')->insert([
             [
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
