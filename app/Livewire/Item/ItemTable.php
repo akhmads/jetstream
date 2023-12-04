@@ -21,7 +21,8 @@ class ItemTable extends Component
 
     public function render()
     {
-        $item = Item::orderby($this->sortColumn,$this->sortDir)->select('*');
+        $item = Item::orderby($this->sortColumn,$this->sortDir)->select('*')
+            ->with('coabuying')->with('coaselling')->with('coacogs');
         if(!empty($this->searchKeyword)){
             $item->orWhere('name','like',"%".$this->searchKeyword."%");
         }

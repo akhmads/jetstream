@@ -32,7 +32,7 @@
                 <x-hyco.table-th name="coa_buying" :sort="$sortLink" wire:click="sortOrder('coa_buying')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="coa_cogs" :sort="$sortLink" wire:click="sortOrder('coa_cogs')" class="cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer"></x-hyco.table-th>
-                
+
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -42,17 +42,17 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ $item->item_code }}
             </td>
-            
 
-            @if($item->type =='0')         
-			<td class="px-4 py-3 ">Service</td>   
+
+            @if($item->type =='0')
+			<td class="px-4 py-3 ">Service</td>
 			@elseif($item->type =='1')
 			<td class="px-4 py-3 ">Non Inventory</td>
             @else
-            <td class="px-4 py-3 ">Invenotry</td>    
+            <td class="px-4 py-3 ">Invenotry</td>
 			@endif
 
-            
+
             <td class="px-4 py-3 text-gray-600">
                 {{ $item->name }}
             </td>
@@ -60,18 +60,18 @@
                 {{ $item->item_group }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $item->coaselling->code ?? '' }}  {{  $item->coaselling->name ?? ''}}
+                {{ $item->coaselling->code ?? '' }} {{  $item->coaselling->name ?? ''}}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $item->coabuying->code ?? '' }}  {{  $item->coabuying->name ?? ''}}
+                {{ $item->coabuying->code ?? '' }} {{  $item->coabuying->name ?? ''}}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $item->coacogs->code ?? '' }}  {{ $item->coacogs->name ?? '' }}
+                {{ $item->coacogs->code ?? '' }} {{ $item->coacogs->name ?? '' }}
             </td>
-            @if($item->status =='0')         
-			<td class="px-4 py-3 text-green-600"><b>Active</b><a></td>         
+            @if($item->status =='0')
+			<td class="px-4 py-3 text-green-600"><b>Active</b><a></td>
 			@else
-			<td class="px-4 py-3 text-red-600"><b>Inactive</b></td>        
+			<td class="px-4 py-3 text-red-600"><b>Inactive</b></td>
 			@endif
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('item.form',$item->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
