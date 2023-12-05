@@ -20,7 +20,7 @@
                 </x-slot>
 
                 <x-slot name="form">
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label for="code" :value="__('Code')" class="mb-1" />
                         <x-input id="code" wire:model="code" class="w-full" autofocus />
                         <x-input-error class="mt-2" for="code" />
@@ -32,25 +32,25 @@
                         <x-input-error class="mt-2" for="name" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label :value="__('Normal Balance')" class="mb-1" />
                         <x-hyco.select wire:model="normal_balance" :options="['D'=>'D','C'=>'C']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="normal_balance" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label :value="__('Report Type')" class="mb-1" />
                         <x-hyco.select wire:model="report_type" :options="['BS'=>'BS','PL'=>'PL']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="report_type" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label :value="__('Report Operator')" class="mb-1" />
                         <x-hyco.select wire:model="report_operator" :options="['PLUS'=>'PLUS','MINUS'=>'MINUS','RATE'=>'RATE']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="report_operator" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-2">
                         <x-label :value="__('Status')" class="mb-1" />
                         <x-hyco.select wire:model="status" :options="['active'=>'active','inactive'=>'inactive']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="status" />
