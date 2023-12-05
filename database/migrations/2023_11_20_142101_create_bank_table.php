@@ -18,34 +18,6 @@ return new class extends Migration
             $table->enum('status', ['active','inactive']);
             $table->timestamps();
         });
-
-        $now = Illuminate\Support\Carbon::now();
-        DB::table('bank')->insert([
-            [
-                'name' => 'BCA',
-                'status' => 'active',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name' => 'MANDIRI',
-                'status' => 'active',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name' => 'BNI',
-                'status' => 'active',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name' => 'CIMB',
-                'status' => 'active',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-        ]);
     }
 
     /**

@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('contact', function (Blueprint $table) {
 			$table->id();
-			$table->string('contact_code', $precision = 15);
-			$table->string('contact_type', $precision = 15);
-            $table->string('name', $precision = 50);
-            $table->string('type', $precision = 25);
-            $table->text('address', $precision = 200);
-            $table->string('pic', $precision = 50);
-            $table->string('mobile', $precision = 25);
-            $table->string('mobile2', $precision = 25);
-            $table->string('email', $precision = 50);
-            $table->string('nonpwp', $precision = 25);
-            $table->string('npwpnm', $precision = 50);
-            $table->boolean('status');
+			$table->string('contact_code',30);
+			$table->string('contact_type',30)->nullable();
+            $table->string('name',50);
+            $table->string('type',30)->nullable();
+            $table->text('address',200)->nullable();
+            $table->string('pic',50)->nullable();
+            $table->string('mobile',30)->nullable();
+            $table->string('mobile2',30)->nullable();
+            $table->string('email',100)->nullable();
+            $table->string('nonpwp',30)->nullable();
+            $table->string('npwpnm',100)->nullable();
+            $table->enum('status', ['active','inactive']);
             $table->timestamps();
         });
     }
