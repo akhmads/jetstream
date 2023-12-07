@@ -13,9 +13,9 @@
       </button>
     </div>
     <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow pb-4 lg:pb-0 hidden lg:flex lg:justify-end lg:flex-row">
-        {{-- <x-hyco.nav-item href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard*')">
+        <x-hyco.nav-item href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard*')">
             {{ __('Dashboard') }}
-        </x-hyco.nav-item> --}}
+        </x-hyco.nav-item>
         <x-hyco.nav-dropdown :title="_('Experiment')" :active="request()->routeIs('experiment*')">
             <x-hyco.nav-dropdown-item href="{{ route('example') }}">
                 {{ __('Example') }}
