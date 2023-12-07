@@ -20,66 +20,66 @@
                 </x-slot>
 
                 <x-slot name="form">
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-hyco.label for="contact_code" :value="__('Customer Code')" />
                         <x-input id="contact_code" wire:model="contact_code" class="w-full bg-slate-100" readonly="" />
                         <x-input-error class="mt-2" for="contact_code" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label :value="__('Contact Type')" class="mb-1" />
                         <x-hyco.select wire:model="contact_type" :options="['Supplier'=>'Supplier','Customer'=>'Customer','Agent'=>'Agent']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="contact_type" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label :value="__('type')" class="mb-1" />
                         <x-hyco.select wire:model="type" :options="\App\Models\ContactType::get()->pluck('name','id')" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="type" />
                     </div>
 
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-3">
                         <x-label for="name" :value="__('Name')" class="mb-1" />
                         <x-input id="name" wire:model="name" class="w-full" autofocus />
                         <x-input-error class="mt-2" for="name" />
                     </div>
 
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="address" :value="__('Address')" class="mb-1" />
                         <x-input id="address" wire:model="address" class="w-full" />
                         <x-input-error class="mt-2" for="address" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="pic" :value="__('Pic')" class="mb-1" />
                         <x-input id="pic" wire:model="pic" class="w-full" />
                         <x-input-error class="mt-2" for="pic" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="mobile" :value="__('Mobile')" class="mb-1" />
                         <x-input id="mobile" wire:model="mobile" class="w-full" />
                         <x-input-error class="mt-2" for="mobile" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="mobile2" :value="__('Mobile2')" class="mb-1" />
                         <x-input id="mobile2" wire:model="mobile2" class="w-full" />
                         <x-input-error class="mt-2" for="mobile2" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="email" :value="__('Email')" class="mb-1" />
                         <x-input id="email" wire:model="email" class="w-full" />
                         <x-input-error class="mt-2" for="email" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="nonpwp" :value="__('No npwp')" class="mb-1" />
                         <x-input id="nonpwp" wire:model="nonpwp" class="w-full" />
                         <x-input-error class="mt-2" for="nonpwp" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label for="npwpnm" :value="__('Nama Npwp')" class="mb-1" />
                         <x-input id="npwpnm" wire:model="npwpnm" class="w-full" />
                         <x-input-error class="mt-2" for="npwpnm" />
                     </div>
-					<div class="col-span-6 sm:col-span-4">
+					<div class="col-span-6 sm:col-span-3">
                         <x-label :value="__('Status')" class="mb-1" />
                         <x-hyco.select wire:model="status" :options="['0'=>'Aktif','1'=>'Not Active']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="status" />
