@@ -59,25 +59,22 @@ class ContactForm extends Component
                 'mobile' => 'required',
             ]);
 
-        
-
             $contact = Contact::create([
-            'contact_code' => $this->autocode(),
-			'name' => $this->name,
-            'contact_type' => $this->contact_type,
-			'type' => $this->type,
-			'address' => $this->address,
-			'pic' => $this->pic,
-			'mobile' => $this->mobile,
-			'mobile2' => $this->mobile2,
-			'email' => $this->email,
-			'nonpwp' => $this->nonpwp,
-			'npwpnm' => $this->npwpnm,
-			'status' => $this->status,
-			
+                'contact_code' => $this->autocode(),
+                'name' => $this->name,
+                'contact_type' => $this->contact_type,
+                'type' => $this->type,
+                'address' => $this->address,
+                'pic' => $this->pic,
+                'mobile' => $this->mobile,
+                'mobile2' => $this->mobile2,
+                'email' => $this->email,
+                'nonpwp' => $this->nonpwp,
+                'npwpnm' => $this->npwpnm,
+                'status' => $this->status,
 			]);
             session()->flash('success', __('Contact saved'));
-            return redirect()->route('contact.form',$contact->id);
+            return redirect()->route('master.contact.form',$contact->id);
         }
         else
         {
@@ -88,32 +85,29 @@ class ContactForm extends Component
             ]);
             $contact = Contact::find($this->set_id);
             $contact->update([
-			'contact_code' => $this->contact_code,
-            'name' => $this->name,
-            'contact_type' => $this->contact_type,
-			'type' => $this->type,
-			'address' => $this->address,
-			'pic' => $this->pic,
-			'mobile' => $this->mobile,
-			'mobile2' => $this->mobile2,
-			'email' => $this->email,
-			'nonpwp' => $this->nonpwp,
-			'npwpnm' => $this->npwpnm,
-			'status' => $this->status,
-			
+                'contact_code' => $this->contact_code,
+                'name' => $this->name,
+                'contact_type' => $this->contact_type,
+                'type' => $this->type,
+                'address' => $this->address,
+                'pic' => $this->pic,
+                'mobile' => $this->mobile,
+                'mobile2' => $this->mobile2,
+                'email' => $this->email,
+                'nonpwp' => $this->nonpwp,
+                'npwpnm' => $this->npwpnm,
+                'status' => $this->status,
 			]);
             session()->flash('success', __('Contact saved'));
         }
     }
 
     protected function autocode(): string
-    
     {
         $prefix = date('y');
         Code::updateOrCreate(
             ['prefix' => $prefix],
-            ['num' => DB::raw('num+1')]
-        );
+        )->increment('num');
         $contact_code = Code::where('prefix', $prefix)->first();
         return $contact_code->prefix . Str::padLeft($contact_code->num, 4, '0');
     }

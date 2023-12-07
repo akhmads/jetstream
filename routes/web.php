@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/example/{id}',         App\Livewire\Example\ExampleForm::class)->name('example.form');
     Route::get('/post',                 App\Livewire\Post\PostTable::class)->name('post');
     Route::get('/post/{id}',            App\Livewire\Post\PostForm::class)->name('post.form');
-    Route::get('/contact',              App\Livewire\Contact\ContactTable::class)->name('contact');
-    Route::get('/contact/{id}',         App\Livewire\Contact\ContactForm::class)->name('contact.form');
+    Route::get('/contact',              App\Livewire\Contact\ContactTable::class)->name('master.contact');
+    Route::get('/contact/{id}',         App\Livewire\Contact\ContactForm::class)->name('master.contact.form');
     Route::get('/salesman',             App\Livewire\Salesman\SalesmanTable::class)->name('salesman');
     Route::get('/salesman/{id}',        App\Livewire\Salesman\SalesmanForm::class)->name('salesman.form');
     Route::get('/item',                 App\Livewire\Item\ItemTable::class)->name('item');

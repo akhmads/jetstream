@@ -58,6 +58,6 @@ class ContactTable extends Component
         Contact::destroy($this->set_id);
         $this->confirmDeletion = false;
         session()->flash('success', __('Contact has been deleted'));
-        return redirect()->to('/contact');
+        return redirect()->route('master.contact');
     }
 }

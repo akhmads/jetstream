@@ -81,13 +81,13 @@
                     </div>
 					<div class="col-span-6 sm:col-span-3">
                         <x-label :value="__('Status')" class="mb-1" />
-                        <x-hyco.select wire:model="status" :options="['0'=>'Aktif','1'=>'Not Active']" class="w-full"></x-hyco.select>
+                        <x-hyco.select wire:model="status" :options="['active'=>'Active','inactive'=>'Inactive']" class="w-full"></x-hyco.select>
                         <x-input-error class="mt-2" for="status" />
                     </div>
                 </x-slot>
 
                 <x-slot name="actions">
-                    <x-hyco.link href="{{ route('contact') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
+                    <x-hyco.link href="{{ route('master.contact') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
                     <x-hyco.button wire:loading.attr="disabled" icon="check">Save</x-hyco.button>
                 </x-slot>
             </x-form-section>

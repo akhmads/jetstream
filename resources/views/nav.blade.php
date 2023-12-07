@@ -47,7 +47,7 @@
             </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="_('Master Data')" :active="request()->routeIs('master*')">
-            <x-hyco.nav-dropdown-item href="{{ route('contact') }}">
+            <x-hyco.nav-dropdown-item href="{{ route('master.contact') }}">
                 {{ __('Contact') }}
             </x-hyco.nav-dropdown-item>
             {{-- <x-hyco.nav-dropdown-item href="{{ route('salesman') }}">
