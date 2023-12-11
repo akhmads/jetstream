@@ -15,16 +15,16 @@ return new class extends Migration
 			$table->id();
 			$table->string('contact_code',30);
 			$table->string('contact_type',30)->nullable();
-            $table->string('name',50);
+            $table->string('name',250);
             $table->string('type',30)->nullable();
-            $table->text('address',200)->nullable();
+            $table->text('address',250)->nullable();
             $table->string('pic',50)->nullable();
             $table->string('mobile',30)->nullable();
             $table->string('mobile2',30)->nullable();
-            $table->string('email',100)->nullable();
+            $table->string('email',200)->nullable();
             $table->string('nonpwp',30)->nullable();
             $table->string('npwpnm',100)->nullable();
-            $table->enum('status', ['active','inactive']);
+            $table->enum('status', ['active','inactive'])->index()->default('active');
             $table->timestamps();
         });
     }

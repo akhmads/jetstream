@@ -16,7 +16,7 @@ class BulkSeeder extends Seeder
     {
         $this->coa();
         $this->item();
-        //$this->customer();
+        $this->customer();
         $this->cash();
         $this->bank();
     }
