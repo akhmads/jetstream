@@ -24,8 +24,8 @@ class CoaPicker extends Component
     {
         $coa = Coa::orderBy('code');
         if(!empty($this->searchKeyword)){
-            $coa->orWhere('code','like',$this->searchKeyword."%");
-            $coa->orWhere('name','like',"%".$this->searchKeyword."%");
+            $coa->where('code','ilike',$this->searchKeyword."%");
+            $coa->orWhere('name','ilike',"%".$this->searchKeyword."%");
         }
         $coas = $coa->simplePaginate(20);
         return view('livewire.coa.coa-picker',['coas' => $coas]);

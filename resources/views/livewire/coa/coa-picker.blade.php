@@ -4,7 +4,7 @@
         <x-hyco.loading />
     </div>
 
-    <div wire:click="$toggle('modal')" class="w-full h-full px-3 py-2 bg-white cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base {{ $class ?? '' }}">
+    <div wire:click="$toggle('modal')" wire:keydown.enter="$toggle('modal')" tabindex="0" class="w-full h-full px-3 py-2 bg-white cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-indigo-500 rounded-md shadow-sm text-base {{ $class ?? '' }}">
         {{ empty($label) ? __('-- Choose --') : $label }}
     </div>
 
@@ -21,7 +21,7 @@
             <div class="max-h-80 overflow-y-auto">
                 @forelse ( $coas as $coa )
                 @if ($coa->code == $value)
-                <div tabindex="0" class="flex flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
+                <div tabindex="0" class="flex items-center flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
                     <div class="w-[120px]">
                         {{ $coa->code }}
                     </div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 @else
-                <div tabindex="0" class="flex flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
+                <div tabindex="0" class="flex items-center flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $coa->code }}','{{ $coa->code.' - '.$coa->name }}')">
                     <div class="w-[120px]">
                         {{ $coa->code }}
                     </div>

@@ -105,6 +105,8 @@ class CashTransInForm extends Component
             }
 
             $CashTrans = CashTrans::create([
+                'type' => 'in',
+                'status' => 'unapprove',
                 'number' => $number,
                 'ref_number' => $this->ref_number,
                 'contact_id' => $this->contact_id,
@@ -217,8 +219,7 @@ class CashTransInForm extends Component
         $prefix = 'BKM/'.date('y',$time).'/'.date('m',$time).'/';
         Code::updateOrCreate(
             ['prefix' => $prefix],
-            ['num' => DB::raw('num+1')]
-        );
+        )->increment('num');
         $code = Code::where('prefix', $prefix)->first();
         return $code->prefix . Str::padLeft($code->num, 4, '0');
     }

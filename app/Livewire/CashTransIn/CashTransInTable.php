@@ -24,10 +24,11 @@ class CashTransInTable extends Component
     {
         $CashTrans = CashTrans::orderby($this->sortColumn,$this->sortDir)
             ->leftJoin('cash_account','cash_account.id','=','cash_trans.cash_account_id')
+            ->where('type','in')
             ->with('contact:id,name')
             ->with('account:id,name');
         if(!empty($this->searchKeyword)){
-            $CashTrans->where('number','like',"%".$this->searchKeyword."%");
+            $CashTrans->orWhere('number','like',"%".$this->searchKeyword."%");
             $CashTrans->orWhere('cash_account.name','like',"%".$this->searchKeyword."%");
             // $searchKeyword = $this->searchKeyword;
             // $CashTrans = $CashTrans->whereHas('contact', function ($query) use ($searchKeyword) {

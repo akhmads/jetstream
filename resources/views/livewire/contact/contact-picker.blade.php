@@ -5,7 +5,12 @@
     </div>
 
     <div class="relative">
-        <div wire:click="$toggle('modal')" class="w-full px-3 py-2 text-base cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+        <span wire:click="$toggle('modal')" class="select-none absolute inset-y-0 right-0 flex items-center cursor-pointer pr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+        </span>
+        <div wire:click="$toggle('modal')" wire:keydown.enter="$toggle('modal')" tabindex="0" class="w-full select-none px-3 pr-8 py-2 text-base truncate cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-indigo-500 rounded-md shadow-sm">
             {{ empty($label) ? '-- Choose --' : $label }}
         </div>
         {{-- <p wire:click="$parent.set('name','Tesss')">Tezzz</p> --}}
@@ -24,18 +29,21 @@
             <div class="max-h-80 overflow-y-auto">
                 @forelse ( $contacts as $contact )
                 @if ($contact->id == $value)
-                <div class="cursor-pointer bg-sky-100 hover:bg-sky-200 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
+                <div class="flex items-center flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
                     {{ $contact->name }}
                 </div>
                 @else
-                <div class="cursor-pointer hover:bg-sky-100 px-4 py-2 rounded" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
+                <div class="flex items-center flex-row cursor-pointer hover:bg-sky-200 px-4 py-2 rounded {{ $loop->odd ? 'bg-white' : 'bg-sky-50' }}" wire:click="pick('{{ $contact->id }}','{{ $contact->name }}')">
                     {{ $contact->name }}
                 </div>
                 @endif
                 @empty
                 <div>No data found.</div>
                 @endforelse
-                </div>
+            </div>
+            <div class="pt-4">
+                {{ $contacts->links() }}
+            </div>
         </x-slot>
 
         <x-slot name="footer">

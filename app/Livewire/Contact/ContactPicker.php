@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Livewire\Example;
+namespace App\Livewire\Contact;
 
 use Livewire\Component;
 use Livewire\Attributes\Modelable;
+use Livewire\WithPagination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Contact;
 
 class ContactPicker extends Component
 {
+    use WithPagination;
+
     // #[Modelable]
     public $value = '';
 
@@ -18,12 +22,16 @@ class ContactPicker extends Component
 
     public function render()
     {
+        // DB::enableQueryLog();
         $contact = Contact::orderBy('name');
         if(!empty($this->searchKeyword)){
-            $contact->orWhere('name','like',"%".$this->searchKeyword."%");
+            $contact->where('name','ilike',"%".$this->searchKeyword."%");
         }
-        $contacts = $contact->limit(20)->get();
-        return view('livewire.example.contact-picker',['contacts' => $contacts]);
+        $contacts = $contact->simplePaginate(20);
+        // if(!empty($this->searchKeyword)){
+        //     dd(DB::getQueryLog());
+        // }
+        return view('livewire.contact.contact-picker',['contacts' => $contacts]);
     }
 
     public function mount($value = '')
