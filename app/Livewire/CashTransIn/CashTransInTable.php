@@ -22,7 +22,8 @@ class CashTransInTable extends Component
 
     public function render()
     {
-        $CashTrans = CashTrans::orderby($this->sortColumn,$this->sortDir)
+        $CashTrans = CashTrans::select('cash_trans.*')
+            ->orderby($this->sortColumn,$this->sortDir)
             ->leftJoin('cash_account','cash_account.id','=','cash_trans.cash_account_id')
             ->where('type','in')
             ->with('contact:id,name')
@@ -62,8 +63,7 @@ class CashTransInTable extends Component
     public function destroy()
     {
         $CashTrans = CashTrans::where('id',$this->set_id)->orderBy('id')->first();
-        $CashTransDetail = CashTransDetail::where('code',$CashTrans->number);
-        $CashTransDetail->delete();
+        CashTransDetail::where('number',$CashTrans->number)->delete();
         $CashTrans->delete();
 
         $this->confirmDeletion = false;

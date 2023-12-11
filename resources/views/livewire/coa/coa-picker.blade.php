@@ -4,7 +4,7 @@
         <x-hyco.loading />
     </div>
 
-    <div wire:click="$toggle('modal')" wire:keydown.enter="$toggle('modal')" tabindex="0" class="w-full h-full px-3 py-2 bg-white cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-indigo-500 rounded-md shadow-sm text-base {{ $class ?? '' }}">
+    <div wire:click="$toggle('modal')" wire:keydown.enter="$toggle('modal')" tabindex="0" class="w-full h-full px-3 py-2 bg-white overflow-hidden truncate select-none cursor-pointer border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-indigo-500 rounded-md shadow-sm text-base {{ $class ?? '' }}">
         {{ empty($label) ? __('-- Choose --') : $label }}
     </div>
 

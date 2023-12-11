@@ -22,15 +22,11 @@ class ContactPicker extends Component
 
     public function render()
     {
-        // DB::enableQueryLog();
         $contact = Contact::orderBy('name');
         if(!empty($this->searchKeyword)){
             $contact->where('name','ilike',"%".$this->searchKeyword."%");
         }
         $contacts = $contact->simplePaginate(20);
-        // if(!empty($this->searchKeyword)){
-        //     dd(DB::getQueryLog());
-        // }
         return view('livewire.contact.contact-picker',['contacts' => $contacts]);
     }
 
@@ -51,5 +47,10 @@ class ContactPicker extends Component
         //$this->searchKeyword = $this->label;
         $this->modal = false;
         $this->dispatch('set-contact', id: $id);
+    }
+
+    public function updated()
+    {
+        $this->resetPage();
     }
 }

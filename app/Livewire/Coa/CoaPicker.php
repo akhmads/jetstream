@@ -24,7 +24,7 @@ class CoaPicker extends Component
     {
         $coa = Coa::orderBy('code');
         if(!empty($this->searchKeyword)){
-            $coa->where('code','ilike',$this->searchKeyword."%");
+            $coa->where('code','like',$this->searchKeyword."%");
             $coa->orWhere('name','ilike',"%".$this->searchKeyword."%");
         }
         $coas = $coa->simplePaginate(20);
@@ -49,5 +49,10 @@ class CoaPicker extends Component
         $this->label = $label;
         $this->modal = false;
         $this->dispatch('set-coa', id: $id, index: $this->index);
+    }
+
+    public function updated()
+    {
+        $this->resetPage();
     }
 }

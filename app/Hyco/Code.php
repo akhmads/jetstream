@@ -22,8 +22,7 @@ class Code {
         $prefix = $code.'/'.date('y',$time).'/'.date('m',$time).'/';
         TCode::updateOrCreate(
             ['prefix' => $prefix],
-            ['num' => DB::raw('num+1')]
-        );
+        )->increment('num');
         $code = TCode::where('prefix', $prefix)->first();
         return $code->prefix . Str::padLeft($code->num, 4, '0');
     }

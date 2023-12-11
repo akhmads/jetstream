@@ -25,11 +25,11 @@
         <x-slot name="header">
             <tr>
                 <x-hyco.table-th name="number" :sort="$sortLink" wire:click="sortOrder('number')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('Date')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
-                <x-hyco.table-th name="account" :sort="$sortLink" wire:click="sortOrder('Cash Account')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="contact" :sort="$sortLink" wire:click="sortOrder('contact')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('Keterangan')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
-                <x-hyco.table-th name="amount" :sort="$sortLink" wire:click="sortOrder('Amount')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                <x-hyco.table-th name="account" :sort="$sortLink" wire:click="sortOrder('cash_account.name')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <th class="px-4 py-2 text-left">Contact</th>
+                <th class="px-4 py-2 text-left">Note</th>
+                <th class="px-4 py-2 text-left w-[100px]">Amount</th>
                 <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
@@ -47,7 +47,7 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ $CashTrans->account->name }}
             </td>
-            
+
             <td class="px-4 py-3 text-gray-600">
                 {{ $CashTrans->contact->name }}
             </td>
@@ -55,7 +55,7 @@
                 {{ $CashTrans->note }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ $CashTrans->amount }}
+                {{ number_format($CashTrans->amount,2) }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 @if($CashTrans->status=='unapproved')
@@ -74,7 +74,7 @@
                 <a href="javascript:void(0)" wire:click="delete({{ $CashTrans->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
             </td>
 
-            
+
         </x-hyco.table-tr>
         @empty
         <tr>
