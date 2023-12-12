@@ -55,12 +55,12 @@
                 {{ $CashTrans->note }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ number_format($CashTrans->amount,2) }}
+                {{ \App\Hyco\Cast::currency($CashTrans->amount,2) }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                @if($CashTrans->status=='unapproved')
+                @if($CashTrans->status=='unapprove')
                 <span class="bg-indigo-100 text-indigo-700 px-2 rounded">{{ $CashTrans->status }}</span>
-                @elseif($CashTrans->status=='approved')
+                @elseif($CashTrans->status=='approve')
                 <span class="bg-green-100 text-green-700 px-2 rounded">{{ $CashTrans->status }}</span>
                 @else
                 <span class="bg-red-100 text-red-700 px-2 rounded">{{ $CashTrans->status }}</span>
@@ -73,8 +73,6 @@
                 <a href="{{ route('cash_bank.cash-in.form',$CashTrans->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $CashTrans->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
             </td>
-
-
         </x-hyco.table-tr>
         @empty
         <tr>

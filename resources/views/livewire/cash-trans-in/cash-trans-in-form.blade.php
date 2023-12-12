@@ -95,11 +95,8 @@
                 <td>
                     <x-input wire:model="tmp.{{$index}}.note" wire:loading.attr="disabled" class="w-full" />
                 </td>
-                {{-- <td>
-                    <x-input value="C" class="w-full text-center bg-slate-100" readonly="" />
-                </td> --}}
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" />
                 </td>
                 <td>
                     <x-hyco.select wire:model="tmp.{{$index}}.currency" :options="App\Models\Currency::active()->pluck('code')" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
@@ -108,7 +105,7 @@
                     <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" class="w-full text-end" />
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" class="w-full text-end bg-slate-100" readonly />
+                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly />
                 </td>
                 <td class="text-center">
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">X</x-hyco.button>
@@ -121,7 +118,7 @@
             @endforelse
             <tr>
                 <td colspan="5" class="text-end px-2">Total :</td>
-                <td class=""><x-input wire:model="total" class="w-full text-end bg-slate-100" readonly /></td>
+                <td class=""><x-input wire:model="total" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly /></td>
                 <td>&nbsp;</td>
             </tr>
             </tbody>

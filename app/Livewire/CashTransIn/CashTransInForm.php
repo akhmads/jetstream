@@ -69,6 +69,8 @@ class CashTransInForm extends Component
     {
         $this->sum();
 
+        $this->castAmount();
+
         if(empty($this->set_id))
         {
             $valid = $this->validate([
@@ -79,7 +81,7 @@ class CashTransInForm extends Component
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required|min:1|gt:1',
+                'tmp.*.amount' => 'required', //|min:1|gt:1
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1',
                 'tmp.*.note' => 'required',
@@ -130,7 +132,7 @@ class CashTransInForm extends Component
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required|min:1|gt:1',
+                'tmp.*.amount' => 'required', //|min:1|gt:1
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1',
                 'tmp.*.note' => 'required',
@@ -264,6 +266,15 @@ class CashTransInForm extends Component
             $this->tmp[$index]['hamount'] = $tm['hamount'];
         }
         $this->total = $total;
+    }
+
+    public function castAmount(): Void
+    {
+        foreach($this->tmp as $index=>$tm)
+        {
+            $this->tmp[$index]['rate'] = Cast::number($tm['rate']);
+            $this->tmp[$index]['amount'] = Cast::number($tm['amount']);
+        }
     }
 
     #[On('set-coa')]

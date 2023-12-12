@@ -12,4 +12,5 @@ class CashTransDetail extends Model
 
     protected $table = 'cash_trans_detail';
     protected $guarded = [];
+    protected $casts = [];
 }
