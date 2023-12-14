@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cash_trans', function (Blueprint $table) {
             $table->id();
-            $table->string('number',50)->unique()->index();
-            $table->string('ref_number',100)->nullable()->default("");
+            $table->string('code',50)->unique()->index();
+            $table->string('ref_code',100)->nullable()->default("");
             $table->date('date');
             $table->foreignId('contact_id')->index();
             $table->foreignId('cash_account_id')->index();

@@ -19,8 +19,8 @@ use Closure;
 class CashTransInForm extends Component
 {
     public $set_id;
-    public $number = '';
-    public $ref_number = '';
+    public $code = '';
+    public $ref_code = '';
     public $date = '';
     public $contact_id = '';
     public $cash_account_id = '';
@@ -30,6 +30,9 @@ class CashTransInForm extends Component
     public $status = '';
     public $total = 0;
     public $tmp = [];
+    public $open = true;
+    public $showApproveButton = false;
+    public $confirmApprove = false;
 
     public function render()
     {
@@ -40,8 +43,8 @@ class CashTransInForm extends Component
     {
         $CashTrans = CashTrans::Find($request->id);
         $this->set_id       = $CashTrans->id ?? '';
-        $this->number       = $CashTrans->number ?? '';
-        $this->ref_number   = $CashTrans->ref_number ?? '';
+        $this->code         = $CashTrans->code ?? '';
+        $this->ref_code     = $CashTrans->ref_code ?? '';
         $this->date         = isset($CashTrans->date) ? ($CashTrans->date)->format('Y-m-d') : '';
         $this->contact_id   = $CashTrans->contact_id ?? '';
         $this->cash_account_id = $CashTrans->cash_account_id ?? '';
@@ -54,7 +57,7 @@ class CashTransInForm extends Component
 
         foreach($CashTransDetail as $dt){
             $this->tmp[] = [
-                'number' => $dt->number,
+                'code' => $dt->code,
                 'coa_code' => $dt->coa_code,
                 'amount' => $dt->amount,
                 'currency' => $dt->currency,
@@ -63,38 +66,47 @@ class CashTransInForm extends Component
                 'note' => $dt->note,
             ];
         }
+
+        if(in_array($this->status,['approve','void'])){
+            $this->open = false;
+        }
+        if(!empty($this->set_id)){
+            $this->showApproveButton = true;
+        }
+        if($this->status == 'approve'){
+            $this->showApproveButton = false;
+        }
     }
 
     public function store()
     {
         $this->sum();
-
         $this->castAmount();
 
         if(empty($this->set_id))
         {
             $valid = $this->validate([
-                'ref_number' => 'required',
+                'ref_code' => 'required',
                 'date' => 'required',
                 'contact_id' => 'required',
                 'cash_account_id' => 'required',
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required', //|min:1|gt:1
+                'tmp.*.amount' => 'required|min:1|gt:1',
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1',
                 'tmp.*.note' => 'required',
             ]);
 
-            $number = $this->autocode();
+            $code = $this->autocode();
 
             $total = 0;
             if( count($this->tmp) > 0 ) {
                 foreach($this->tmp as $tm)
                 {
                     CashTransDetail::create([
-                        'number' => $number,
+                        'code' => $code,
                         'coa_code' => $tm['coa_code'],
                         'amount' => $tm['amount'],
                         'currency' => $tm['currency'],
@@ -109,8 +121,8 @@ class CashTransInForm extends Component
             $CashTrans = CashTrans::create([
                 'type' => 'in',
                 'status' => 'unapprove',
-                'number' => $number,
-                'ref_number' => $this->ref_number,
+                'code' => $code,
+                'ref_code' => $this->ref_code,
                 'contact_id' => $this->contact_id,
                 'cash_account_id' => $this->cash_account_id,
                 'amount' => $total,
@@ -124,7 +136,7 @@ class CashTransInForm extends Component
         else
         {
             $valid = $this->validate([
-                'ref_number' => 'required',
+                'ref_code' => 'required',
                 'date' => 'required',
                 'contact_id' => 'required',
                 'cash_account_id' => 'required',
@@ -132,20 +144,20 @@ class CashTransInForm extends Component
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required', //|min:1|gt:1
+                'tmp.*.amount' => 'required|min:1|gt:1',
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1',
                 'tmp.*.note' => 'required',
             ]);
 
-            $CashTransDetail = CashTransDetail::where('number',$this->number);
+            $CashTransDetail = CashTransDetail::where('code',$this->code);
             $CashTransDetail->delete();
             $total = 0;
             if( count($this->tmp) > 0 ) {
                 foreach($this->tmp as $tm)
                 {
                     $CashTransDetail->create([
-                        'number' => $this->number,
+                        'code' => $this->code,
                         'coa_code' => $tm['coa_code'],
                         'amount' => $tm['amount'],
                         'currency' => $tm['currency'],
@@ -159,56 +171,13 @@ class CashTransInForm extends Component
 
             $CashTrans = CashTrans::find($this->set_id);
             $CashTrans->update([
-                'ref_number' => $this->ref_number,
+                'ref_code' => $this->ref_code,
                 'contact_id' => $this->contact_id,
                 'cash_account_id' => $this->cash_account_id,
                 'amount' => $total,
                 'date' => $this->date,
                 'note' => $this->note,
             ]);
-
-            // ---------------------------------------
-            // Start Auto Journal
-            // ---------------------------------------
-
-            AutoJournal::reset($this->number, 'Cash In');
-            $JournalCode = \App\Hyco\Code::auto($this->date,'Journal Voucher');
-            GLhd::create([
-                'code' => $JournalCode,
-                'date' => $this->date,
-                'note' => $this->note,
-                'debit_total' => $total,
-                'credit_total' => $total,
-                'contact_id' => $this->contact_id,
-                'ref_name' => 'Cash In',
-                'ref_id' => $this->number,
-            ]);
-            GLdt::create([
-                'code' => $JournalCode,
-                'description' => $this->note,
-                'coa_code' => $CashTrans->account->coa->code ?? '',
-                'dc' => 'D',
-                'debit' => $total,
-                'credit' => 0,
-                'amount' => $total,
-            ]);
-            if( count($this->tmp) > 0 ) {
-                foreach($this->tmp as $tm)
-                {
-                    GLdt::create([
-                        'code' => $JournalCode,
-                        'description' => $tm['note'],
-                        'coa_code' => $tm['coa_code'],
-                        'dc' => 'C',
-                        'debit' => 0,
-                        'credit' => $tm['hamount'],
-                        'amount' => $tm['hamount'] * -1,
-                    ]);
-                }
-            }
-            // ---------------------------------------
-            // End Auto Journal
-            // ---------------------------------------
 
             session()->flash('success', __('Saved'));
             return redirect()->route('cash_bank.cash-in.form',$this->set_id);
@@ -284,5 +253,73 @@ class CashTransInForm extends Component
         {
             $this->tmp[$index]['coa_code'] = $id;
         }
+    }
+
+    public function showApprove($id)
+    {
+        $this->confirmApprove = true;
+        $this->set_id = $id;
+    }
+
+    public function approve()
+    {
+        $CashTrans = CashTrans::find($this->set_id);
+        $CashTrans->status = 'approve';
+        $CashTrans->save();
+
+        // ---------------------------------------
+        // Start Auto Journal
+        // ---------------------------------------
+
+        AutoJournal::reset($CashTrans->code, 'Cash In');
+        $JournalCode = \App\Hyco\Code::auto($CashTrans->date,'Journal Voucher');
+        GLhd::create([
+            'code' => $JournalCode,
+            'date' => $CashTrans->date,
+            'note' => $CashTrans->note,
+            'debit_total' => $CashTrans->amount,
+            'credit_total' => $CashTrans->amount,
+            'contact_id' => $CashTrans->contact_id,
+            'ref_name' => 'Cash In',
+            'ref_id' => $CashTrans->code,
+        ]);
+        GLdt::create([
+            'code' => $JournalCode,
+            'description' => $CashTrans->note,
+            'coa_code' => $CashTrans->account->coa->code ?? '',
+            'dc' => 'D',
+            'debit' => $CashTrans->amount,
+            'credit' => 0,
+            'amount' => $CashTrans->amount,
+        ]);
+        if( count($CashTrans->detail) > 0 ) {
+            foreach($CashTrans->detail as $detail)
+            {
+                GLdt::create([
+                    'code' => $JournalCode,
+                    'description' => $detail->note,
+                    'coa_code' => $detail->coa_code,
+                    'dc' => 'C',
+                    'debit' => 0,
+                    'credit' => $detail->hamount,
+                    'amount' => $detail->hamount * -1,
+                ]);
+            }
+        }
+        // ---------------------------------------
+        // End Auto Journal
+        // ---------------------------------------
+
+        session()->flash('success', __('Approved'));
+        return redirect()->route('cash_bank.cash-in');
+    }
+
+    public function doVoid($id)
+    {
+        $CashTrans = CashTrans::find($id);
+        $CashTrans->status = 'void';
+        $CashTrans->save();
+
+        session()->flash('success', __('Voided'));
     }
 }

@@ -16,9 +16,9 @@
             <div class="grid grid-cols-12 gap-6">
 
                 <div class="col-span-12 md:col-span-3">
-                    <x-hyco.label for="number" :value="__('Number')" />
-                    <x-input id="number" wire:model="number" class="w-full bg-slate-100" readonly="" />
-                    <x-input-error class="mt-2" for="number" />
+                    <x-hyco.label for="code" :value="__('Code')" />
+                    <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
+                    <x-input-error class="mt-2" for="code" />
                 </div>
 
                 <div class="col-span-12 md:col-span-3">
@@ -32,8 +32,8 @@
                     <x-input-error class="mt-2" for="contact_id" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
-                    <x-label for="ref_number" :value="__('Ref Number')" class="mb-1" />
-                    <x-input wire:model="ref_number" class="w-full" />
+                    <x-label for="ref_code" :value="__('Ref Code')" class="mb-1" />
+                    <x-input wire:model="ref_code" class="w-full" />
                     <x-input-error class="mt-2" for="ref_name" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
@@ -46,7 +46,10 @@
                     <x-input id="note" wire:model="note" class="w-full" />
                     <x-input-error class="mt-2" for="note" />
                 </div>
-                <div class="hidden md:block col-span-12 md:col-span-3">&nbsp;</div>
+                <div class="col-span-12 md:col-span-3">
+                    <x-label for="note" :value="__('Total')" class="mb-1" />
+                    <x-input id="total" wire:model="total" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly />
+                </div>
 
             </div>
 
@@ -56,11 +59,13 @@
                 </div>
             </div>
 
+            @if($open)
             <div class="col-span-6 flex flex-row justify-end">
                 <x-hyco.button wire:click.prevent="addDetail" wire:loading.attr="disabled" icon="plus" class="scale-90">
                     Add
                 </x-hyco.button>
             </div>
+            @endif
 
             @error('tmp*')
             <div class="flex flex-row justify-center">
@@ -79,17 +84,19 @@
                 <th class="w-[20%]">Coa Code</th>
                 <th>Description</th>
                 {{-- <th class="w-[70px]">D/C</th> --}}
-                <th class="w-[140px]">Amount</th>
+                <th class="w-[150px]">Amount</th>
                 <th class="w-[90px]">Curr</th>
-                <th class="w-[100px]">Rate</th>
+                <th class="w-[120px]">Rate</th>
                 <th class="w-[150px]">Total</th>
+                @if($open)
                 <th class="w-[60px]">Action</th>
+                @endif
             </tr>
             </thead>
             <tbody>
             @forelse ( $tmp as $index => $tm )
             <tr>
-                <td>
+                <td class="max-w-[200px]">
                     <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa_code_{{ $index }}" class="w-full text-base" />
                 </td>
                 <td>
@@ -102,33 +109,63 @@
                     <x-hyco.select wire:model="tmp.{{$index}}.currency" :options="App\Models\Currency::active()->pluck('code')" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" />
                 </td>
                 <td>
                     <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly />
                 </td>
+                @if($open)
                 <td class="text-center">
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">X</x-hyco.button>
                 </td>
+                @endif
             </tr>
             @empty
             <tr>
                 <td class="text-center py-2" colspan="100">No items</td>
             </tr>
             @endforelse
-            <tr>
+            {{-- <tr>
                 <td colspan="5" class="text-end px-2">Total :</td>
                 <td class=""><x-input wire:model="total" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly /></td>
                 <td>&nbsp;</td>
-            </tr>
+            </tr> --}}
             </tbody>
             </table>
 
             <x-slot name="actions">
+                @if($showApproveButton)
+                <x-hyco.button wire:click.prevent="showApprove({{ $set_id }})" wire:loading.attr="disabled" icon="check" class="bg-green-500 hover:bg-green-400">Approve</x-hyco.button>
+                <x-hyco.button wire:click.prevent="doVoid({{ $set_id }})" wire:loading.attr="disabled" icon="x-mark" class="bg-red-500 hover:bg-red-400">Void</x-hyco.button>
+                @endif
+
                 <x-hyco.link href="{{ route('cash_bank.cash-in') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
+
+                @if($open)
                 <x-hyco.button wire:click.prevent="store" wire:loading.attr="disabled" icon="check">Save</x-hyco.button>
+                @endif
             </x-slot>
 
         </x-hyco.card>
     </x-hyco.container>
+
+    <x-confirmation-modal wire:model.live="confirmApprove">
+        <x-slot name="title">
+            {{ __('Approve Transaction') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you would like to approve this transaction?') }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmApprove')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="ml-3" wire:click="approve" wire:loading.attr="disabled">
+                {{ __('Approve') }}
+            </x-button>
+        </x-slot>
+    </x-confirmation-modal>
 </div>

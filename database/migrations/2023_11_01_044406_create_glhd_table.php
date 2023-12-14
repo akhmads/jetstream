@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('ref_name',50)->index()->nullable();
             $table->string('ref_id',50)->index()->nullable();
             $table->integer('contact_id')->index()->default(0);
+            $table->integer('lock')->nullable()->default(0);
             $table->timestamps();
         });
     }

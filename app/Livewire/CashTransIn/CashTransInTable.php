@@ -7,6 +7,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\CashTrans;
 use App\Models\CashTransDetail;
+use App\Models\GLhd;
+use App\Models\GLdt;
 
 class CashTransInTable extends Component
 {
@@ -29,12 +31,8 @@ class CashTransInTable extends Component
             ->with('contact:id,name')
             ->with('account:id,name');
         if(!empty($this->searchKeyword)){
-            $CashTrans->orWhere('number','like',"%".$this->searchKeyword."%");
+            $CashTrans->orWhere('code','like',"%".$this->searchKeyword."%");
             $CashTrans->orWhere('cash_account.name','like',"%".$this->searchKeyword."%");
-            // $searchKeyword = $this->searchKeyword;
-            // $CashTrans = $CashTrans->whereHas('contact', function ($query) use ($searchKeyword) {
-            //     $query->where('name', 'like', '%'.$searchKeyword.'%');
-            // });
         }
         $data = $CashTrans->paginate($this->perPage);
 
@@ -62,8 +60,13 @@ class CashTransInTable extends Component
 
     public function destroy()
     {
-        $CashTrans = CashTrans::where('id',$this->set_id)->orderBy('id')->first();
-        CashTransDetail::where('number',$CashTrans->number)->delete();
+        $CashTrans = CashTrans::where('id', $this->set_id)->orderBy('id')->first();
+        CashTransDetail::where('code', $CashTrans->code ?? '')->delete();
+
+        $GLhd = GLhd::where('ref_id', $CashTrans->code ?? '')->first();
+        GLdt::where('code', $GLhd->code ?? '')->delete();
+        if(!empty($GLhd)) $GLhd->delete();
+
         $CashTrans->delete();
 
         $this->confirmDeletion = false;

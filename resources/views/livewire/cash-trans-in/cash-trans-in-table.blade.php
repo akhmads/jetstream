@@ -24,14 +24,14 @@
 
         <x-slot name="header">
             <tr>
-                <x-hyco.table-th name="number" :sort="$sortLink" wire:click="sortOrder('number')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
+                <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('code')" class="cursor-pointer w-[150px]"></x-hyco.table-th>
                 <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
                 <x-hyco.table-th name="account" :sort="$sortLink" wire:click="sortOrder('cash_account.name')" class="cursor-pointer w-[200px]"></x-hyco.table-th>
                 <th class="px-4 py-2 text-left">Contact</th>
                 <th class="px-4 py-2 text-left">Note</th>
                 <th class="px-4 py-2 text-left w-[100px]">Amount</th>
                 <x-hyco.table-th name="status" :sort="$sortLink" wire:click="sortOrder('status')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
-                <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[100px]"></x-hyco.table-th>
+                {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[100px]"></x-hyco.table-th> --}}
                 <th class="px-4 py-2 text-left w-[150px]">Action</th>
             </tr>
         </x-slot>
@@ -39,7 +39,7 @@
         @forelse ($data as $CashTrans)
         <x-hyco.table-tr>
             <td class="px-4 py-3 text-gray-600">
-                {{ $CashTrans->number }}
+                {{ $CashTrans->code }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 {{ ($CashTrans->created_at)->format('d/m/Y') }}
@@ -55,7 +55,7 @@
                 {{ $CashTrans->note }}
             </td>
             <td class="px-4 py-3 text-gray-600">
-                {{ \App\Hyco\Cast::currency($CashTrans->amount,2) }}
+                {{ number_format($CashTrans->amount,2) }}
             </td>
             <td class="px-4 py-3 text-gray-600">
                 @if($CashTrans->status=='unapprove')
@@ -66,9 +66,9 @@
                 <span class="bg-red-100 text-red-700 px-2 rounded">{{ $CashTrans->status }}</span>
                 @endif
             </td>
-            <td class="px-4 py-3 text-gray-600">
+            {{-- <td class="px-4 py-3 text-gray-600">
                 {{ ($CashTrans->created_at)->format('d/m/Y H:i') }}
-            </td>
+            </td> --}}
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('cash_bank.cash-in.form',$CashTrans->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
                 <a href="javascript:void(0)" wire:click="delete({{ $CashTrans->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>

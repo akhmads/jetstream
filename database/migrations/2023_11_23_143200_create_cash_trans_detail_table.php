@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cash_trans_detail', function (Blueprint $table) {
             $table->id();
-            $table->string('number',50)->index();
+            $table->string('code',50)->index();
             $table->string('coa_code',20)->index();
             $table->decimal('amount', 12, 2)->default(0);
             $table->string('currency',20);

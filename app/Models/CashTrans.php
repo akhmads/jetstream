@@ -32,6 +32,6 @@ class CashTrans extends Model
 
     public function detail(): HasMany
     {
-        return $this->hasMany(CashTransDetail::class, 'number', 'number');
+        return $this->hasMany(CashTransDetail::class, 'code', 'code');
     }
 }
