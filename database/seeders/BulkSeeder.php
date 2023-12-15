@@ -23,21 +23,21 @@ class BulkSeeder extends Seeder
 
     public function coa()
     {
-        $path = base_path() . '/.BAK/coa_IBS.txt';
+        $path = base_path() . '/.BAK/IBS_coa.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('Coa table seeded!');
     }
 
     public function item()
     {
-        $path = base_path() . '/.BAK/Item Master IBS.txt';
+        $path = base_path() . '/.BAK/IBS_item.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('Items table seeded!');
     }
 
     public function customer()
     {
-        $path = base_path() . '/.BAK/Cust Master IBS.txt';
+        $path = base_path() . '/.BAK/IBS_contact.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('Customer table seeded!');
     }
