@@ -83,7 +83,6 @@
             <tr>
                 <th class="w-[20%]">Coa Code</th>
                 <th>Description</th>
-                {{-- <th class="w-[70px]">D/C</th> --}}
                 <th class="w-[150px]">Amount</th>
                 <th class="w-[90px]">Curr</th>
                 <th class="w-[120px]">Rate</th>
@@ -97,7 +96,9 @@
             @forelse ( $tmp as $index => $tm )
             <tr>
                 <td class="max-w-[200px]">
-                    <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa_code_{{ $index }}" class="w-full text-base" />
+                    <div>
+                        <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa-picker-{{$index}}" class="w-full text-base" />
+                    </div>
                 </td>
                 <td>
                     <x-input wire:model="tmp.{{$index}}.note" wire:loading.attr="disabled" class="w-full" />
@@ -116,7 +117,9 @@
                 </td>
                 @if($open)
                 <td class="text-center">
+                    {{-- @if(!$loop->first) --}}
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">X</x-hyco.button>
+                    {{-- @endif --}}
                 </td>
                 @endif
             </tr>

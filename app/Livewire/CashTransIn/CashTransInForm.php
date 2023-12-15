@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Hyco\AutoJournal;
 use App\Hyco\Cast;
+use App\Hyco\Code;
 use App\Models\CashTrans;
 use App\Models\CashTransDetail;
-use App\Models\Code;
 use App\Models\GLhd;
 use App\Models\GLdt;
 use Closure;
@@ -68,6 +68,8 @@ class CashTransInForm extends Component
             ];
         }
 
+        $this->initialDetail();
+
         if(in_array($this->status,['approve','void'])){
             $this->open = false;
         }
@@ -98,9 +100,15 @@ class CashTransInForm extends Component
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1',
                 'tmp.*.note' => 'required',
+            ],[],[
+                'tmp.*.coa_code' => 'Coa (row :index)',
+                'tmp.*.amount' => 'Amount (row :index)',
+                'tmp.*.currency' => 'Currency (row :index)',
+                'tmp.*.rate' => 'Rate (row :index)',
+                'tmp.*.note' => 'Note (row :index)',
             ]);
 
-            $code = $this->autocode();
+            $code = Code::auto( $this->date, 'Cash In' );
 
             $total = 0;
             if( count($this->tmp) > 0 ) {
@@ -129,6 +137,12 @@ class CashTransInForm extends Component
                 'amount' => $total,
                 'date' => $this->date,
                 'note' => $this->note,
+            ],[],[
+                'tmp.*.coa_code' => 'Coa (row :index)',
+                'tmp.*.amount' => 'Amount (row :index)',
+                'tmp.*.currency' => 'Currency (row :index)',
+                'tmp.*.rate' => 'Rate (row :index)',
+                'tmp.*.note' => 'Note (row :index)',
             ]);
 
             session()->flash('success', __('Saved'));
@@ -185,15 +199,18 @@ class CashTransInForm extends Component
         }
     }
 
-    protected function autocode(): string
+    public function initialDetail()
     {
-        $time = strtotime($this->date);
-        $prefix = 'BKM/'.date('y',$time).'/'.date('m',$time).'/';
-        Code::updateOrCreate(
-            ['prefix' => $prefix],
-        )->increment('num');
-        $code = Code::where('prefix', $prefix)->first();
-        return $code->prefix . Str::padLeft($code->num, 4, '0');
+        if(empty($this->set_id) AND count($this->tmp)==0){
+            $this->tmp[] = [
+                'coa_code' => '',
+                'amount' => Cast::currency(0),
+                'currency' => 'IDR',
+                'rate' => Cast::currency(1),
+                'hamount' => Cast::currency(0),
+                'note' => '',
+            ];
+        }
     }
 
     #[On('set-contact')]
