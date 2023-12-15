@@ -81,10 +81,13 @@
             </x-hyco.nav-dropdown-item>
             <x-hyco.nav-dropdown-item href="{{ route('auth.change-profile') }}">
                 {{ __('Change Profile') }}
-              </x-hyco.nav-dropdown-item>
-              <x-hyco.nav-dropdown-item href="{{ route('auth.change-password') }}">
+            </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('auth.change-password') }}">
                 {{ __('Change Password') }}
-              </x-hyco.nav-dropdown-item>
+            </x-hyco.nav-dropdown-item>
+            <x-hyco.nav-dropdown-item href="{{ route('setting.common') }}">
+                {{ __('Settings') }}
+            </x-hyco.nav-dropdown-item>
             <x-hyco.nav-dropdown-item class="cursor-pointer">
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf

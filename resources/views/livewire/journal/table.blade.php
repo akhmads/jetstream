@@ -27,8 +27,8 @@
                 <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('glhd.code')" class="w-[150px] cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="w-[120px] cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('note')" class="cursor-pointer"></x-hyco.table-th>
-                <x-hyco.table-th name="debit_total" class="w-[150px]"></x-hyco.table-th>
-                <x-hyco.table-th name="credit_total" class="w-[150px]"></x-hyco.table-th>
+                <th class="px-4 py-2 text-right w-[150px]">Debit Total</th>
+                <th class="px-4 py-2 text-right w-[150px]">Credit Total</th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
                 <th class="px-4 py-2 text-left w-[150px]">
                     Action
@@ -58,7 +58,9 @@
             </td> --}}
             <td class="h-px w-px whitespace-nowrap px-4 py-3">
                 <a href="{{ route('finance.journal.form',$gl->id) }}" wire:navigate class="text-xs text-white bg-blue-600 px-3 py-1 rounded-lg">Edit</a>
+                @if($gl->lock=='0')
                 <a href="javascript:void(0)" wire:click="delete({{ $gl->id }})" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg">Del</a>
+                @endif
             </td>
         </x-hyco.table-tr>
         @empty

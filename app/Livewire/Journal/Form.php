@@ -24,6 +24,7 @@ class Form extends Component
     public $credit_total = 0;
     public $ref_name = '';
     public $ref_id = '';
+    public $open = true;
     public $tmp = [];
 
     public function render()
@@ -43,6 +44,7 @@ class Form extends Component
         $this->contact_id = $gl->contact_id ?? '0';
         $this->ref_name = $gl->ref_name ?? '';
         $this->ref_id = $gl->ref_id ?? '';
+        $this->lock = $gl->lock ?? '0';
 
         $GLdt = GLdt::where('code',$this->code)->orderBy('id')->get();
         foreach($GLdt as $dt){
@@ -55,11 +57,16 @@ class Form extends Component
                 'credit' => $dt->credit,
             ];
         }
+
+        if($this->lock=='1'){
+            $this->open = false;
+        }
     }
 
     public function store()
     {
         $this->sum();
+        $this->castAmount();
 
         if(empty($this->set_id))
         {
@@ -164,6 +171,16 @@ class Form extends Component
         }
     }
 
+    public function castAmount(): Void
+    {
+        foreach($this->tmp as $index=>$tmp)
+        {
+            $this->tmp[$index]['debit'] = Cast::number($tmp['debit']);
+            $this->tmp[$index]['credit'] = Cast::number($tmp['credit']);
+            $this->tmp[$index]['amount'] = Cast::number($tmp['amount']);
+        }
+    }
+
     protected function autocode(): string
     {
         return \App\Hyco\Code::auto( $this->date, 'Journal Voucher' );
@@ -204,8 +221,8 @@ class Form extends Component
         $debit_total = $credit_total = 0;
         foreach($this->tmp as $tm)
         {
-            if( $tm['dc'] == 'D' ) $debit_total = $debit_total + $tm['amount'];
-            if( $tm['dc'] == 'C' ) $credit_total = $credit_total + $tm['amount'];
+            if( $tm['dc'] == 'D' ) $debit_total = $debit_total + floatval($tm['amount']);
+            if( $tm['dc'] == 'C' ) $credit_total = $credit_total + floatval($tm['amount']);
         }
 
         $this->debit_total = $debit_total;

@@ -26,8 +26,8 @@
             <tr>
                 <x-hyco.table-th name="coa_code"></x-hyco.table-th>
                 <x-hyco.table-th name="coa_name"></x-hyco.table-th>
-                <x-hyco.table-th name="debit"></x-hyco.table-th>
-                <x-hyco.table-th name="credit"></x-hyco.table-th>
+                <th class="px-4 py-2 text-right w-[180px]">Debit</th>
+                <th class="px-4 py-2 text-right w-[180px]">Credit</th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
                 {{-- <th class="px-4 py-2 text-left w-[150px]">
                     Action

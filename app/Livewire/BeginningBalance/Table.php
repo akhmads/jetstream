@@ -31,7 +31,7 @@ class Table extends Component
     public function render()
     {
         if(empty($this->year)){
-            $this->year = date('Y');
+            $this->year = config('settings.period');
         }
         $COA = Coa::orderby($this->sortColumn,$this->sortDir);
         if(!empty($this->searchKeyword)){

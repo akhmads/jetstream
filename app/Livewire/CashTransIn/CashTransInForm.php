@@ -29,6 +29,7 @@ class CashTransInForm extends Component
     public $type = '';
     public $status = '';
     public $total = 0;
+    public $data;
     public $tmp = [];
     public $open = true;
     public $showApproveButton = false;
@@ -41,7 +42,7 @@ class CashTransInForm extends Component
 
     public function mount(Request $request)
     {
-        $CashTrans = CashTrans::Find($request->id);
+        $CashTrans = $this->data = CashTrans::Find($request->id);
         $this->set_id       = $CashTrans->id ?? '';
         $this->code         = $CashTrans->code ?? '';
         $this->ref_code     = $CashTrans->ref_code ?? '';
@@ -282,6 +283,7 @@ class CashTransInForm extends Component
             'contact_id' => $CashTrans->contact_id,
             'ref_name' => 'Cash In',
             'ref_id' => $CashTrans->code,
+            'lock' => '1',
         ]);
         GLdt::create([
             'code' => $JournalCode,

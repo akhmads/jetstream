@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/beginning-balance',    App\Livewire\BeginningBalance\Table::class)->name('finance.beginning-balance');
     Route::get('/cash-in',              App\Livewire\CashTransIn\CashTransInTable::class)->name('cash_bank.cash-in');
     Route::get('/cash-in/{id}',         App\Livewire\CashTransIn\CashTransInForm::class)->name('cash_bank.cash-in.form');
+    Route::get('/setting/common',       App\Livewire\Setting\Common::class)->name('setting.common');
 });
 
 

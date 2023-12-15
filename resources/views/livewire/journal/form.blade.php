@@ -25,26 +25,34 @@
                     <x-input type="date" id="date" wire:model="date" class="w-full" />
                     <x-input-error class="mt-2" for="date" />
                 </div>
-                <div class="col-span-12 md:col-span-3">
+                <div class="col-span-12 md:col-span-6">
                     <x-label for="contact_id" :value="__('Contact')" class="mb-1" />
-                    <livewire:example.contact-picker id="contact_id" :value="$contact_id" />
+                    <livewire:contact.contact-picker id="contact_id" :value="$contact_id" />
                     <x-input-error class="mt-2" for="contact_id" />
-                </div>
-                <div class="col-span-12 md:col-span-3">
-                    <x-label for="ref_name" :value="__('Ref Module')" class="mb-1" />
-                    <x-input id="ref_name" :value="$ref_name" class="w-full bg-slate-100" readonly />
-                    <x-input-error class="mt-2" for="ref_name" />
                 </div>
                 <div class="col-span-12 md:col-span-6">
                     <x-label for="note" :value="__('Note')" class="mb-1" />
                     <x-input id="note" wire:model="note" class="w-full" />
                     <x-input-error class="mt-2" for="note" />
                 </div>
-                <div class="hidden md:block col-span-12 md:col-span-3">&nbsp;</div>
+                <div class="col-span-12 md:col-span-3">
+                    <x-label for="ref_name" :value="__('Ref Module')" class="mb-1" />
+                    <x-input id="ref_name" :value="$ref_name" class="w-full bg-slate-100" readonly />
+                    <x-input-error class="mt-2" for="ref_name" />
+                </div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="ref_id" :value="__('Ref ID')" class="mb-1" />
                     <x-input id="ref_id" :value="$ref_id" class="w-full bg-slate-100" readonly />
                     <x-input-error class="mt-2" for="ref_id" />
+                </div>
+                <div class="hidden md:block col-span-12 md:col-span-6">&nbsp;</div>
+                <div class="col-span-12 md:col-span-3">
+                    <x-label for="" :value="__('Debet Total')" class="mb-1" />
+                    <x-input type="text" wire:model.live="debit_total" class="w-full text-end bg-slate-50" x-mask:dynamic="$money($input)" readonly />
+                </div>
+                <div class="col-span-12 md:col-span-3">
+                    <x-label for="" :value="__('Credit Total')" class="mb-1" />
+                    <x-input type="text" wire:model.live="credit_total" class="w-full text-end bg-slate-50" x-mask:dynamic="$money($input)" readonly />
                 </div>
 
             </div>
@@ -55,11 +63,13 @@
                 </div>
             </div>
 
+            @if($open)
             <div class="col-span-6 flex flex-row justify-end">
                 <x-hyco.button wire:click.prevent="addDetail" wire:loading.attr="disabled" icon="plus" class="scale-90">
                     Add
                 </x-hyco.button>
             </div>
+            @endif
 
             @error('tmp*')
             <div class="flex flex-row justify-center">
@@ -79,7 +89,9 @@
                 <th>Description</th>
                 <th class="w-[80px]">D/C</th>
                 <th class="w-[150px]">Amount</th>
+                @if($open)
                 <th class="w-[100px]">Action</th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -95,18 +107,20 @@
                     <x-hyco.select wire:model="tmp.{{$index}}.dc" :options="['D'=>'D','C'=>'C']" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" />
                 </td>
+                @if($open)
                 <td class="text-center">
                     <x-hyco.button class="bg-red-500 hover:bg-red-400 scale-90" wire:click.prevent="removeDetail('{{$index}}')" wire:loading.attr="disabled">del</x-hyco.button>
                 </td>
+                @endif
             </tr>
             @empty
             <tr>
                 <td class="text-center py-2" colspan="7">No items</td>
             </tr>
             @endforelse
-            <tr>
+            {{-- <tr>
                 <td colspan="3" class="text-end px-2">Total Debt:</td>
                 <td class=""><x-input wire:model="debit_total" class="w-full text-end" readonly /></td>
                 <td>&nbsp;</td>
@@ -115,13 +129,15 @@
                 <td colspan="3" class="text-end px-2">Total Credit:</td>
                 <td class=""><x-input wire:model="credit_total" class="w-full text-end" readonly /></td>
                 <td>&nbsp;</td>
-            </tr>
+            </tr> --}}
             </tbody>
             </table>
 
             <x-slot name="actions">
                 <x-hyco.link href="{{ route('finance.journal') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
+                @if($open)
                 <x-hyco.button wire:click.prevent="store" wire:loading.attr="disabled" icon="check">Save</x-hyco.button>
+                @endif
             </x-slot>
 
         </x-hyco.card>
