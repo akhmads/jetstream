@@ -27,6 +27,7 @@
                 <x-hyco.table-th name="code" :sort="$sortLink" wire:click="sortOrder('glhd.code')" class="w-[150px] cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="date" :sort="$sortLink" wire:click="sortOrder('date')" class="w-[120px] cursor-pointer"></x-hyco.table-th>
                 <x-hyco.table-th name="note" :sort="$sortLink" wire:click="sortOrder('note')" class="cursor-pointer"></x-hyco.table-th>
+                <x-hyco.table-th name="ref_name" :sort="$sortLink" wire:click="sortOrder('ref_name')" class="cursor-pointer"></x-hyco.table-th>
                 <th class="px-4 py-2 text-right w-[150px]">Debit Total</th>
                 <th class="px-4 py-2 text-right w-[150px]">Credit Total</th>
                 {{-- <x-hyco.table-th name="created_at" :sort="$sortLink" wire:click="sortOrder('created_at')" class="cursor-pointer w-[180px]"></x-hyco.table-th> --}}
@@ -47,10 +48,13 @@
             <td class="px-4 py-3 text-gray-600">
                 {{ $gl->note }}
             </td>
-            <td class="px-4 py-3 text-gray-600 text-end">
+            <td class="px-4 py-3 text-gray-600 w-[120px]">
+                {{ $gl->ref_name }}
+            </td>
+            <td class="px-4 py-3 text-gray-600 text-end w-[140px]">
                 {{ number_format($gl->debit_total,2) }}
             </td>
-            <td class="px-4 py-3 text-gray-600 text-end">
+            <td class="px-4 py-3 text-gray-600 text-end w-[140px]">
                 {{ number_format($gl->credit_total,2) }}
             </td>
             {{-- <td class="px-4 py-3 text-gray-600">

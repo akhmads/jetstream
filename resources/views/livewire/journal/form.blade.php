@@ -96,11 +96,9 @@
             </thead>
             <tbody>
             @forelse ( $tmp as $index => $tm )
-            <tr>
+            <tr wire:key="tr-{{ $index }}">
                 <td>
-                    <div>
-                        <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa-picker-{{ $index }}" class="w-full text-base" />
-                    </div>
+                    <livewire:coa.coa-picker :index="$index" :value="$tm['coa_code'] ?? ''" wire:key="coa-picker-{{ $index }}" class="w-full text-base" />
                 </td>
                 <td>
                     <x-input wire:model="tmp.{{$index}}.description" wire:loading.attr="disabled" class="w-full" />

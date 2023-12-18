@@ -1,5 +1,4 @@
 <div>
-
     <div wire:loading class="fixed top-0 z-[999]">
         <x-hyco.loading />
     </div>
@@ -56,5 +55,4 @@
             </div>
         </x-slot>
     </x-hyco.modal>
-
 </div>

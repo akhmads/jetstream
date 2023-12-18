@@ -15,7 +15,7 @@ class CashTransInTable extends Component
     use WithPagination;
 
     public $perPage = 10;
-    public $sortColumn = "cash_account.id";
+    public $sortColumn = "cash_trans.id";
     public $sortDir = "desc";
     public $sortLink = [];
     public $searchKeyword = '';
