@@ -17,7 +17,11 @@
 
                 <div class="col-span-12 md:col-span-3">
                     <x-hyco.label for="code" :value="__('Code')" />
+                    @if(empty($code))
+                    <x-hyco.select wire:model="prefix_code" :options="\App\Hyco\Code::list('Cash In')" class="w-full"></x-hyco.select>
+                    @else
                     <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
+                    @endif
                     <x-input-error class="mt-2" for="code" />
                 </div>
 

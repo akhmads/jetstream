@@ -19,6 +19,7 @@ use Closure;
 class CashTransInForm extends Component
 {
     public $set_id;
+    public $prefix_code = '';
     public $code = '';
     public $ref_code = '';
     public $date = '';
@@ -89,6 +90,7 @@ class CashTransInForm extends Component
         if(empty($this->set_id))
         {
             $valid = $this->validate([
+                'prefix_code' => 'required',
                 'ref_code' => 'required',
                 'date' => 'required',
                 'contact_id' => 'required',
@@ -96,9 +98,9 @@ class CashTransInForm extends Component
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required|min:1|gt:1',
+                'tmp.*.amount' => 'required|min:1|gt:0',
                 'tmp.*.currency' => 'required',
-                'tmp.*.rate' => 'required|min:1',
+                'tmp.*.rate' => 'required|min:1|gt:0',
                 'tmp.*.note' => 'required',
             ],[],[
                 'tmp.*.coa_code' => 'Coa (row :index)',
@@ -108,7 +110,7 @@ class CashTransInForm extends Component
                 'tmp.*.note' => 'Note (row :index)',
             ]);
 
-            $code = Code::auto( $this->date, 'Cash In' );
+            $code = Code::make( $this->date, $this->prefix_code );
 
             $total = 0;
             if( count($this->tmp) > 0 ) {
@@ -159,9 +161,9 @@ class CashTransInForm extends Component
                 'note' => 'required',
                 'tmp' => 'required|array|min:1',
                 'tmp.*.coa_code' => 'required|distinct',
-                'tmp.*.amount' => 'required|min:1|gt:1',
+                'tmp.*.amount' => 'required|min:1|gt:0',
                 'tmp.*.currency' => 'required',
-                'tmp.*.rate' => 'required|min:1',
+                'tmp.*.rate' => 'required|min:1|gt:0',
                 'tmp.*.note' => 'required',
             ]);
 
