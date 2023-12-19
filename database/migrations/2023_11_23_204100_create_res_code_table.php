@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('res_code', function (Blueprint $table) {
             $table->id();
             $table->string('resource',50)->unique()->index();
-            $table->string('code',50);
+            $table->string('code',100);
         });
 
         DB::table('res_code')->insert([

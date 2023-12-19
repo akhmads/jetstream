@@ -34,6 +34,7 @@ class CashTransInForm extends Component
     public $tmp = [];
     public $open = true;
     public $showApproveButton = false;
+    public $showVoidButton = false;
     public $confirmApprove = false;
 
     public function render()
@@ -76,9 +77,13 @@ class CashTransInForm extends Component
         }
         if(!empty($this->set_id)){
             $this->showApproveButton = true;
+            $this->showVoidButton = true;
         }
         if($this->status == 'approve'){
             $this->showApproveButton = false;
+        }
+        if($this->status == 'void'){
+            $this->showVoidButton = false;
         }
     }
 
@@ -139,12 +144,8 @@ class CashTransInForm extends Component
                 'amount' => $total,
                 'date' => $this->date,
                 'note' => $this->note,
-            ],[],[
-                'tmp.*.coa_code' => 'Coa (row :index)',
-                'tmp.*.amount' => 'Amount (row :index)',
-                'tmp.*.currency' => 'Currency (row :index)',
-                'tmp.*.rate' => 'Rate (row :index)',
-                'tmp.*.note' => 'Note (row :index)',
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
             ]);
 
             session()->flash('success', __('Saved'));
@@ -165,6 +166,12 @@ class CashTransInForm extends Component
                 'tmp.*.currency' => 'required',
                 'tmp.*.rate' => 'required|min:1|gt:0',
                 'tmp.*.note' => 'required',
+            ],[],[
+                'tmp.*.coa_code' => 'Coa (row :index)',
+                'tmp.*.amount' => 'Amount (row :index)',
+                'tmp.*.currency' => 'Currency (row :index)',
+                'tmp.*.rate' => 'Rate (row :index)',
+                'tmp.*.note' => 'Note (row :index)',
             ]);
 
             $CashTransDetail = CashTransDetail::where('code',$this->code);
@@ -194,6 +201,7 @@ class CashTransInForm extends Component
                 'amount' => $total,
                 'date' => $this->date,
                 'note' => $this->note,
+                'updated_by' => auth()->user()->id,
             ]);
 
             session()->flash('success', __('Saved'));
@@ -285,6 +293,9 @@ class CashTransInForm extends Component
     {
         $CashTrans = CashTrans::find($this->set_id);
         $CashTrans->status = 'approve';
+        $CashTrans->approved_by = auth()->user()->id;
+        $CashTrans->approved_at = date('Y-m-d H:i:s');
+
         $CashTrans->save();
 
         // ---------------------------------------
@@ -339,7 +350,12 @@ class CashTransInForm extends Component
     {
         $CashTrans = CashTrans::find($id);
         $CashTrans->status = 'void';
+        $CashTrans->voided_by = auth()->user()->id;
+        $CashTrans->voided_at = date('Y-m-d H:i:s');
         $CashTrans->save();
+
+        $CashTrans = CashTrans::find($id)->first();
+        AutoJournal::reset($CashTrans->code ?? '', 'Cash In');
 
         session()->flash('success', __('Voided'));
     }

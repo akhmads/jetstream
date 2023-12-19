@@ -144,22 +144,25 @@
                 </div>
             </div>
 
-            <div class="w-full flex items-center justify-center gap-10">
+            {{-- <div class="w-full flex items-center justify-center gap-10">
                 <div class="text-slate-400">
                     Created At : {{ isset($data->created_at) ? ($data->created_at)->format('d/m/Y, H:i') : ' - ' }}
                 </div>
                 <div class="text-slate-400">
                     Updated At : {{ isset($data->updated_at) ? ($data->updated_at)->format('d/m/Y, H:i') : ' - ' }}
                 </div>
-            </div>
+            </div> --}}
 
             <x-slot name="actions">
                 @if($showApproveButton)
                 <x-hyco.button wire:click.prevent="showApprove({{ $set_id }})" wire:loading.attr="disabled" icon="check" class="bg-green-500 hover:bg-green-400">Approve</x-hyco.button>
+                @endif
+
+                @if($showVoidButton)
                 <x-hyco.button wire:click.prevent="doVoid({{ $set_id }})" wire:loading.attr="disabled" icon="x-mark" class="bg-red-500 hover:bg-red-400">Void</x-hyco.button>
                 @endif
 
-                <x-hyco.link href="{{ route('cash_bank.cash-in') }}" wire:navigate icon="x-mark" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
+                <x-hyco.link href="{{ route('cash_bank.cash-in') }}" wire:navigate icon="arrow-left" class="bg-yellow-500 hover:bg-yellow-400">Back</x-hyco.link>
 
                 @if($open)
                 <x-hyco.button wire:click.prevent="store" wire:loading.attr="disabled" icon="check">Save</x-hyco.button>

@@ -21,7 +21,13 @@ return new class extends Migration
             $table->decimal('amount', 12, 2)->default(0);
             $table->string('note',200)->nullable()->default("");
             $table->enum('type', ['in','out'])->index();
-            $table->enum('status', ['unapprove','approve','void'])->index();
+            $table->enum('status', ['unapprove','approve','void'])->index()->default('unapprove');
+            $table->foreignId('created_by')->index()->nullable()->default(0);
+            $table->foreignId('updated_by')->index()->nullable()->default(0);
+            $table->foreignId('approved_by')->index()->nullable()->default(0);
+            $table->foreignId('voided_by')->index()->nullable()->default(0);
+            $table->dateTime('approved_at')->nullable();
+            $table->dateTime('voided_at')->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\User;
 use App\Models\CashAccount;
 use App\Models\Contact;
 use App\Models\CashTransDetail;
@@ -18,6 +19,7 @@ class CashTrans extends Model
     protected $guarded = [];
     protected $casts = [
         'date' => 'date',
+        'approved_at' => 'datetime',
     ];
 
     public function account(): BelongsTo
@@ -33,5 +35,20 @@ class CashTrans extends Model
     public function detail(): HasMany
     {
         return $this->hasMany(CashTransDetail::class, 'code', 'code');
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'created_id','id');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'updated_id','id');
+    }
+
+    public function approvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'approved_id','id');
     }
 }
