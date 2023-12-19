@@ -1,5 +1,20 @@
 <div>
 
+    @if($disabled)
+
+    <div class="relative">
+        <span class="select-none absolute inset-y-0 right-0 flex items-center cursor-pointer pr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+        </span>
+        <div class="w-full select-none px-3 pr-8 py-2 text-base truncate bg-slate-100 border border-gray-300 rounded-md shadow-sm">
+            {{ empty($label) ? '' : $label }}
+        </div>
+    </div>
+
+    @else
+
     <div wire:loading class="fixed top-0 z-[999]">
         <x-hyco.loading />
     </div>
@@ -54,5 +69,6 @@
             </div>
         </x-slot>
     </x-hyco.modal>
+    @endif
 
 </div>

@@ -20,39 +20,39 @@
                     @if(empty($code))
                     <x-hyco.select wire:model="prefix_code" :options="\App\Hyco\Code::list('Cash In')" class="w-full"></x-hyco.select>
                     @else
-                    <x-input id="code" wire:model="code" class="w-full bg-slate-100" readonly="" />
+                    <x-input id="code" wire:model="code" class="w-full bg-slate-100" disabled />
                     @endif
                     <x-input-error class="mt-2" for="code" />
                 </div>
 
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="date" :value="__('Date')" class="mb-1" />
-                    <x-input type="date" id="date" wire:model="date" class="w-full" />
+                    <x-input type="date" id="date" wire:model="date" class="w-full" :disabled="!$open" />
                     <x-input-error class="mt-2" for="date" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="contact_id" :value="__('Contact')" class="mb-1" />
-                    <livewire:contact.contact-picker id="contact_id" :value="$contact_id" />
+                    <livewire:contact.contact-picker id="contact_id" :value="$contact_id" :disabled="!$open" />
                     <x-input-error class="mt-2" for="contact_id" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="ref_code" :value="__('Ref Code')" class="mb-1" />
-                    <x-input wire:model="ref_code" class="w-full" />
+                    <x-input wire:model="ref_code" class="w-full" :disabled="!$open" />
                     <x-input-error class="mt-2" for="ref_name" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="cash_account_id" :value="__('Account')" class="mb-1" />
-                    <x-hyco.select wire:model="cash_account_id" :options="\App\Models\CashAccount::active()->pluck('name','id')" class="w-full"></x-hyco.select>
+                    <x-hyco.select wire:model="cash_account_id" :options="\App\Models\CashAccount::active()->pluck('name','id')" class="w-full" :disabled="!$open"></x-hyco.select>
                     <x-input-error class="mt-2" for="cash_account_id" />
                 </div>
                 <div class="col-span-12 md:col-span-6">
                     <x-label for="note" :value="__('Note')" class="mb-1" />
-                    <x-input id="note" wire:model="note" class="w-full" />
+                    <x-input id="note" wire:model="note" class="w-full" :disabled="!$open" />
                     <x-input-error class="mt-2" for="note" />
                 </div>
                 <div class="col-span-12 md:col-span-3">
                     <x-label for="note" :value="__('Total')" class="mb-1" />
-                    <x-input id="total" wire:model="total" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly />
+                    <x-input id="total" wire:model="total" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" disabled />
                 </div>
 
             </div>
@@ -100,22 +100,22 @@
             @forelse ( $tmp as $index => $tm )
             <tr wire:key="{{ 'tr-'.$index }}">
                 <td class="max-w-[200px]">
-                    <livewire:coa.coa-picker :key="'coa-picker-'.$index" inline :index="$index" :value="$tm['coa_code'] ?? ''" class="w-full text-base" />
+                    <livewire:coa.coa-picker :key="'coa-picker-'.$index" inline :index="$index" :value="$tm['coa_code'] ?? ''" class="w-full text-base" :disabled="!$open" />
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.note" wire:loading.attr="disabled" class="w-full" />
+                    <x-input wire:model="tmp.{{$index}}.note" wire:loading.attr="disabled" class="w-full" :disabled="!$open" />
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.amount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" :disabled="!$open" />
                 </td>
                 <td>
-                    <x-hyco.select wire:model="tmp.{{$index}}.currency" :options="App\Models\Currency::active()->pluck('code')" placeholder="" wire:loading.attr="disabled" class="w-full"></x-hyco.select>
+                    <x-hyco.select wire:model="tmp.{{$index}}.currency" :options="App\Models\Currency::active()->pluck('code')" placeholder="" wire:loading.attr="disabled" class="w-full" :disabled="!$open"></x-hyco.select>
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" />
+                    <x-input wire:model="tmp.{{$index}}.rate" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end" :disabled="!$open" />
                 </td>
                 <td>
-                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" readonly />
+                    <x-input wire:model="tmp.{{$index}}.hamount" wire:loading.attr="disabled" x-mask:dynamic="$money($input)" class="w-full text-end bg-slate-100" disabled />
                 </td>
                 @if($open)
                 <td class="text-center">

@@ -9,10 +9,17 @@ use App\Models\ResCode;
 
 class Code {
 
+    public static function approve(): array
+    {
+        $data = ['approve' => 'Approve','unapprove' => 'Unapprove','void' => 'Void'];
+        return $data;
+    }
+
     public static function get( $resource ): string
     {
         $row = ResCode::where('resource', $resource)->first();
-        return $row->code ?? '';
+        $codes = empty($row->code) ? [] : explode(',',$row->code);
+        return isset($codes[0]) ? $codes[0] : '';
     }
 
     public static function list( $resource ): array

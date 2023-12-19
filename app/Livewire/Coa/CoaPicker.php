@@ -17,6 +17,7 @@ class CoaPicker extends Component
 
     public $label;
     public $searchKeyword;
+    public $disabled = false;
     public $modal = false;
     public $class;
 
@@ -31,7 +32,7 @@ class CoaPicker extends Component
         return view('livewire.coa.coa-picker',['coas' => $coas]);
     }
 
-    public function mount($index = '', $value = '')
+    public function mount($index = '', $value = '', $disabled = false)
     {
         if( !empty($value) ){
             $coa = Coa::where('code',$value)->get()->first();
@@ -41,6 +42,7 @@ class CoaPicker extends Component
         $code = $coa->code ?? '';
         $name = $coa->name ?? '';
         $this->label = empty($code) ? '' : $code . ' - ' . $name;
+        $this->disabled = $disabled;
     }
 
     public function pick($id,$label,$index='')

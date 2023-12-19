@@ -18,6 +18,7 @@ class ContactPicker extends Component
 
     public $label;
     public $searchKeyword;
+    public $disabled = false;
     public $modal = false;
 
     public function render()
@@ -30,14 +31,14 @@ class ContactPicker extends Component
         return view('livewire.contact.contact-picker',['contacts' => $contacts]);
     }
 
-    public function mount($value = '')
+    public function mount($value = '', $disabled = false)
     {
         if( !empty($value) ){
             $contact = Contact::where('id',$value)->get()->first();
         }
         $this->value = $contact->id ?? '';
         $this->label = $contact->name ?? '';
-        //$this->searchKeyword = $this->label;
+        $this->disabled = $disabled;
     }
 
     public function pick($id,$label)

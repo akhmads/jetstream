@@ -19,6 +19,7 @@ class CashTransInTable extends Component
     public $sortDir = "desc";
     public $sortLink = [];
     public $searchKeyword = '';
+    public $filterStatus = '';
     public $confirmDeletion = false;
     public $set_id;
 
@@ -27,12 +28,19 @@ class CashTransInTable extends Component
         $CashTrans = CashTrans::select('cash_trans.*')
             ->orderby($this->sortColumn,$this->sortDir)
             ->leftJoin('cash_account','cash_account.id','=','cash_trans.cash_account_id')
-            ->where('type','in')
+            ->leftJoin('contact','contact.id','=','cash_trans.contact_id')
+            ->where('cash_trans.type','in')
             ->with('contact:id,name')
             ->with('account:id,name');
         if(!empty($this->searchKeyword)){
-            $CashTrans->orWhere('code','like',"%".$this->searchKeyword."%");
-            $CashTrans->orWhere('cash_account.name','like',"%".$this->searchKeyword."%");
+            $CashTrans->where(function($query){
+                $query->where('cash_trans.code','ilike',"%".$this->searchKeyword."%");
+                $query->orWhere('cash_account.name','ilike',"%".$this->searchKeyword."%");
+                $query->orWhere('contact.name','ilike',"%".$this->searchKeyword."%");
+            });
+        }
+        if(!empty($this->filterStatus)){
+            $CashTrans->where('cash_trans.status',$this->filterStatus);
         }
         $data = $CashTrans->paginate($this->perPage);
 

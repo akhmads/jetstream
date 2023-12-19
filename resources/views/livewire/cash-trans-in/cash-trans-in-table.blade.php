@@ -14,6 +14,7 @@
         <x-slot name="headingLeft">
             <x-hyco.table-perpage wire:model.live="perPage" :data="[10,25,50,100]" :value="$perPage" />
             <x-hyco.table-search wire:model.live.debounce.300ms="searchKeyword" />
+            <x-hyco.select wire:model.live="filterStatus" :options="\App\Hyco\Code::approve()" class="w-full col-span-12 lg:col-span-2"></x-hyco.select>
         </x-slot>
 
         <x-slot name="headingRight">
