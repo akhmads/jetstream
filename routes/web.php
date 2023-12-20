@@ -28,12 +28,14 @@ Route::middleware([
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/example',              App\Livewire\Example\ExampleTable::class)->name('example');
+    Route::get('/example/{id}',         App\Livewire\Example\ExampleForm::class)->name('example.form');
+    Route::get('/play',                 [App\Http\Controllers\PlayController::class,'index'])->name('play');
+    Route::get('/play/{page}',          [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
     Route::get('/change-profile',       App\Livewire\Auth\ChangeProfile::class)->name('auth.change-profile');
     Route::get('/change-password',      App\Livewire\Auth\ChangePassword::class)->name('auth.change-password');
     Route::get('/user',                 App\Livewire\User\UserTable::class)->name('user');
     Route::get('/user/{id}',            App\Livewire\User\UserForm::class)->name('user.form');
-    Route::get('/example',              App\Livewire\Example\ExampleTable::class)->name('example');
-    Route::get('/example/{id}',         App\Livewire\Example\ExampleForm::class)->name('example.form');
     Route::get('/post',                 App\Livewire\Post\PostTable::class)->name('post');
     Route::get('/post/{id}',            App\Livewire\Post\PostForm::class)->name('post.form');
     Route::get('/contact',              App\Livewire\Contact\ContactTable::class)->name('master.contact');
@@ -42,8 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/salesman/{id}',        App\Livewire\Salesman\SalesmanForm::class)->name('salesman.form');
     Route::get('/item',                 App\Livewire\Item\ItemTable::class)->name('item');
     Route::get('/item/{id}',            App\Livewire\Item\ItemForm::class)->name('item.form');
-    Route::get('/play',                 [App\Http\Controllers\PlayController::class,'index'])->name('play');
-    Route::get('/play/{page}',          [App\Http\Controllers\PlayController::class,'page'])->name('play.page');
     Route::get('/coa',                  App\Livewire\Coa\CoaTable::class)->name('coa');
     Route::get('/coa/{id}',             App\Livewire\Coa\CoaForm::class)->name('coa.form');
     Route::get('/bank',                 App\Livewire\Bank\BankTable::class)->name('master.bank');
@@ -61,8 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/gl',                   App\Livewire\GL\GLTable::class)->name('finance.gl');
     Route::get('/trial-balance',        App\Livewire\TrialBalance\Table::class)->name('finance.trial-balance');
     Route::get('/beginning-balance',    App\Livewire\BeginningBalance\Table::class)->name('finance.beginning-balance');
-    Route::get('/cash-in',              App\Livewire\CashTransIn\CashTransInTable::class)->name('cash_bank.cash-in');
-    Route::get('/cash-in/{id}',         App\Livewire\CashTransIn\CashTransInForm::class)->name('cash_bank.cash-in.form');
+    //Route::get('/cash-in',              App\Livewire\CashTransIn\CashTransInTable::class)->name('cash_bank.cash-in');
+    //Route::get('/cash-in/{id}',         App\Livewire\CashTransIn\CashTransInForm::class)->name('cash_bank.cash-in.form');
+    Route::get('/cash/{type}',          App\Livewire\CashTrans\CashTransTable::class)->name('cash_bank.cash')->whereIn('type', ['in','out']);
+    Route::get('/cash/{type}/{id}',     App\Livewire\CashTrans\CashTransForm::class)->name('cash_bank.cash.form')->whereIn('type', ['in','out']);
     Route::get('/setting/common',       App\Livewire\Setting\Common::class)->name('setting.common');
 });
 

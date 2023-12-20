@@ -25,10 +25,10 @@
             </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>
         <x-hyco.nav-dropdown :title="_('Cash & Bank')" :active="request()->routeIs(['cash*','bank*'])">
-            <x-hyco.nav-dropdown-item href="{{ route('cash_bank.cash-in') }}">
+            <x-hyco.nav-dropdown-item href="{{ route('cash_bank.cash','in') }}">
                 {{ __('Cash In') }}
             </x-hyco.nav-dropdown-item>
-            <x-hyco.nav-dropdown-item href="{{ route('dashboard') }}">
+            <x-hyco.nav-dropdown-item href="{{ route('cash_bank.cash','out') }}">
                 {{ __('Cash Out') }}
             </x-hyco.nav-dropdown-item>
         </x-hyco.nav-dropdown>

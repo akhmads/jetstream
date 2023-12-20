@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\CashTransIn;
+namespace App\Livewire\CashTrans;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -16,8 +16,10 @@ use App\Models\GLhd;
 use App\Models\GLdt;
 use Closure;
 
-class CashTransInForm extends Component
+class CashTransForm extends Component
 {
+    public $resource_type;
+    public $resource_name;
     public $set_id;
     public $prefix_code = '';
     public $code = '';
@@ -39,11 +41,19 @@ class CashTransInForm extends Component
 
     public function render()
     {
-        return view('livewire.cash-trans-in.cash-trans-in-form');
+        return view('livewire.cash-trans.cash-trans-form');
     }
 
     public function mount(Request $request)
     {
+        $this->resource_type = $request->type ?? '';
+
+        if( $this->resource_type == 'in' ){
+            $this->resource_name = 'Cash In';
+        }else{
+            $this->resource_name = 'Cash Out';
+        }
+
         $CashTrans = $this->data = CashTrans::Find($request->id);
         $this->set_id       = $CashTrans->id ?? '';
         $this->code         = $CashTrans->code ?? '';
@@ -136,7 +146,7 @@ class CashTransInForm extends Component
             }
 
             $CashTrans = CashTrans::create([
-                'type' => 'in',
+                'type' => $this->resource_type,
                 'status' => 'unapprove',
                 'code' => $code,
                 'ref_code' => $this->ref_code,
@@ -150,7 +160,7 @@ class CashTransInForm extends Component
             ]);
 
             session()->flash('success', __('Saved'));
-            return redirect()->route('cash_bank.cash-in.form',$CashTrans->id);
+            return redirect()->route('cash_bank.cash.form',['type' => $this->resource_type, 'id' => $CashTrans->id]);
         }
         else
         {
@@ -206,7 +216,7 @@ class CashTransInForm extends Component
             ]);
 
             session()->flash('success', __('Saved'));
-            return redirect()->route('cash_bank.cash-in.form',$this->set_id);
+            return redirect()->route('cash_bank.cash.form',['type' => $this->resource_type, 'id' => $this->set_id]);
         }
     }
 
@@ -302,7 +312,15 @@ class CashTransInForm extends Component
         // Start Auto Journal
         // ---------------------------------------
 
-        AutoJournal::reset($CashTrans->code, 'Cash In');
+        if( $this->resource_type == 'in' ){
+            $header_side = 'D';
+            $detail_side = 'C';
+        }else{
+            $header_side = 'C';
+            $detail_side = 'D';
+        }
+
+        AutoJournal::reset($CashTrans->code, $this->resource_name);
         $JournalCode = \App\Hyco\Code::auto($CashTrans->date,'Journal Voucher');
         GLhd::create([
             'code' => $JournalCode,
@@ -311,31 +329,58 @@ class CashTransInForm extends Component
             'debit_total' => $CashTrans->amount,
             'credit_total' => $CashTrans->amount,
             'contact_id' => $CashTrans->contact_id,
-            'ref_name' => 'Cash In',
+            'ref_name' => $this->resource_name,
             'ref_id' => $CashTrans->code,
             'lock' => '1',
         ]);
-        GLdt::create([
-            'code' => $JournalCode,
-            'description' => $CashTrans->note,
-            'coa_code' => $CashTrans->account->coa->code ?? '',
-            'dc' => 'D',
-            'debit' => $CashTrans->amount,
-            'credit' => 0,
-            'amount' => $CashTrans->amount,
-        ]);
-        if( count($CashTrans->detail) > 0 ) {
-            foreach($CashTrans->detail as $detail)
-            {
-                GLdt::create([
-                    'code' => $JournalCode,
-                    'description' => $detail->note,
-                    'coa_code' => $detail->coa_code,
-                    'dc' => 'C',
-                    'debit' => 0,
-                    'credit' => $detail->hamount,
-                    'amount' => $detail->hamount * -1,
-                ]);
+
+        if( $this->resource_type == 'in' ){
+            GLdt::create([
+                'code' => $JournalCode,
+                'description' => $CashTrans->note,
+                'coa_code' => $CashTrans->account->coa->code ?? '',
+                'dc' => 'D',
+                'debit' => $CashTrans->amount,
+                'credit' => 0,
+                'amount' => $CashTrans->amount,
+            ]);
+            if( count($CashTrans->detail) > 0 ) {
+                foreach($CashTrans->detail as $detail)
+                {
+                    GLdt::create([
+                        'code' => $JournalCode,
+                        'description' => $detail->note,
+                        'coa_code' => $detail->coa_code,
+                        'dc' => 'C',
+                        'debit' => 0,
+                        'credit' => $detail->hamount,
+                        'amount' => $detail->hamount * -1,
+                    ]);
+                }
+            }
+        }else{
+            GLdt::create([
+                'code' => $JournalCode,
+                'description' => $CashTrans->note,
+                'coa_code' => $CashTrans->account->coa->code ?? '',
+                'dc' => 'C',
+                'debit' => 0,
+                'credit' => $CashTrans->amount,
+                'amount' => $CashTrans->amount * -1,
+            ]);
+            if( count($CashTrans->detail) > 0 ) {
+                foreach($CashTrans->detail as $detail)
+                {
+                    GLdt::create([
+                        'code' => $JournalCode,
+                        'description' => $detail->note,
+                        'coa_code' => $detail->coa_code,
+                        'dc' => 'D',
+                        'debit' => $detail->hamount,
+                        'credit' => 0,
+                        'amount' => $detail->hamount,
+                    ]);
+                }
             }
         }
         // ---------------------------------------
@@ -343,7 +388,7 @@ class CashTransInForm extends Component
         // ---------------------------------------
 
         session()->flash('success', __('Approved'));
-        return redirect()->route('cash_bank.cash-in');
+        return redirect()->route('cash_bank.cash', ['type' => $this->resource_type, 'id' => $this->set_id]);
     }
 
     public function doVoid($id)
@@ -355,8 +400,9 @@ class CashTransInForm extends Component
         $CashTrans->save();
 
         $CashTrans = CashTrans::find($id)->first();
-        AutoJournal::reset($CashTrans->code ?? '', 'Cash In');
+        AutoJournal::reset($CashTrans->code ?? '', $this->resource_name);
 
         session()->flash('success', __('Voided'));
+        return redirect()->route('cash_bank.cash', ['type' => $this->resource_type, 'id' => $this->set_id]);
     }
 }

@@ -9,8 +9,6 @@ use App\Models\GLdt;
 
 class AutoJournal {
 
-    //protected static $beginning = [];
-
     public static function reset( $ref_id, $ref_name )
     {
         $HEADS = GLhd::where('ref_id', $ref_id)->where('ref_name', $ref_name);

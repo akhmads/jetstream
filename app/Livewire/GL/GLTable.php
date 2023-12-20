@@ -3,6 +3,7 @@
 namespace App\Livewire\GL;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -29,11 +30,13 @@ class GLTable extends Component
                 ->leftJoin('gldt', 'gldt.code', '=', 'glhd.code')
                 ->leftJoin('coa', 'coa.code', '=', 'gldt.coa_code');
         if(!empty($this->searchKeyword)){
-            $GL->orWhere('glhd.code','like',$this->searchKeyword."%");
-            $GL->orWhere('gldt.coa_code','like',$this->searchKeyword."%");
-            $GL->orWhere('coa.name','like',"%".$this->searchKeyword."%");
+            $GL->where(function($query){
+                $query->orWhere('glhd.code','ilike',$this->searchKeyword."%");
+                $query->orWhere('gldt.coa_code','ilike',$this->searchKeyword."%");
+                $query->orWhere('coa.name','ilike',"%".$this->searchKeyword."%");
+            });
         }
-        $GL->orWhere('gldt.coa_code','=',$this->coa_code);
+        $GL->where('gldt.coa_code','=',$this->coa_code);
         $GL = $GL->paginate($this->perPage);
 
         return view('livewire.gl.gl-table',['GL' => $GL]);

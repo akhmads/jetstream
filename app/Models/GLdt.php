@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Coa;
 
 class GLdt extends Model
 {
@@ -13,4 +13,9 @@ class GLdt extends Model
 
     protected $table = 'gldt';
     protected $guarded = [];
+
+    public function coa(): BelongsTo
+    {
+        return $this->belongsTo(Coa::class,'coa_code','code');
+    }
 }

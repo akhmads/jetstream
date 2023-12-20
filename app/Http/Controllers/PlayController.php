@@ -22,6 +22,7 @@ class PlayController extends Controller
         echo '<h2>Play Menu</h2>';
         echo '<ul>';
         echo '<li><a href="'.url('play/relation').'">Model Relation</a></li>';
+        echo '<li><a href="'.url('play/query_logical_grouping').'">Query Logical Grouping</a></li>';
         echo '</ul>';
     }
 
@@ -29,6 +30,9 @@ class PlayController extends Controller
     {
         if( $request->page == 'relation' ){
             $this->relation();
+        }
+        if( $request->page == 'query_logical_grouping' ){
+            $this->query_logical_grouping();
         }
     }
 
@@ -43,5 +47,22 @@ class PlayController extends Controller
             echo sprintf('Created At : %s<br />', $post->created_at->diffForHumans() );
             echo '<hr style="border:1px solid #eee;" />';
         }
+    }
+
+    public function query_logical_grouping()
+    {
+        DB::enableQueryLog();
+
+        DB::table('users')->where('id', '>=' , '1')->where(function($query){
+            $query->where('name','=','Admin')
+                  ->orWhere('name','=','Author');
+        })->get();
+
+        User::where('id', '>=' , '1')->where(function($query){
+            $query->where('name','=','Admin')
+                  ->orWhere('name','=','Author');
+        })->get();
+
+        dd(DB::getQueryLog());
     }
 }
