@@ -54,7 +54,7 @@ class CashTransForm extends Component
             $this->resource_name = 'Cash Out';
         }
 
-        $CashTrans = $this->data = CashTrans::Find($request->id);
+        $CashTrans = $this->data = CashTrans::find($request->id);
         $this->set_id       = $CashTrans->id ?? '';
         $this->code         = $CashTrans->code ?? '';
         $this->ref_code     = $CashTrans->ref_code ?? '';
@@ -399,7 +399,7 @@ class CashTransForm extends Component
         $CashTrans->voided_at = date('Y-m-d H:i:s');
         $CashTrans->save();
 
-        $CashTrans = CashTrans::find($id)->first();
+        $CashTrans = CashTrans::find($id);
         AutoJournal::reset($CashTrans->code ?? '', $this->resource_name);
 
         session()->flash('success', __('Voided'));
