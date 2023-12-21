@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CashTransDetail extends Model
+class BankTransDetail extends Model
 {
     use HasFactory;
 
-    protected $table = 'cash_trans_detail';
+    protected $table = 'bank_trans_detail';
     protected $guarded = [];
     protected $casts = [];
 }
