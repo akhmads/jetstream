@@ -23,10 +23,12 @@ class ContactTable extends Component
     {
         $contact = Contact::orderby($this->sortColumn,$this->sortDir)->select('*');
         if(!empty($this->searchKeyword)){
-            $contact->orWhere('name','like',"%".$this->searchKeyword."%");
-            $contact->orWhere('email','like',"%".$this->searchKeyword."%");
-            $contact->orWhere('contact_type','like',"%".$this->searchKeyword."%");
-            $contact->orWhere('contact_code','like',"%".$this->searchKeyword."%");
+            $contact->where(function($query){
+                $query->where('name','ilike',"%".$this->searchKeyword."%");
+                $query->orWhere('email','ilike',"%".$this->searchKeyword."%");
+                $query->orWhere('contact_type','ilike',"%".$this->searchKeyword."%");
+                $query->orWhere('contact_code','ilike',"%".$this->searchKeyword."%");
+            });
         }
         $contacts = $contact->paginate($this->perPage);
 
