@@ -53,6 +53,13 @@ class PlayController extends Controller
     {
         DB::enableQueryLog();
 
+        $tes = DB::table('users')->where(function($query){
+            $query->where('type','=','admin')
+                  ->orWhere('type','=','editor');
+        })->where('status','=','active')
+            ->toSql();
+        dd($tes);
+
         DB::table('users')->where('id', '>=' , '1')->where(function($query){
             $query->where('name','=','Admin')
                   ->orWhere('name','=','Author');

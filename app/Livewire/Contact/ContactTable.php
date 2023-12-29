@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Contact;
 
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Contact;
 
 class ContactTable extends Component
@@ -23,8 +24,9 @@ class ContactTable extends Component
     {
         $contact = Contact::orderby($this->sortColumn,$this->sortDir)->select('*');
         if(!empty($this->searchKeyword)){
+            $this->searchKeyword = strtoupper($this->searchKeyword);
             $contact->where(function($query){
-                $query->where('name','ilike',"%".$this->searchKeyword."%");
+                $query->where( DB::raw('UPPER(name)'),'like',"%".$this->searchKeyword."%");
                 $query->orWhere('email','ilike',"%".$this->searchKeyword."%");
                 $query->orWhere('contact_type','ilike',"%".$this->searchKeyword."%");
                 $query->orWhere('contact_code','ilike',"%".$this->searchKeyword."%");
