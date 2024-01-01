@@ -26,10 +26,10 @@ class ContactTable extends Component
         if(!empty($this->searchKeyword)){
             $this->searchKeyword = strtoupper($this->searchKeyword);
             $contact->where(function($query){
-                $query->where( DB::raw('UPPER(name)'),'like',"%".$this->searchKeyword."%");
-                $query->orWhere('email','ilike',"%".$this->searchKeyword."%");
-                $query->orWhere('contact_type','ilike',"%".$this->searchKeyword."%");
-                $query->orWhere('contact_code','ilike',"%".$this->searchKeyword."%");
+                $query->where(DB::raw('UPPER(name)'),'like',"%".$this->searchKeyword."%");
+                $query->orWhere(DB::raw('UPPER(email)'),'like',"%".$this->searchKeyword."%");
+                $query->orWhere(DB::raw('UPPER(contact_type)'),'like',"%".$this->searchKeyword."%");
+                $query->orWhere(DB::raw('UPPER(contact_code)'),'like',"%".$this->searchKeyword."%");
             });
         }
         $contacts = $contact->paginate($this->perPage);
