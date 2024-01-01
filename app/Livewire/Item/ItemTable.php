@@ -3,6 +3,7 @@
 namespace App\Livewire\Item;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Item;
@@ -24,7 +25,8 @@ class ItemTable extends Component
         $item = Item::orderby($this->sortColumn,$this->sortDir)->select('*')
             ->with('coabuying')->with('coaselling')->with('coacogs');
         if(!empty($this->searchKeyword)){
-            $item->orWhere('name','like',"%".$this->searchKeyword."%");
+            $keyword = strtoupper($this->searchKeyword);
+            $item->where(DB::raw('UPPER(name)'),'like',"%".$keyword."%");
         }
         $items = $item->paginate($this->perPage);
 
